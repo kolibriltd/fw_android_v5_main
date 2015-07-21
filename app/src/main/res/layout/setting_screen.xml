@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rlIP"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/txt01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="IP"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtPrinterIp"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:hint="169.254.100.1" />
+    </RelativeLayout>
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/divider2" -->
+    <!-- style="@style/divider_dark" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="1px" /> -->
+
+    <RelativeLayout
+        android:id="@+id/rlTargetPests"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txt02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Print"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/toggelPrint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt04"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:background="#A0A0A0" />
+
+    <RelativeLayout
+        android:id="@+id/rlWorkOffline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txt03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Offline Mode"
+             android:layout_centerVertical="true"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/toggelworkOffline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+        
+          <TextView
+            android:id="@+id/txtModeNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Work Offline"
+            android:layout_below="@+id/toggelworkOffline"
+            android:textSize="14dip"/>
+    </RelativeLayout>
+    
+      <TextView
+        android:id="@+id/txt05"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:background="#A0A0A0" />
+
+    <RelativeLayout
+        android:id="@+id/rlPrinterModel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txt06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Printer Model"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spnModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" android:entries="@array/printer_model" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSaveSetting"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dip"
+        android:text="Save" />
+    
+    <Button
+        android:id="@+id/btnReload"
+        style="@style/large_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Reload Data" android:layout_margin="20dip"/>
+
+</LinearLayout>

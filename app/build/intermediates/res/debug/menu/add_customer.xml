@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/btnAction"
+        android:icon="@drawable/ic_action_overflow"
+        android:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/btnCustomer"
+                android:icon="@drawable/refresh"
+                android:title="Add Customer"/>
+            <!-- <item -->
+            <!-- android:id="@+id/btnAddAppointment" -->
+            <!-- android:icon="@drawable/ic_launcher" -->
+            <!-- android:title="Add Appointment"/> -->
+        </menu>
+    </item>
+
+</menu><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/menu/add_customer.xml -->

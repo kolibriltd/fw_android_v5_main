@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/kitlocate.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="cb504527bdc44aed658534e58f95f510a553609f">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/kitlocate-d66fe1f30307da91355388b181c665460484cd25.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/MobilePrintLib.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ea8b2220252f4e85d3161a9307dbec7624fc5f4f">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/MobilePrintLib-a7f50069109f2ae2292aff3af155f09a0ebffa10.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/core.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bd6b097588487313f7a94914fb89d44238964977">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/core-f82807297e360d7e05f23286e99563a8a7945500.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-7fd3974bf65099bbe1ee4e6703569d9e5161bcd2.jar" />
+    </item>
+    <item
+        jar="/root/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-cb45de25033c3665320dd2cafe5df424fd028375.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/json-simple-1.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/json-simple-1.1.1-680343e598ca5a1c4b7a467fee3b402eb0cd950a.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/httpmime-4.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f6b9ce4485869cc314171c554a436e6121783fbe">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/httpmime-4.1-97d13db45ec806c9291bee325a2bd3dfe6aea2b8.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/exploded-aar/fw_android_v5/zBarScannerLibrary/unspecified/jars/libs/zbar.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7bbdf7ba57a8a157c0cad51e455609c70887812e">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/zbar-99509ab3741ce3ccbade9a593a91936b49fed6ec.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/classes-985e3b3fad4b7e350f14aac2f02d595bd5cef3d6.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/exploded-aar/fw_android_v5/zBarScannerLibrary/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="85b8a0e3f754d50d7f017549cb0cf66b799b4762">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/classes-4641fdf1b62d5714067b11e2360fe65dd207b194.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/libs/BrotherPrintLibrary.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9d9609016c398e0d9eb8b8bd5ab26238aa6313be">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/BrotherPrintLibrary-3ad5c181513c47cf11d14fd2008a03710ba42c01.jar" />
+    </item>
+    <item
+        jar="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/home/enot/Рабочий стол/project/SOURCE/fw_android_v5/app/build/intermediates/pre-dexed/debug/classes-24dfb270ec03d6515d51bb6c9b1e52976b9b2e60.jar" />
+    </item>
+
+</items>

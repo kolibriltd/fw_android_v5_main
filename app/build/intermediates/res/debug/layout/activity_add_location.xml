@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_style"
+    android:padding="20dip" >
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/rlMain" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_margin="20dip" > -->
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:id="@+id/edtLocationName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Location area name"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+    </EditText>
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/large_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_below="@+id/edtLocationName"
+        android:layout_centerHorizontal="true" />
+    <!-- </RelativeLayout> -->
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_location.xml -->

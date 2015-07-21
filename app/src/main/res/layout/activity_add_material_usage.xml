@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:id="@+id/rlMain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip" >
+
+            <TextView
+                android:id="@+id/txtMaterialName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:textSize="18dip"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/divider1"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_marginTop="5dp"
+                android:background="#58B0D7"
+                android:layout_below="@+id/txtMaterialName"
+                android:layout_centerHorizontal="true" />
+
+            <Spinner
+                android:id="@+id/spnDilutionRate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider1"
+                android:layout_marginTop="10dp" >
+            </Spinner>
+
+            <EditText
+                android:id="@+id/edtQuantity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnDilutionRate"
+                android:layout_marginTop="15dp"
+                android:hint="Quantity"
+                android:numeric="decimal"
+                android:textSize="14dip" >
+            </EditText>
+
+            <Spinner
+                android:id="@+id/spnMeasurement"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edtQuantity" />
+            
+            <Spinner
+                android:id="@+id/spnDeviceType"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnMeasurement"
+                 />
+            <Spinner
+                android:id="@+id/spnApplicationMethod"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnDeviceType" />
+
+
+            <EditText
+                android:id="@+id/edtLotNumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnApplicationMethod"
+                android:layout_marginTop="5dp"
+                android:hint="Lot#"
+                android:textSize="14dip" >
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/llTargetPest"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edtLotNumber"
+                android:orientation="vertical"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/txtTarget"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dip"
+                    android:text="TARGET PEST"
+                    android:textColor="#58B0D7"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/divider6"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:background="#58B0D7" />
+
+                <ListView
+                    android:id="@+id/lstTargetpest"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:divider="#E5E5E5"
+                    android:dividerHeight="1px"
+                    android:listSelector="#00000000" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAddTargetPest"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:layout_below="@+id/llTargetPest"
+                android:layout_margin="5dip"
+                android:layout_marginTop="10dp"
+                android:background="#bebebe" >
+
+                <TextView
+                    android:id="@+id/txtL1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:text="Add Target Pest"
+                    android:textSize="14dip"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlAddTargetPest"
+                android:orientation="vertical"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/Action"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dip"
+                    android:text="LOCATIONS"
+                    android:textColor="#58B0D7"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/divider5"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:background="#58B0D7" />
+
+                <ListView
+                    android:id="@+id/lstLocations"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:divider="#E5E5E5"
+                    android:dividerHeight="1px"
+                    android:listSelector="#00000000" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAddLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:layout_below="@+id/llLocation"
+                android:layout_margin="5dip"
+                android:layout_marginTop="10dp"
+                android:background="#bebebe" >
+
+                <TextView
+                    android:id="@+id/txtL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dip"
+                    android:text="Add Location"
+                    android:textSize="14dip"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/large_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlAddLocation"
+                android:layout_marginTop="10dp"
+                android:text="@string/save" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

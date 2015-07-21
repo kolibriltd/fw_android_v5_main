@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/login_back_color" >
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/rlTopbar" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:background="@drawable/top_bar" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/textView1" -->
+    <!-- style="@style/topbar_text" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_centerInParent="true" -->
+    <!-- android:text="@string/title_login" /> -->
+    <!-- </RelativeLayout> -->
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_applogo" />
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgLogo"
+        android:layout_margin="20dip"
+        android:paddingTop="50dip" >
+
+        <!-- android:layout_below="@+id/rlTopbar" -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/txtLogin" -->
+        <!-- style="@style/dark_gray_text" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_marginTop="20dp" -->
+        <!-- android:text="@string/please_log_in" /> -->
+
+        <EditText
+            android:id="@+id/edtUsername"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/username_hint"
+            android:inputType="textEmailAddress"
+            android:textColor="#000000"
+            android:textSize="18dip" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtUsername"
+            android:layout_marginTop="20dip"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textSize="18dip" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/login_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtPassword"
+            android:layout_marginTop="30dp"
+            android:text="@string/title_login" />
+    </RelativeLayout>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/login.xml -->

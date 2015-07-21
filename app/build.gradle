@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.anstar.fieldwork"
+        minSdkVersion 19
+        targetSdkVersion 22
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':zBarScannerLibrary')
+    compile files('libs/BrotherPrintLibrary.jar')
+    compile files('libs/MobilePrintLib.jar')
+    compile files('libs/core.jar')
+    compile files('libs/httpmime-4.1.jar')
+    compile files('libs/json-simple-1.1.1.jar')
+    compile files('libs/kitlocate.jar')
+    compile "com.android.support:appcompat-v7:22.+"
+}

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rlService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip" >
+
+        <TextView
+            android:id="@+id/txtServiceName"
+            style="@style/gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dip"
+            android:text="Trap info" />
+
+        <TextView
+            android:id="@+id/divider1"
+            style="@style/divider_dark"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_below="@+id/txtServiceName" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlService" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rlBarcode"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Barcode" />
+
+                <TextView
+                    android:id="@+id/txtBarcode"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlBuilding"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext1"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Building" />
+
+                <TextView
+                    android:id="@+id/txtBuilding"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlFloor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext2"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Floor" />
+
+                <TextView
+                    android:id="@+id/txtFloor"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlType"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext3"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Location" />
+
+                <TextView
+                    android:id="@+id/txtLocation"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlTrapType"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext4"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Trap Type" />
+
+                <TextView
+                    android:id="@+id/txtTrapType"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlTrapNumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/addtext5"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:text="Number#" />
+
+                <TextView
+                    android:id="@+id/txtNumber"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dip"
+                    android:text="" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginTop="10dip"
+                android:text="Data can only be entered after trap has been scanned"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/llContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/rlClean"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/btnClean"
+                        style="@style/large_button"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Clean" />
+
+                    <ImageView
+                        android:id="@+id/imgClean"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="14dip"
+                        android:src="@drawable/check_mark"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <Spinner
+                    android:id="@+id/spntrap_condition_id"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+
+                <Spinner
+                    android:id="@+id/spnbait_condition_id"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" >
+                </Spinner>
+
+                <RelativeLayout
+                    android:id="@+id/tableRow4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dip" >
+
+                    <TextView
+                        android:id="@+id/txtremoved"
+                        style="@style/service_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Removed" />
+
+                    <ToggleButton
+                        android:id="@+id/tgbremoved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/edtexception"
+                        android:layout_width="fill_parent"
+                        android:layout_height="70dip"
+                        android:gravity="top"
+                        android:hint="Exception" />
+
+                    <TextView
+                        android:id="@+id/txtCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="10dip"
+                        android:text="0" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Action0"
+                    style="@style/blue_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:paddingLeft="15dip"
+                    android:text="Material Usage" />
+
+                <TextView
+                    android:id="@+id/divider6"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dip"
+                    android:background="#58B0D7" />
+
+                <ListView
+                    android:id="@+id/lstMaterialUsages"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:divider="#E5E5E5"
+                    android:dividerHeight="1px"
+                    android:listSelector="#00000000" />
+
+                <RelativeLayout
+                    android:id="@+id/rlMaterialUsage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:paddingTop="5dip" >
+
+                    <TextView
+                        android:id="@+id/txt03"
+                        style="@style/blue_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Add Material Usages" />
+
+                    <ImageView
+                        android:id="@+id/img03"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/navigation_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/Action"
+                    style="@style/blue_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:paddingLeft="15dip"
+                    android:text="Trap data" />
+
+                <TextView
+                    android:id="@+id/divider5"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dip"
+                    android:background="#58B0D7" />
+
+                <RelativeLayout
+                    android:id="@+id/rlCaptured"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:paddingTop="5dip" >
+
+                    <TextView
+                        android:id="@+id/txt01"
+                        style="@style/blue_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Captured" />
+
+                    <ImageView
+                        android:id="@+id/img01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/navigation_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/divider2"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px" />
+
+                <RelativeLayout
+                    android:id="@+id/rlEvidence"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:paddingTop="5dip" >
+
+                    <TextView
+                        android:id="@+id/txt011"
+                        style="@style/blue_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Evidence" />
+
+                    <ImageView
+                        android:id="@+id/img012"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/navigation_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/divider51"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px" />
+
+                <Button
+                    android:id="@+id/btnSaveTrapData"
+                    style="@style/large_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Save trap data" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/trap_details.xml -->

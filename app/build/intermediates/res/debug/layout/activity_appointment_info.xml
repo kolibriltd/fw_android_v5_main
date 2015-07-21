@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:id="@+id/RlContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txtl1"
+                style="@style/service_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#E5E5E5"
+                android:padding="10dip"
+                android:text="PRICING DETAILS" />
+
+            <RelativeLayout
+                android:id="@+id/rlBalanceForward"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtl1"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Balance Forward" />
+
+                <!-- <EditText -->
+                <!-- android:id="@+id/edtPrice" -->
+                <!-- android:layout_width="fill_parent" -->
+                <!-- android:layout_height="wrap_content" -->
+                <!-- android:layout_span="4" -->
+                <!-- android:layout_toRightOf="@+id/txtPrice" -->
+                <!-- android:inputType="numberDecimal" -->
+                <!-- android:textSize="14dip" /> -->
+
+                <EditText
+                    android:id="@+id/edtBalForward"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtPrice"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlSubTotal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlBalanceForward" >
+
+                <TextView
+                    android:id="@+id/txtSubtot"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Subtotal" />
+
+                <EditText
+                    android:id="@+id/edtSubtotal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtSubtot"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDiscount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlSubTotal" >
+
+                <TextView
+                    android:id="@+id/txtDis"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Discount" />
+
+                <EditText
+                    android:id="@+id/edtDiscount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtDis"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlTax"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlDiscount" >
+
+                <TextView
+                    android:id="@+id/txtTax"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Tax" />
+
+                <EditText
+                    android:id="@+id/edtTax"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtTax"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlTotalDue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlTax" >
+
+                <TextView
+                    android:id="@+id/txtTotalDue"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Toatl Due" />
+
+                <EditText
+                    android:id="@+id/edtTotalDue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtTotalDue"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtPayment"
+                style="@style/service_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlTotalDue"
+                android:background="#E5E5E5"
+                android:padding="10dip"
+                android:text="PAYMENT METHOD" />
+
+            <CheckBox
+                android:id="@+id/chkCash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPayment"
+                android:layout_marginTop="5dip"
+                android:text="Cash" />
+
+            <CheckBox
+                android:id="@+id/chkCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chkCash"
+                android:text="Check" />
+
+            <CheckBox
+                android:id="@+id/chkCreditCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chkCheck"
+                android:text="Credit Card" />
+
+            <RelativeLayout
+                android:id="@+id/RlAmount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chkCreditCard" >
+
+                <TextView
+                    android:id="@+id/txtAmount"
+                    style="@style/service_text"
+                    android:layout_width="130dip"
+                    android:layout_height="wrap_content"
+                    android:text="Payment amount" />
+
+                <EditText
+                    android:id="@+id/edtAmount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    android:layout_toRightOf="@+id/txtAmount"
+                    android:inputType="numberDecimal"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlNote"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlAmount"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/txtNote"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Note" />
+
+                <EditText
+                    android:id="@+id/edtNote"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/txtNote"
+                    android:editable="false"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlCheck"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlNote"
+                android:layout_marginTop="5dip"
+                android:visibility="visible" >
+
+                <TextView
+                    android:id="@+id/txtCheck"
+                    style="@style/service_text"
+                    android:layout_width="120dip"
+                    android:layout_height="wrap_content"
+                    android:text="Reference#" />
+
+                <EditText
+                    android:id="@+id/edtCheck"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/txtCheck"
+                    android:inputType="numberDecimal"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/RlCheck"
+                android:layout_marginTop="5dip"
+                android:text="Save" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_appointment_info.xml -->

@@ -1,0 +1,105 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From FieldWorkAnstarVersion4.0.1:
+* .gitignore
+* README.md
+* proguard-project.txt
+From HoloEverywhere Library:
+* build.gradle
+* build.xml
+* ivy.xml
+* ivysettings.xml
+* pom.xml
+* proguard-project.txt
+* resbuilder/
+* resbuilder/attrs/
+* resbuilder/attrs/attrs.yml
+* resbuilder/dialogs$styles/
+* resbuilder/dialogs$styles/base.yml
+* resbuilder/dialogs$styles/v11.yml
+* resbuilder/dialogs$styles/v7.yml
+* resbuilder/strings/
+* resbuilder/strings/strings.yml
+* resbuilder/styles/
+* resbuilder/styles/text.yml
+* resbuilder/styles/widgets.yml
+* resbuilder/themes$styles/
+* resbuilder/themes$styles/base.yml
+* resbuilder/themes$styles/large.yml
+* resbuilder/themes$styles/v11.yml
+* resbuilder/themes$styles/v7.yml
+From ZBarScannerLibrary:
+* ant.properties
+* build.properties
+* build.xml
+* default.properties
+* proguard-project.txt
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In HoloEverywhere Library:
+* AndroidManifest.xml => holoEverywhereLibrary/src/main/AndroidManifest.xml
+* libs/nineoldandroids-2.4.0.jar => holoEverywhereLibrary/libs/nineoldandroids-2.4.0.jar
+* libs/support-v4-19.1.0.jar => holoEverywhereLibrary/libs/support-v4-19.1.0.jar
+* lint.xml => holoEverywhereLibrary/lint.xml
+* res/ => holoEverywhereLibrary/src/main/res/
+* src/ => holoEverywhereLibrary/src/main/java/
+In ZBarScannerLibrary:
+* AndroidManifest.xml => zBarScannerLibrary/src/main/AndroidManifest.xml
+* libs/armeabi-v7a/libiconv.so => zBarScannerLibrary/src/main/jniLibs/armeabi-v7a/libiconv.so
+* libs/armeabi-v7a/libzbarjni.so => zBarScannerLibrary/src/main/jniLibs/armeabi-v7a/libzbarjni.so
+* libs/armeabi/libiconv.so => zBarScannerLibrary/src/main/jniLibs/armeabi/libiconv.so
+* libs/armeabi/libzbarjni.so => zBarScannerLibrary/src/main/jniLibs/armeabi/libzbarjni.so
+* libs/x86/libiconv.so => zBarScannerLibrary/src/main/jniLibs/x86/libiconv.so
+* libs/x86/libzbarjni.so => zBarScannerLibrary/src/main/jniLibs/x86/libzbarjni.so
+* libs/zbar.jar => zBarScannerLibrary/libs/zbar.jar
+* res/ => zBarScannerLibrary/src/main/res/
+* src/ => zBarScannerLibrary/src/main/java/
+In FieldWorkAnstarVersion4.0.1:
+* AndroidManifest.xml => fieldWorkAnstarVersion401/src/main/AndroidManifest.xml
+* libs/BrotherPrintLibrary.jar => fieldWorkAnstarVersion401/libs/BrotherPrintLibrary.jar
+* libs/MobilePrintLib.jar => fieldWorkAnstarVersion401/libs/MobilePrintLib.jar
+* libs/armeabi-v7a/libAndrJFPDFEMB.so => fieldWorkAnstarVersion401/src/main/jniLibs/armeabi-v7a/libAndrJFPDFEMB.so
+* libs/armeabi-v7a/libcreatedata.so => fieldWorkAnstarVersion401/src/main/jniLibs/armeabi-v7a/libcreatedata.so
+* libs/armeabi/libAndrJFPDFEMB.so => fieldWorkAnstarVersion401/src/main/jniLibs/armeabi/libAndrJFPDFEMB.so
+* libs/armeabi/libcreatedata.so => fieldWorkAnstarVersion401/src/main/jniLibs/armeabi/libcreatedata.so
+* libs/core.jar => fieldWorkAnstarVersion401/libs/core.jar
+* libs/httpmime-4.1.jar => fieldWorkAnstarVersion401/libs/httpmime-4.1.jar
+* libs/json-simple-1.1.1.jar => fieldWorkAnstarVersion401/libs/json-simple-1.1.1.jar
+* libs/kitlocate.jar => fieldWorkAnstarVersion401/libs/kitlocate.jar
+* res/ => fieldWorkAnstarVersion401/src/main/res/
+* src/ => fieldWorkAnstarVersion401/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

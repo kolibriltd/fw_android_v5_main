@@ -1,0 +1,175 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Application Theme -->
+    <style name="AppTheme" parent="AppBaseTheme"></style>
+    <!-- <style name="AppBaseTheme" parent="android:Theme.Light"></style> -->
+    <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light"></style> -->
+    <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light.DarkActionBar"></style> -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- customize the color palette -->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/app_primary_color</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/app_primary_dark_color</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+                which is used to tint widgets -->
+        <item name="colorAccent">@color/app_accent_color</item>
+        <!-- Can also set colorControlNormal, colorControlActivated
+               colorControlHighlight & colorSwitchThumbNormal. -->
+        <item name="drawerArrowStyle">@style/PatinaDrawerArrowToggle</item>
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
+    </style>
+
+    <style name="PatinaDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/drawer_arrow_toggle_color</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- THIS is where you can color the arrow! -->
+        <item name="colorControlNormal">@color/drawer_arrow_toggle_color</item>
+    </style>
+
+    <style name="TransparentProgressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <!-- <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item> -->
+    <!-- <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item> -->
+    <!-- <item name="android:homeAsUpIndicator">@drawable/action_bar_ic_ab_back_holo_dark</item> -->
+    <!-- <item name="homeAsUpIndicator">@drawable/action_bar_ic_ab_back_holo_dark</item> -->
+    <!-- </style> -->
+
+
+    <!-- <style name="AppTheme.ActionBarStyle" parent="Widget.Sherlock.ActionBar"> -->
+    <!-- <item name="android:displayOptions">showHome</item> -->
+    <!-- <item name="displayOptions">showHome</item> -->
+    <!-- </style> -->
+
+    <style name="background_style">
+        <item name="android:background">@color/background_color</item>
+    </style>
+
+    <style name="header_style">
+        <item name="android:background">@color/header_color</item>
+    </style>
+
+    <style name="topbar_text">
+        <item name="android:textColor">#959695</item>
+        <item name="android:textSize">20dip</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="app_list_large_text">
+        <item name="android:textColor">#959695</item>
+        <item name="android:textSize">28dip</item>
+    </style>
+
+    <style name="app_list_schedule_text">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/status_background</item>
+        <item name="android:padding">5dip</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">11dip</item>
+    </style>
+
+    <style name="gray_text">
+        <item name="android:textColor">#999999</item>
+        <item name="android:textSize">14dip</item>
+    </style>
+
+    <style name="dark_gray_text">
+        <item name="android:textColor">#222222</item>
+        <item name="android:textSize">14dip</item>
+    </style>
+
+    <style name="blue_text">
+        <item name="android:textColor">#58B0D7</item>
+        <item name="android:textSize">14dip</item>
+    </style>
+
+    <style name="appt_details_text">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14dip</item>
+    </style>
+
+    <style name="service_text">
+        <item name="android:textColor">#222222</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:paddingTop">10dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingBottom">10dip</item>
+    </style>
+
+    <style name="button_gray">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15dip</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="button_refresh">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15dip</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="divider_dark">
+        <item name="android:background">#c4c4c4</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+    </style>
+
+    <style name="divider_unique">
+        <item name="android:background">#c4c4c4</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+    </style>
+
+    <style name="divider_light">
+        <item name="android:background">#BEBFBE</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:layout_marginRight">10dip</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+    </style>
+
+    <style name="login_button">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">14dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">#A0A0A0</item>
+    </style>
+    <!-- #E84C3C -->
+
+    <style name="edittext" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">16dip</item>
+    </style>
+
+    <style name="large_button">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:layout_margin">5dip</item>
+    </style>
+
+    <style name="direction_button">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:background">@drawable/rounded_button</item>
+    </style>
+
+</resources>

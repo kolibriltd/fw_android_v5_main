@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <com.anstar.common.SegmentedRadioGroup
+            android:id="@+id/segmentCustType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dip"
+            android:checkedButton="@+id/button_one"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rdbtnResidential"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="Residential"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/radio_colors" />
+
+            <RadioButton
+                android:id="@+id/rdbtnCommercial"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Commercial"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/radio_colors" />
+        </com.anstar.common.SegmentedRadioGroup>
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/txtResidential" -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="45dip" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:background="#cdcdcd" -->
+        <!-- android:gravity="center" -->
+        <!-- android:text="Residential" -->
+        <!-- android:textColor="#0059FF" -->
+        <!-- android:textStyle="bold" > -->
+        <!-- </TextView> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/div" -->
+        <!-- android:layout_width="2dip" -->
+        <!-- android:layout_height="45dip" -->
+        <!-- android:background="#A0A0A0" -->
+        <!-- android:gravity="center" > -->
+        <!-- </TextView> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/txtCommercial" -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="45dip" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:background="#cdcdcd" -->
+        <!-- android:gravity="center" -->
+        <!-- android:text="Commercial" -->
+        <!-- android:textColor="#0059FF" -->
+        <!-- android:textStyle="bold" > -->
+        <!-- </TextView> -->
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/llScroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txt01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer Name"
+                android:textStyle="bold" >
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/llResidentialField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/edtPrefix"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:hint="Sir" android:inputType="textCapWords">
+                </EditText>
+
+                <EditText
+                    android:id="@+id/edtFirstName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="First" android:inputType="textCapWords">
+                </EditText>
+
+                <EditText
+                    android:id="@+id/edtLastName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="Last" android:inputType="textCapWords">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCommercialField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone" >
+
+                <EditText
+                    android:id="@+id/edtNameCom"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name" >
+                </EditText>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:text="Billing Information"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/edtBillingName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Billing Name"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edtAddress1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address 1" android:inputType="textCapWords"/>
+
+            <EditText
+                android:id="@+id/edtAddress2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address 2" android:inputType="textCapWords"/>
+
+            <EditText
+                android:id="@+id/edtAttn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Attn" android:inputType="textCapWords"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/edtCity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:hint="City" android:inputType="textCapWords">
+                </EditText>
+
+                <EditText
+                    android:id="@+id/edtState"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="State" android:inputType="textCapWords">
+                </EditText>
+
+                <EditText
+                    android:id="@+id/edtZip"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="Zip" android:inputType="textCapWords">
+                </EditText>
+            </LinearLayout>
+
+            <!-- <LinearLayout -->
+            <!-- android:id="@+id/ll" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:orientation="horizontal" > -->
+
+            <Spinner
+                android:id="@+id/spnBillingTerm"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- </LinearLayout> -->
+
+            <EditText
+                android:id="@+id/edtServiceEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Service Email"
+                android:inputType="textEmailAddress" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/llPhoneOne"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/edtPhoneOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtPhoneExtOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnPhoneTypeOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:entries="@array/phone_type_array"
+                        android:prompt="@string/select_phone_kind" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnPhonePlus"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="+" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llPhoneTwo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/edtPhoneTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtPhoneExtTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnPhoneTypeTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:entries="@array/phone_type_array" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnPhoneMinusTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="-" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llPhoneThree"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/edtPhoneThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtPhoneExtThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnPhoneTypeThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:entries="@array/phone_type_array" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnPhoneMinusThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="-" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service Information"
+                android:textStyle="bold" >
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/lltemp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal" >
+
+                <ToggleButton
+                    android:id="@+id/tgServiceAddressSame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service address the same"
+                    android:textOff="No"
+                    android:textOn="Yes" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:text="Service address the same" />
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spnTaxRates"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/edtServiceLocationName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:hint="Service Location Name" android:inputType="textCapWords"/>
+
+            <Spinner
+                android:id="@+id/spnLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spnServiceRoute"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/select_service_route" />
+
+            <LinearLayout
+                android:id="@+id/llServiceaddressthesame"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <EditText
+                    android:id="@+id/edtServiceAddress1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address 1" android:inputType="textCapWords"/>
+
+                <EditText
+                    android:id="@+id/edtServiceAddress2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address 2" android:inputType="textCapWords"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/edtServiceCity"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:hint="City" android:inputType="textCapWords">
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtServiceState"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="State" android:inputType="textCapWords">
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtServiceZip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="Zip" android:inputType="textCapWords">
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llServicePhoneOne"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneExtOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnServicePhoneTypeOne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:entries="@array/phone_type_array" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnServicePhonePlus"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="+" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llServicePhoneTwo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneExtTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnServicePhoneTypeTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:entries="@array/phone_type_array" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnServicePhoneMinusTwo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="-" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llServicePhoneThree"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:hint="1(888)555-1212"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/edtServicePhoneExtThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:hint="Ext"
+                        android:inputType="number" >
+                    </EditText>
+
+                    <Spinner
+                        android:id="@+id/spnServicePhoneTypeThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:entries="@array/phone_type_array" >
+                    </Spinner>
+
+                    <Button
+                        android:id="@+id/btnServicePhoneMinusThree"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:text="-" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:text="Save" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_customer.xml -->

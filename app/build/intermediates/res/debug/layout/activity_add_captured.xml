@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dip" >
+
+    <TextView
+        android:id="@+id/txtBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:textSize="18dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/divider1"
+        style="@style/divider_dark"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/txtBarcode"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="5dip"
+        android:background="#58B0D7" />
+
+    <TextView
+        android:id="@+id/txtDetail"
+        style="@style/dark_gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider1"
+        android:layout_margin="10dip"
+        android:text="Details"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDetail" >
+
+        <LinearLayout
+            android:id="@+id/llScroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rlMain"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ListView
+                    android:id="@+id/lstCapture"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:cacheColorHint="#00000000" >
+                </ListView>
+
+                <Button
+                    android:id="@+id/btnPlus"
+                    style="@style/large_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lstCapture"
+                    android:layout_marginTop="30dp"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/btnMinus"
+                    style="@style/large_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lstCapture"
+                    android:layout_marginTop="30dp"
+                    android:text="-" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/large_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlMain"
+                android:layout_marginTop="30dp"
+                android:text="Save" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_captured.xml -->

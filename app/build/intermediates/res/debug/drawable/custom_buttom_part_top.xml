@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape >
+            <solid android:color="#4d4d4d" />
+        </shape>
+    </item>
+
+    <!-- main color -->
+    <item android:bottom="1dp" android:top="1dp">
+        <shape >
+            <solid android:color="#292929" />
+            <padding
+                     android:right="10dp"
+                     android:top="10dp"
+                     android:bottom="10dp" />
+        </shape>
+    </item>
+</layer-list><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/drawable/custom_buttom_part_top.xml -->

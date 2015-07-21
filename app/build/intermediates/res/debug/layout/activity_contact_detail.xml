@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/txtCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dip"
+            android:text="Hiren"
+            android:textColor="#333333"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtCustomerName"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="15dip"
+            android:text="Vice Precident"
+            android:textColor="#333333"
+            android:textSize="18dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlContact"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/rlService"
+        android:layout_marginTop="10dip"
+        android:background="#FFFFFF" >
+
+        <TextView
+            android:id="@+id/txtPhoneKind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dip"
+            android:text="Home "
+            android:textColor="#333333"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/txtPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:layout_toRightOf="@+id/txtPhoneKind"
+            android:text="12132132132"
+            android:textColor="#333333"
+            android:textSize="18dip" />
+
+        <ImageView
+            android:id="@+id/imgCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:src="@drawable/call" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlEmail"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/rlContact"
+        android:layout_marginTop="10dip"
+        android:background="#FFFFFF" >
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dip"
+            android:text="hiren@temp.com"
+            android:textColor="#0074FF"
+            android:textSize="18dip" />
+
+        <ImageView
+            android:id="@+id/imgEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:src="@drawable/email" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lstContact"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlService"
+        android:layout_margin="10dip"
+        android:cacheColorHint="@android:color/transparent"
+        android:dividerHeight="0px"
+        android:listSelector="#00000000"
+        android:visibility="gone" />
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_contact_detail.xml -->

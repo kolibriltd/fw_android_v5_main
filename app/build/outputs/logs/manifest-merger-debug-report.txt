@@ -1,0 +1,645 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	package
+		ADDED from AndroidManifest.xml:3:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		ADDED from AndroidManifest.xml:5:5
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+uses-sdk
+ADDED from AndroidManifest.xml:6:5
+MERGED from fw_android_v5:zBarScannerLibrary:unspecified:7:5
+MERGED from com.android.support:appcompat-v7:22.2.0:20:5
+MERGED from com.android.support:support-v4:22.2.0:20:5
+	android:targetSdkVersion
+		ADDED from AndroidManifest.xml:8:9
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		ADDED from AndroidManifest.xml:7:9
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:10:5
+	android:name
+		ADDED from AndroidManifest.xml:10:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from AndroidManifest.xml:11:5
+	android:name
+		ADDED from AndroidManifest.xml:11:22
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from AndroidManifest.xml:12:5
+	android:name
+		ADDED from AndroidManifest.xml:12:22
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from AndroidManifest.xml:13:5
+	android:name
+		ADDED from AndroidManifest.xml:13:22
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:14:5
+	android:name
+		ADDED from AndroidManifest.xml:14:22
+uses-permission#android.permission.CALL_PHONE
+ADDED from AndroidManifest.xml:15:5
+	android:name
+		ADDED from AndroidManifest.xml:15:22
+uses-permission#android.permission.VIBRATE
+ADDED from AndroidManifest.xml:16:5
+	android:name
+		ADDED from AndroidManifest.xml:16:22
+uses-permission#android.permission.CAMERA
+ADDED from AndroidManifest.xml:17:5
+MERGED from fw_android_v5:zBarScannerLibrary:unspecified:11:5
+	android:name
+		ADDED from AndroidManifest.xml:17:22
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from AndroidManifest.xml:18:5
+	android:name
+		ADDED from AndroidManifest.xml:18:22
+uses-permission#android.permission.BLUETOOTH
+ADDED from AndroidManifest.xml:19:5
+	android:name
+		ADDED from AndroidManifest.xml:19:22
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from AndroidManifest.xml:20:5
+	android:name
+		ADDED from AndroidManifest.xml:20:22
+uses-permission#android.permission.SET_WALLPAPER
+ADDED from AndroidManifest.xml:21:5
+	android:name
+		ADDED from AndroidManifest.xml:21:22
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:22:5
+	android:name
+		ADDED from AndroidManifest.xml:22:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from AndroidManifest.xml:23:5
+	android:name
+		ADDED from AndroidManifest.xml:23:22
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from AndroidManifest.xml:24:5
+	android:name
+		ADDED from AndroidManifest.xml:24:22
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from AndroidManifest.xml:25:5
+	android:name
+		ADDED from AndroidManifest.xml:25:22
+uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:26:5
+	android:name
+		ADDED from AndroidManifest.xml:26:22
+permission#com.kl.kitlocate.KITLOCATE
+ADDED from AndroidManifest.xml:28:5
+	android:label
+		ADDED from AndroidManifest.xml:30:9
+	android:protectionLevel
+		ADDED from AndroidManifest.xml:31:9
+	android:name
+		ADDED from AndroidManifest.xml:29:9
+uses-permission#com.kl.kitlocate.KITLOCATE
+ADDED from AndroidManifest.xml:33:5
+	android:name
+		ADDED from AndroidManifest.xml:33:22
+uses-permission#com.anstar.fieldwork.kitlocate.BROADCAST
+ADDED from AndroidManifest.xml:34:5
+	android:name
+		ADDED from AndroidManifest.xml:34:22
+uses-feature#android.hardware.camera
+ADDED from AndroidManifest.xml:36:5
+MERGED from fw_android_v5:zBarScannerLibrary:unspecified:13:5
+	android:required
+		ADDED from AndroidManifest.xml:38:9
+		MERGED from AndroidManifest.xml:38:9
+	android:name
+		ADDED from AndroidManifest.xml:37:9
+uses-feature#android.hardware.camera.autofocus
+ADDED from AndroidManifest.xml:39:5
+	android:required
+		ADDED from AndroidManifest.xml:41:9
+	android:name
+		ADDED from AndroidManifest.xml:40:9
+uses-feature#android.hardware.screen.landscape
+ADDED from AndroidManifest.xml:42:5
+	android:required
+		ADDED from AndroidManifest.xml:44:9
+	android:name
+		ADDED from AndroidManifest.xml:43:9
+uses-feature#android.hardware.wifi
+ADDED from AndroidManifest.xml:45:5
+	android:required
+		ADDED from AndroidManifest.xml:47:9
+	android:name
+		ADDED from AndroidManifest.xml:46:9
+uses-feature#android.hardware.touchscreen
+ADDED from AndroidManifest.xml:48:5
+	android:required
+		ADDED from AndroidManifest.xml:50:9
+	android:name
+		ADDED from AndroidManifest.xml:49:9
+uses-feature#android.hardware.telephony
+ADDED from AndroidManifest.xml:51:5
+	android:required
+		ADDED from AndroidManifest.xml:53:9
+	android:name
+		ADDED from AndroidManifest.xml:52:9
+supports-screens
+ADDED from AndroidManifest.xml:55:5
+	android:largeScreens
+		ADDED from AndroidManifest.xml:57:9
+	android:normalScreens
+		ADDED from AndroidManifest.xml:58:9
+	android:xlargeScreens
+		ADDED from AndroidManifest.xml:59:9
+	android:anyDensity
+		ADDED from AndroidManifest.xml:56:9
+application
+ADDED from AndroidManifest.xml:62:5
+MERGED from fw_android_v5:zBarScannerLibrary:unspecified:15:5
+MERGED from com.android.support:appcompat-v7:22.2.0:22:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
+	android:label
+		ADDED from AndroidManifest.xml:66:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:64:9
+	android:icon
+		ADDED from AndroidManifest.xml:65:9
+	android:largeHeap
+		ADDED from AndroidManifest.xml:67:9
+	android:theme
+		ADDED from AndroidManifest.xml:68:9
+	android:name
+		ADDED from AndroidManifest.xml:63:9
+activity#com.anstar.fieldwork.StartActivity
+ADDED from AndroidManifest.xml:70:9
+	android:theme
+		ADDED from AndroidManifest.xml:72:13
+	android:name
+		ADDED from AndroidManifest.xml:71:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:73:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:74:17
+	android:name
+		ADDED from AndroidManifest.xml:74:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:76:17
+	android:name
+		ADDED from AndroidManifest.xml:76:27
+activity#com.anstar.fieldwork.LoginActivity
+ADDED from AndroidManifest.xml:79:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:82:13
+	android:label
+		ADDED from AndroidManifest.xml:81:13
+	android:name
+		ADDED from AndroidManifest.xml:80:13
+activity#com.anstar.fieldwork.DashboardActivity
+ADDED from AndroidManifest.xml:84:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:88:13
+	android:label
+		ADDED from AndroidManifest.xml:86:13
+	android:noHistory
+		ADDED from AndroidManifest.xml:87:13
+	android:name
+		ADDED from AndroidManifest.xml:85:13
+activity#com.anstar.fieldwork.AppointmentDetailsActivity
+ADDED from AndroidManifest.xml:90:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:93:13
+	android:label
+		ADDED from AndroidManifest.xml:92:13
+	android:name
+		ADDED from AndroidManifest.xml:91:13
+activity#com.anstar.fieldwork.AppointmentInfoActivity
+ADDED from AndroidManifest.xml:95:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:98:13
+	android:label
+		ADDED from AndroidManifest.xml:97:13
+	android:name
+		ADDED from AndroidManifest.xml:96:13
+activity#com.anstar.fieldwork.TargetPestListActivity
+ADDED from AndroidManifest.xml:100:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:103:13
+	android:label
+		ADDED from AndroidManifest.xml:102:13
+	android:name
+		ADDED from AndroidManifest.xml:101:13
+activity#com.anstar.fieldwork.PestTypeListActivity
+ADDED from AndroidManifest.xml:105:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:108:13
+	android:label
+		ADDED from AndroidManifest.xml:107:13
+	android:name
+		ADDED from AndroidManifest.xml:106:13
+activity#com.anstar.fieldwork.AddPestTypeActivity
+ADDED from AndroidManifest.xml:110:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:113:13
+	android:label
+		ADDED from AndroidManifest.xml:112:13
+	android:name
+		ADDED from AndroidManifest.xml:111:13
+activity#com.anstar.fieldwork.AddMaterialActivity
+ADDED from AndroidManifest.xml:115:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:118:13
+	android:label
+		ADDED from AndroidManifest.xml:117:13
+	android:name
+		ADDED from AndroidManifest.xml:116:13
+activity#com.anstar.fieldwork.AddMaterialUsageActivity
+ADDED from AndroidManifest.xml:120:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:123:13
+	android:label
+		ADDED from AndroidManifest.xml:122:13
+	android:name
+		ADDED from AndroidManifest.xml:121:13
+activity#com.anstar.fieldwork.MaterialUsageListActivity
+ADDED from AndroidManifest.xml:125:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:128:13
+	android:label
+		ADDED from AndroidManifest.xml:127:13
+	android:name
+		ADDED from AndroidManifest.xml:126:13
+activity#com.anstar.fieldwork.SignatureActivity
+ADDED from AndroidManifest.xml:130:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:133:13
+	android:label
+		ADDED from AndroidManifest.xml:132:13
+	android:name
+		ADDED from AndroidManifest.xml:131:13
+activity#com.anstar.fieldwork.CaptureSignatureActivity
+ADDED from AndroidManifest.xml:135:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:138:13
+	android:label
+		ADDED from AndroidManifest.xml:137:13
+	android:name
+		ADDED from AndroidManifest.xml:136:13
+activity#com.anstar.fieldwork.MaterialListActivity
+ADDED from AndroidManifest.xml:140:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:143:13
+	android:label
+		ADDED from AndroidManifest.xml:142:13
+	android:name
+		ADDED from AndroidManifest.xml:141:13
+activity#com.anstar.fieldwork.LocationAreaListActivity
+ADDED from AndroidManifest.xml:145:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:148:13
+	android:label
+		ADDED from AndroidManifest.xml:147:13
+	android:name
+		ADDED from AndroidManifest.xml:146:13
+activity#com.anstar.fieldwork.AddLocationActivity
+ADDED from AndroidManifest.xml:150:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:153:13
+	android:label
+		ADDED from AndroidManifest.xml:152:13
+	android:name
+		ADDED from AndroidManifest.xml:151:13
+activity#com.anstar.fieldwork.TrapScanningListActivity
+ADDED from AndroidManifest.xml:155:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:158:13
+	android:label
+		ADDED from AndroidManifest.xml:157:13
+	android:name
+		ADDED from AndroidManifest.xml:156:13
+activity#com.anstar.fieldwork.TrapDetailsActivity
+ADDED from AndroidManifest.xml:160:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:163:13
+	android:label
+		ADDED from AndroidManifest.xml:162:13
+	android:name
+		ADDED from AndroidManifest.xml:161:13
+activity#com.anstar.fieldwork.NewTrapDetailsActivity
+ADDED from AndroidManifest.xml:165:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:168:13
+	android:label
+		ADDED from AndroidManifest.xml:167:13
+	android:name
+		ADDED from AndroidManifest.xml:166:13
+activity#com.anstar.fieldwork.CustomerDetailsActivity
+ADDED from AndroidManifest.xml:170:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:173:13
+	android:label
+		ADDED from AndroidManifest.xml:172:13
+	android:name
+		ADDED from AndroidManifest.xml:171:13
+activity#com.anstar.fieldwork.AddNotesActivity
+ADDED from AndroidManifest.xml:175:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:178:13
+	android:label
+		ADDED from AndroidManifest.xml:177:13
+	android:name
+		ADDED from AndroidManifest.xml:176:13
+activity#com.anstar.fieldwork.AddTrapsActivity
+ADDED from AndroidManifest.xml:180:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:183:13
+	android:label
+		ADDED from AndroidManifest.xml:182:13
+	android:name
+		ADDED from AndroidManifest.xml:181:13
+activity#com.anstar.fieldwork.EvidenceActivity
+ADDED from AndroidManifest.xml:185:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:188:13
+	android:label
+		ADDED from AndroidManifest.xml:187:13
+	android:name
+		ADDED from AndroidManifest.xml:186:13
+activity#com.anstar.fieldwork.AddCapturedPestActivity
+ADDED from AndroidManifest.xml:190:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:193:13
+	android:label
+		ADDED from AndroidManifest.xml:192:13
+	android:name
+		ADDED from AndroidManifest.xml:191:13
+activity#com.anstar.fieldwork.InstructionActivity
+ADDED from AndroidManifest.xml:195:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:198:13
+	android:label
+		ADDED from AndroidManifest.xml:197:13
+	android:name
+		ADDED from AndroidManifest.xml:196:13
+activity#com.anstar.fieldwork.EnvironMentActivity
+ADDED from AndroidManifest.xml:200:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:203:13
+	android:label
+		ADDED from AndroidManifest.xml:202:13
+	android:name
+		ADDED from AndroidManifest.xml:201:13
+activity#com.anstar.fieldwork.MaterialUsageTargetListActivity
+ADDED from AndroidManifest.xml:205:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:208:13
+	android:label
+		ADDED from AndroidManifest.xml:207:13
+	android:name
+		ADDED from AndroidManifest.xml:206:13
+activity#com.anstar.fieldwork.TrapMaterialUsageActivity
+ADDED from AndroidManifest.xml:210:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:213:13
+	android:label
+		ADDED from AndroidManifest.xml:212:13
+	android:name
+		ADDED from AndroidManifest.xml:211:13
+activity#com.anstar.fieldwork.LineItemsActivity
+ADDED from AndroidManifest.xml:215:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:218:13
+	android:label
+		ADDED from AndroidManifest.xml:217:13
+	android:name
+		ADDED from AndroidManifest.xml:216:13
+activity#com.anstar.fieldwork.ServiceLocationListActivity
+ADDED from AndroidManifest.xml:220:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:223:13
+	android:label
+		ADDED from AndroidManifest.xml:222:13
+	android:name
+		ADDED from AndroidManifest.xml:221:13
+activity#com.anstar.fieldwork.CustomerContactListActivity
+ADDED from AndroidManifest.xml:225:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:228:13
+	android:label
+		ADDED from AndroidManifest.xml:227:13
+	android:name
+		ADDED from AndroidManifest.xml:226:13
+activity#com.anstar.fieldwork.ServiceLocationDetailActivity
+ADDED from AndroidManifest.xml:230:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:233:13
+	android:label
+		ADDED from AndroidManifest.xml:232:13
+	android:name
+		ADDED from AndroidManifest.xml:231:13
+activity#com.anstar.fieldwork.ServiceLocationContactsActivity
+ADDED from AndroidManifest.xml:235:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:238:13
+	android:label
+		ADDED from AndroidManifest.xml:237:13
+	android:name
+		ADDED from AndroidManifest.xml:236:13
+activity#com.anstar.fieldwork.ServiceLocationNoteActivity
+ADDED from AndroidManifest.xml:240:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:243:13
+	android:label
+		ADDED from AndroidManifest.xml:242:13
+	android:name
+		ADDED from AndroidManifest.xml:241:13
+activity#com.anstar.fieldwork.AddCustomerActivity
+ADDED from AndroidManifest.xml:245:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:248:13
+	android:label
+		ADDED from AndroidManifest.xml:247:13
+	android:name
+		ADDED from AndroidManifest.xml:246:13
+activity#com.anstar.fieldwork.PdfFormsActivity
+ADDED from AndroidManifest.xml:250:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:253:13
+	android:label
+		ADDED from AndroidManifest.xml:252:13
+	android:name
+		ADDED from AndroidManifest.xml:251:13
+activity#com.anstar.fieldwork.ContactDetailActivity
+ADDED from AndroidManifest.xml:255:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:258:13
+	android:label
+		ADDED from AndroidManifest.xml:257:13
+	android:name
+		ADDED from AndroidManifest.xml:256:13
+activity#com.anstar.fieldwork.AddAppointmentActivity
+ADDED from AndroidManifest.xml:260:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:263:13
+	android:label
+		ADDED from AndroidManifest.xml:262:13
+	android:name
+		ADDED from AndroidManifest.xml:261:13
+activity#com.anstar.fieldwork.AddLineItemActivity
+ADDED from AndroidManifest.xml:265:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:268:13
+	android:label
+		ADDED from AndroidManifest.xml:267:13
+	android:name
+		ADDED from AndroidManifest.xml:266:13
+activity#com.anstar.fieldwork.WorkHistoryListActivity
+ADDED from AndroidManifest.xml:270:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:273:13
+	android:label
+		ADDED from AndroidManifest.xml:272:13
+	android:name
+		ADDED from AndroidManifest.xml:271:13
+activity#com.anstar.fieldwork.RecomendationsListActivity
+ADDED from AndroidManifest.xml:275:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:278:13
+	android:label
+		ADDED from AndroidManifest.xml:277:13
+	android:name
+		ADDED from AndroidManifest.xml:276:13
+activity#com.anstar.fieldwork.ConditionsListActivity
+ADDED from AndroidManifest.xml:280:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:283:13
+	android:label
+		ADDED from AndroidManifest.xml:282:13
+	android:name
+		ADDED from AndroidManifest.xml:281:13
+activity#com.anstar.fieldwork.WorkHistoryDetailActivity
+ADDED from AndroidManifest.xml:285:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:288:13
+	android:label
+		ADDED from AndroidManifest.xml:287:13
+	android:name
+		ADDED from AndroidManifest.xml:286:13
+activity#com.anstar.fieldwork.AddPhotosActivity
+ADDED from AndroidManifest.xml:290:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:293:13
+	android:label
+		ADDED from AndroidManifest.xml:292:13
+	android:name
+		ADDED from AndroidManifest.xml:291:13
+activity#com.anstar.fieldwork.PhotosActivity
+ADDED from AndroidManifest.xml:295:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:298:13
+	android:label
+		ADDED from AndroidManifest.xml:297:13
+	android:name
+		ADDED from AndroidManifest.xml:296:13
+activity#com.anstar.barcodereader.zxing.CaptureActivity
+ADDED from AndroidManifest.xml:300:9
+	android:clearTaskOnLaunch
+		ADDED from AndroidManifest.xml:302:13
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:304:13
+	android:stateNotNeeded
+		ADDED from AndroidManifest.xml:305:13
+	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:307:13
+	android:configChanges
+		ADDED from AndroidManifest.xml:303:13
+	android:theme
+		ADDED from AndroidManifest.xml:306:13
+	android:name
+		ADDED from AndroidManifest.xml:301:13
+intent-filter#android.intent.category.DEFAULT+com.anstar.barcodereader.zxing.SCAN
+ADDED from AndroidManifest.xml:308:13
+action#com.anstar.barcodereader.zxing.SCAN
+ADDED from AndroidManifest.xml:309:17
+	android:name
+		ADDED from AndroidManifest.xml:309:25
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:311:17
+	android:name
+		ADDED from AndroidManifest.xml:311:27
+intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:314:13
+action#android.intent.action.VIEW
+ADDED from AndroidManifest.xml:315:17
+	android:name
+		ADDED from AndroidManifest.xml:315:25
+category#android.intent.category.BROWSABLE
+ADDED from AndroidManifest.xml:318:17
+	android:name
+		ADDED from AndroidManifest.xml:318:27
+data
+ADDED from AndroidManifest.xml:320:17
+	android:path
+		ADDED from AndroidManifest.xml:322:21
+	android:host
+		ADDED from AndroidManifest.xml:321:21
+	android:scheme
+		ADDED from AndroidManifest.xml:323:21
+activity#com.dm.zbar.android.scanner.ZBarScannerActivity
+ADDED from AndroidManifest.xml:362:9
+MERGED from fw_android_v5:zBarScannerLibrary:unspecified:18:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:364:13
+	android:label
+		ADDED from fw_android_v5:zBarScannerLibrary:unspecified:20:13
+	android:name
+		ADDED from AndroidManifest.xml:363:13
+receiver#com.anstar.internetbroadcast.InternetConnectionReceiver
+ADDED from AndroidManifest.xml:366:9
+	android:enabled
+		ADDED from AndroidManifest.xml:368:13
+	android:label
+		ADDED from AndroidManifest.xml:369:13
+	android:name
+		ADDED from AndroidManifest.xml:367:13
+intent-filter#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from AndroidManifest.xml:370:13
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from AndroidManifest.xml:371:17
+	android:name
+		ADDED from AndroidManifest.xml:371:25
+service#com.kl.kitlocate.services.KLLocationService
+ADDED from AndroidManifest.xml:376:9
+	android:label
+		ADDED from AndroidManifest.xml:378:13
+	android:name
+		ADDED from AndroidManifest.xml:377:13
+service#com.kl.kitlocate.services.KLAccelerometerService
+ADDED from AndroidManifest.xml:379:9
+	android:label
+		ADDED from AndroidManifest.xml:381:13
+	android:name
+		ADDED from AndroidManifest.xml:380:13
+service#com.kl.kitlocate.services.KLRescueService
+ADDED from AndroidManifest.xml:382:9
+	android:label
+		ADDED from AndroidManifest.xml:384:13
+	android:name
+		ADDED from AndroidManifest.xml:383:13
+receiver#com.kl.kitlocate.receivers.KLBroadcastReceiver
+ADDED from AndroidManifest.xml:386:9
+	android:exported
+		ADDED from AndroidManifest.xml:388:13
+	android:name
+		ADDED from AndroidManifest.xml:387:13
+intent-filter#android.intent.action.BOOT_COMPLETED
+ADDED from AndroidManifest.xml:389:13
+action#android.intent.action.BOOT_COMPLETED
+ADDED from AndroidManifest.xml:390:17
+	android:name
+		ADDED from AndroidManifest.xml:390:25

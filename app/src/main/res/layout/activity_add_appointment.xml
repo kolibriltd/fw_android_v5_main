@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/llScroll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rlChooseCustomer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:paddingRight="15dip" >
+
+                <TextView
+                    android:id="@+id/txtCustomer"
+                    style="@style/service_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Choose Customer" />
+
+                <ImageView
+                    android:id="@+id/img01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider01"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlChooseServiceLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:paddingRight="15dip" >
+
+                <TextView
+                    android:id="@+id/txtServiceLocation"
+                    style="@style/service_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Choose Service Location" />
+
+                <ImageView
+                    android:id="@+id/img02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider02"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlLocInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txt02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="10dip"
+                    android:text="Service Location" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txtServiceLocationName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/txt02"
+                    android:textColor="#000000" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txtServiceLocationAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txtServiceLocationName"
+                    android:layout_below="@+id/txtServiceLocationName"
+                    android:textColor="#000000" />
+            </RelativeLayout>
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dip" >
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txtPoNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="PO#"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/edtPoNumber"
+                        android:layout_width="fill_parent"
+                        android:layout_height="35dip"
+                        android:layout_margin="10dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/time_edittext"
+                        android:hint="PO#"
+                        android:paddingLeft="10dip"
+                        android:textSize="12dip" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Date"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/edtStartDate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="35dip"
+                        android:layout_margin="10dip"
+                        android:layout_weight="1"
+                        android:background="@drawable/time_edittext"
+                        android:focusable="false"
+                        android:hint="Start Date"
+                        android:paddingLeft="10dip"
+                        android:textSize="12dip" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Time"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/edtStartTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="35dip"
+                        android:layout_margin="10dip"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/time_edittext"
+                        android:focusable="false"
+                        android:hint="Start Time"
+                        android:paddingLeft="10dip"
+                        android:textSize="12dip" />
+
+                    <EditText
+                        android:id="@+id/edtEndTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="35dip"
+                        android:layout_margin="10dip"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/time_edittext"
+                        android:focusable="false"
+                        android:hint="End Time"
+                        android:paddingLeft="10dip"
+                        android:textSize="12dip" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                      <TextView
+                        android:id="@+id/txtRouteName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Technician"
+                        android:textColor="#000000" />
+                      
+                       <com.anstar.common.MultipleSelectionSpinner
+                            android:id="@+id/spnServiceRoutes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                </TableRow>
+            </TableLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLineItemAdd"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#E5E5E5" >
+
+                <TextView
+                    android:id="@+id/txt03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="10dip"
+                    android:text="LINE ITEMS"
+                    android:textColor="#000000"
+                    android:textStyle="bold" >
+                </TextView>
+
+                <ImageView
+                    android:id="@+id/imgAddLineItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dip"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_action_new" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/txt04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="Name"
+                    android:textColor="#000000"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/txtQt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="Qty"  android:gravity="right"
+                    android:textColor="#000000"
+                    android:textSize="14dip" />
+
+                <TextView
+                    android:id="@+id/txt05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:text="Price"  android:gravity="right"
+                    android:textColor="#000000"
+                    android:textSize="14dip" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lstLineItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:dividerHeight="1dip">
+            </ListView>
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt06"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.8"
+                        android:gravity="right"
+                        android:text="Tax"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txtTax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.1"
+                        android:gravity="right"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt07"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.8"
+                        android:gravity="right"
+                        android:text="Discount(%)"
+                        android:textColor="#000000" />
+
+                    <EditText
+                        android:id="@+id/edtDiscount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.2"
+                        android:inputType="numberDecimal" >
+                    </EditText>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt08"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.8"
+                        android:gravity="right"
+                        android:text="Total"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txtTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:layout_weight="0.1"
+                        android:gravity="right"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/txtNoteLable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service instructions"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/edtServiceInstruction"
+                android:layout_width="fill_parent"
+                android:layout_height="80dip"
+                android:layout_margin="5dip"
+                android:gravity="left" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
+                android:text="Save" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

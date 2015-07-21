@@ -1,0 +1,10 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true"><color android:color="#a4a4a4" />
+    </item>
+    <item android:state_pressed="true"><color android:color="#a4a4a4" />
+    </item>
+    <item><color android:color="#d4d4d4" />
+    </item>
+
+</selector><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/drawable/driving_direction_bg.xml -->

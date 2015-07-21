@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlappointment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/listselector"
+    android:padding="10dip" >
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/txtAppontmentdate" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:padding="10dip" -->
+    <!-- android:text="5:00 AM" -->
+    <!-- android:textColor="#000000" -->
+    <!-- android:textSize="16dip" -->
+    <!-- android:textStyle="bold" /> -->
+
+    <TextView
+        android:id="@+id/txtAppontmentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dip"
+        android:text=""
+        android:textColor="#222222"
+        android:textSize="16dip"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/txtAppontmentType"
+        style="@style/gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAppontmentTitle"
+        android:paddingLeft="5dip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtLineItemName"
+        style="@style/gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAppontmentType"
+        android:paddingLeft="5dip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtStartEndTime"
+        style="@style/gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLineItemName"
+        android:paddingLeft="5dip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        style="@style/app_list_schedule_text"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:gravity="center"
+        android:text="C" />
+
+    <CheckBox
+        android:id="@+id/chkConfirmed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtStatus"
+        android:layout_marginTop="5dip"
+        android:checked="true"
+        android:enabled="false"
+        android:visibility="gone" />
+
+</RelativeLayout>

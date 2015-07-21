@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/edtNotes"
+                android:layout_width="fill_parent"
+                android:layout_height="140dip"
+                android:gravity="top"
+                android:hint="Service Notes"
+                android:maxLength="2000"
+                android:maxLines="5"
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="10dip"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/txt01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="Private Notes" />
+
+            <EditText
+                android:id="@+id/edtPrivateNotes"
+                android:layout_width="fill_parent"
+                android:layout_height="140dip"
+                android:layout_marginBottom="10dip"
+                android:gravity="top"
+                android:hint="Private Notes..."
+                android:maxLength="2000"
+                android:maxLines="5"
+                android:scrollbars="vertical" />
+
+            <RelativeLayout
+                android:id="@+id/llConditions"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#E5E5E5"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/txtConditions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="15dip"
+                    android:text="CONDITIONS"
+                    android:textColor="#58B0D7"
+                    android:textSize="14dip" />
+
+                <ImageView
+                    android:id="@+id/imgAddConditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_action_new" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lstConditions"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#E5E5E5"
+                android:dividerHeight="1px"
+                android:listSelector="#00000000" />
+
+            <RelativeLayout
+                android:id="@+id/llRecommendations"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="#E5E5E5"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/txtRec"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="15dip"
+                    android:text="RECOMENDATIONS"
+                    android:textColor="#58B0D7"
+                    android:textSize="14dip" />
+
+                <ImageView
+                    android:id="@+id/imgAddRec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_action_new" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lstRecomendations"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#E5E5E5"
+                android:dividerHeight="1px"
+                android:listSelector="#00000000" />
+
+            <Button
+                android:id="@+id/btnSaveNotes"
+                style="@style/large_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:text="Save" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_notes.xml -->

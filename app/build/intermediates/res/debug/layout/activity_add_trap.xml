@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dip" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <ScrollView
+        android:id="@+id/scrollMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rlMain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txtTrapsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trap Add"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/rlBarcode"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTrapsText"
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtBarcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Barcode" />
+
+                <EditText
+                    android:id="@+id/edtBarcode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@+id/txtBarcode" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlBuilding"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlBarcode"
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Building" />
+
+                <EditText
+                    android:id="@+id/edtBuilding"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@+id/txtBuilding" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlFloor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlBuilding"
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtFloor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Floor" />
+
+                <EditText
+                    android:id="@+id/edtFloor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dip"
+                    android:layout_toRightOf="@+id/txtFloor" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlFloor"
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Location" />
+
+                <EditText
+                    android:id="@+id/edtLocation"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:layout_toRightOf="@+id/txtLocation" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlNumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlLocation"
+                android:paddingBottom="5dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtLocation1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Trap Number" />
+
+                <EditText
+                    android:id="@+id/edtNumber"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:layout_toRightOf="@+id/txtLocation1" />
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/spnTrap_type"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlNumber"
+                android:layout_margin="10dp" >
+            </Spinner>
+
+            <Button
+                android:id="@+id/btnSaveTraps"
+                style="@style/large_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spnTrap_type"
+                android:layout_marginTop="30dp"
+                android:text="Save" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_trap.xml -->

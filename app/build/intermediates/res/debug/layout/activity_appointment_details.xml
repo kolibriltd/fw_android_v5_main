@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip" >
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rlCamera"
+        android:paddingBottom="10dip"
+        android:layout_below="@+id/txtServiceName">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rlDirections"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingTop="5dip" >
+
+                <ImageView
+                    android:id="@+id/imgDirection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/direction2" />
+
+                <TextView
+                    android:id="@+id/txtDrivingDirections"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgDirection"
+                    android:background="@drawable/driving_direction_bg"
+                    android:gravity="center_horizontal"
+                    android:padding="10dip"
+                    android:text="Directions"
+                    android:textColor="#58B0D7"
+                    android:textSize="16dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtContactName"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="16dip"
+                    android:textSize="16dip" />
+
+                <ImageView
+                    android:id="@+id/img01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider3"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/addtext"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dip"
+                    android:paddingLeft="15dip"
+                    android:paddingTop="5dip"
+                    android:text="Service Location" />
+
+                <TextView
+                    android:id="@+id/txtServiceLocationName"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/addtext"
+                    android:paddingTop="5dip"
+                    android:text="Name" />
+
+                <TextView
+                    android:id="@+id/txtAttn"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txtServiceLocationName"
+                    android:layout_below="@+id/txtServiceLocationName"
+                    android:paddingTop="3dip"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/txtAddress"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txtAttn"
+                    android:layout_below="@+id/txtAttn"
+                    android:paddingTop="3dip"
+                    android:text="Address1" />
+
+                <TextView
+                    android:id="@+id/txtAddress2"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txtServiceLocationName"
+                    android:layout_below="@+id/txtAddress"
+                    android:paddingTop="0dip"
+                    android:text="Address2" />
+
+                <ImageView
+                    android:id="@+id/imgAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider2"
+                style="@style/divider_unique"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <ListView
+                android:id="@+id/lstContact"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:cacheColorHint="@android:color/transparent"
+                android:dividerHeight="0px"
+                android:listSelector="#00000000" />
+
+            <TextView
+                android:id="@+id/divider02"
+                style="@style/divider_unique"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+            <!-- <TableLayout -->
+            <!-- android:id="@+id/tableLayout1" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_margin="5dip" -->
+            <!-- android:shrinkColumns="*" -->
+            <!-- android:stretchColumns="*" > -->
+
+
+            <!-- <TableRow -->
+            <!-- android:id="@+id/tableRow1" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_marginTop="3dip" > -->
+
+
+            <!-- <TextView -->
+            <!-- android:id="@+id/txtScheduledDate" -->
+            <!-- style="@style/service_text" -->
+            <!-- android:layout_width="80dip" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:text="Scheduled Date" /> -->
+
+
+            <!-- <EditText -->
+            <!-- android:id="@+id/edtScheduledDate" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_span="4" -->
+            <!-- android:textSize="14dip" /> -->
+            <!-- </TableRow> -->
+            <!-- </TableLayout> -->
+
+            <RelativeLayout
+                android:id="@+id/rlWorkOrderDetails"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtWorkOrder"
+                    style="@style/service_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Work Order Details" />
+
+                <ImageView
+                    android:id="@+id/imgwod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider01"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlPdfs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtPdf"
+                    style="@style/service_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="PDF Attachments" />
+
+                <TextView
+                    android:id="@+id/txtPdfCount"
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:layout_toLeftOf="@+id/imgpdf"
+                    android:background="@drawable/bubble"
+                    android:gravity="center"
+                    android:padding="2dip"
+                    android:text="2"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imgpdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider03"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlPdf"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip" >
+
+                <ImageView
+                    android:id="@+id/imgPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dip"
+                    android:src="@drawable/attachment" />
+
+                <TextView
+                    android:id="@+id/txtPdfName"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dip"
+                    android:layout_toRightOf="@+id/imgPdf" />
+
+                <Button
+                    android:id="@+id/btnPrintPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dip"
+                    android:text="Print" />
+
+                <TextView
+                    android:id="@+id/dividerpdf"
+                    style="@style/divider_dark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:layout_below="@+id/btnPrintPdf" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/Action"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#d4d4d4"
+                android:padding="10dip"
+                android:text="SERVICE DETAILS"
+                android:textSize="14dip" />
+
+            <!-- <TextView -->
+            <!-- android:id="@+id/divider5" -->
+            <!-- style="@style/divider_dark" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="2dip" -->
+            <!-- android:background="#58B0D7" /> -->
+
+            <RelativeLayout
+                android:id="@+id/rlServiceLocationNotes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txt0123"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Service Location Note" />
+
+                <ImageView
+                    android:id="@+id/imgMat23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider04"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlStartTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/txtStarted"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Start time" />
+
+                <EditText
+                    android:id="@+id/edtStarted"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_toRightOf="@+id/txtStarted"
+                    android:background="@drawable/time_edittext"
+                    android:focusable="false"
+                    android:paddingLeft="10dip"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider044"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlMaterialUse"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txt01"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Chemical Use" />
+
+                <ImageView
+                    android:id="@+id/imgMat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider05"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlEnvironment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtEnv"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Environment" />
+
+                <ImageView
+                    android:id="@+id/imgenv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dividerEnvirnMent"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <!-- <RelativeLayout -->
+            <!-- android:id="@+id/rlInstruction" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:paddingBottom="5dip" -->
+            <!-- android:paddingLeft="15dip" -->
+            <!-- android:paddingRight="15dip" -->
+            <!-- android:paddingTop="5dip" > -->
+
+
+            <!-- <TextView -->
+            <!-- android:id="@+id/txt01" -->
+            <!-- style="@style/appt_details_text" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_centerVertical="true" -->
+            <!-- android:text="INSTRUCTIONS" /> -->
+
+
+            <!-- <ImageView -->
+            <!-- android:id="@+id/img01" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_alignParentRight="true" -->
+            <!-- android:src="@drawable/navigation_arrow" /> -->
+            <!-- </RelativeLayout> -->
+
+
+            <!-- <TextView -->
+            <!-- android:id="@+id/divider2" -->
+            <!-- style="@style/divider_dark" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="1dip" /> -->
+
+            <RelativeLayout
+                android:id="@+id/rlTargetPests"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/txttp"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Target Pests" />
+
+                <ImageView
+                    android:id="@+id/imgtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider06"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rlNotes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtnot"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Notes &amp; Comments" />
+
+                <ImageView
+                    android:id="@+id/imgnot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider07"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlInspections"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/txtins"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="INSPECTIONS" />
+
+                <ImageView
+                    android:id="@+id/imgins"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlTrapScaning"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtts"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Devices" />
+
+                <Button
+                    android:id="@+id/btnCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:layout_toLeftOf="@+id/imgts"
+                    android:background="@drawable/bubble"
+                    android:padding="2dip" />
+
+                <ImageView
+                    android:id="@+id/imgts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider08"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlAppointmentInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtinfo"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Price &amp; Payment" />
+
+                <ImageView
+                    android:id="@+id/imginfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider09"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlPictures"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtPic"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Pictures" />
+
+                <ImageView
+                    android:id="@+id/imginfopic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dividerPic"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlEndsAt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="15dip" >
+
+                <TextView
+                    android:id="@+id/txtFinished"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="End time" />
+
+                <EditText
+                    android:id="@+id/edtFinished"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dip"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_toRightOf="@+id/txtFinished"
+                    android:background="@drawable/time_edittext"
+                    android:focusable="false"
+                    android:paddingLeft="10dip"
+                    android:textSize="14dip" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider10"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlSignature"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtsin"
+                    style="@style/appt_details_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Signatures" />
+
+                <ImageView
+                    android:id="@+id/imgsin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider5"
+                style="@style/divider_dark"
+                android:layout_width="fill_parent"
+                android:layout_height="1dip" />
+
+            <Spinner
+                android:id="@+id/spnStatus"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
+                android:layout_toRightOf="@+id/txtStatus"
+                android:paddingBottom="5dip"
+                android:paddingTop="10dip" />
+
+            <Button
+                android:id="@+id/btnSave"
+                style="@style/large_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Appointment" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rlCamera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#d4d4d4"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <ImageView
+            android:id="@+id/imgCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:src="@drawable/camera_icn" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtServiceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dip"
+        android:text="8:00 Commercial Service"
+        android:textColor="#000000"
+        android:textSize="16dip"
+        android:textStyle="bold"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_appointment_details.xml -->

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dip" >
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/edtMaterialName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="Material Name" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/edtEpa"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtMaterialName"
+            android:layout_marginTop="5dp"
+            android:hint="EPA#"
+            android:numeric="decimal"
+            android:visibility="visible" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/edtPrice"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtEpa"
+            android:layout_marginTop="5dp"
+            android:hint="Price"
+            android:numeric="decimal"
+            android:visibility="gone" >
+        </EditText>
+
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/large_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtPrice"
+            android:layout_marginTop="30dp"
+            android:text="Add Material" />
+    </RelativeLayout>
+
+</RelativeLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/activity_add_material.xml -->

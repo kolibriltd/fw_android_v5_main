@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="focused">#FFFFFF</drawable>
+    <drawable name="selected">#85D3EF</drawable>
+
+    <!-- <color name="background_color">#ecf0f1</color> -->
+    <!-- <color name="header_color">#82C8F7</color> -->
+
+    <color name="background_color">#eeeeee</color>
+    <color name="header_color">#D7DCD6</color>
+    <color name="login_back_color">#F0F0F0</color>
+
+    <!-- <color name="login_back_color">#cdcdcd</color> -->
+    <!-- <color name="header_text_color">#ffffff</color> -->
+    <color name="dark_blue_color">#34495E</color>
+
+</resources>

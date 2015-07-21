@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="drawer_icons">
+        <item>ic_home</item>
+        <item>ic_calendar</item>
+        <item>ic_customers</item>
+        <item>ic_settings</item>
+    </array>
+    <array name="drawer_titles">
+        <item>Home</item>
+        <item>Calendar</item>
+        <item>Customers</item>
+        <item>Settings</item>
+    </array>
+    <array name="drawer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+</resources>

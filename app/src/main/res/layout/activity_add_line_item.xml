@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     style="@style/background_style"
+    android:padding="10dip" android:orientation="vertical">
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/rlMain" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_margin="20dip" > -->
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <Spinner
+        android:id="@+id/spnLineType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:entries="@array/line_item_type_array"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/edtName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="Name">
+    </AutoCompleteTextView>
+    
+    <EditText
+        android:id="@+id/edtQty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="1"
+        android:hint="Qty" android:inputType="number">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="Price" android:inputType="numberDecimal">
+    </EditText>
+
+    <CheckBox
+        android:id="@+id/chkTaxable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Taxable" />
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/large_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtPestname"
+        android:layout_marginTop="30dp"
+        android:text="@string/save" />
+    <!-- </RelativeLayout> -->
+
+</LinearLayout>

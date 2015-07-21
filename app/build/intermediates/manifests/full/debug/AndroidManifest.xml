@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.anstar.fieldwork"
+    android:versionCode="22"
+    android:versionName="3.4.6" > <!-- Samir has changed the version last on 17th mar sat. 21-3.4.5 -->
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.kl.kitlocate.KITLOCATE"
+        android:label="KitLocate broadcast permission"
+        android:protectionLevel="signatureOrSystem" />
+
+    <uses-permission android:name="com.kl.kitlocate.KITLOCATE" />
+    <uses-permission android:name="com.anstar.fieldwork.kitlocate.BROADCAST" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:xlargeScreens="true" >
+    </supports-screens>
+
+    <application
+        android:name="com.anstar.fieldwork.FieldworkApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.anstar.fieldwork.StartActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.DashboardActivity"
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AppointmentDetailsActivity"
+            android:label="Work Order"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AppointmentInfoActivity"
+            android:label="Payment Info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.TargetPestListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.PestTypeListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddPestTypeActivity"
+            android:label="Add Pest Type"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddMaterialActivity"
+            android:label="Add Material"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddMaterialUsageActivity"
+            android:label="Add Material Usage"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.MaterialUsageListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.SignatureActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.CaptureSignatureActivity"
+            android:label="Capture Signature"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.MaterialListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.LocationAreaListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddLocationActivity"
+            android:label="Add Location Area"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.TrapScanningListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.TrapDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.NewTrapDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.CustomerDetailsActivity"
+            android:label="Customer Details"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddNotesActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddTrapsActivity"
+            android:label="Add Device"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.EvidenceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddCapturedPestActivity"
+            android:label="Add Inspection Pest"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.InstructionActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.EnvironMentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.MaterialUsageTargetListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.TrapMaterialUsageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.LineItemsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ServiceLocationListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.CustomerContactListActivity"
+            android:label="Service Location"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ServiceLocationDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ServiceLocationContactsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ServiceLocationNoteActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddCustomerActivity"
+            android:label="New Customer"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.PdfFormsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ContactDetailActivity"
+            android:label="Contact Detail"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddAppointmentActivity"
+            android:label="New Appointment"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddLineItemActivity"
+            android:label="Add Line Item"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.WorkHistoryListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.RecomendationsListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.ConditionsListActivity"
+            android:label="Conditions List"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.WorkHistoryDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.AddPhotosActivity"
+            android:label="Add Picture"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.fieldwork.PhotosActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.anstar.barcodereader.zxing.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:stateNotNeeded="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            <intent-filter>
+                <action android:name="com.anstar.barcodereader.zxing.SCAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- Allow web apps to launch Barcode Scanner by linking to http://zxing.appspot.com/scan. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="zxing.appspot.com"
+                    android:path="/scan"
+                    android:scheme="http" />
+            </intent-filter>
+            <!-- We also support a Google Product Search URL. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.google.com"
+                    android:path="/m/products/scan"
+                    android:scheme="http" />
+            </intent-filter>
+            <!-- And the UK version. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.google.co.uk"
+                    android:path="/m/products/scan"
+                    android:scheme="http" />
+            </intent-filter>
+            <!-- Support zxing://scan/?... like iPhone app -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="scan"
+                    android:path="/"
+                    android:scheme="zxing" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.dm.zbar.android.scanner.ZBarScannerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" />
+
+        <receiver
+            android:name="com.anstar.internetbroadcast.InternetConnectionReceiver"
+            android:enabled="true"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.kl.kitlocate.services.KLLocationService"
+            android:label="KitLocate Service" />
+        <service
+            android:name="com.kl.kitlocate.services.KLAccelerometerService"
+            android:label="KitLocate IDLE Service" />
+        <service
+            android:name="com.kl.kitlocate.services.KLRescueService"
+            android:label="KitLocate Rescue Service" />
+
+        <receiver
+            android:name="com.kl.kitlocate.receivers.KLBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

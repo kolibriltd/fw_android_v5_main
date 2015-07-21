@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <DatePicker
+            android:id="@+id/datePicker1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TimePicker
+            android:id="@+id/timePicker1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/datePicker1"
+            android:layout_marginTop="15dip" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timePicker1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip" >
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/btnDone"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/btnCancel"
+                android:text="Done" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

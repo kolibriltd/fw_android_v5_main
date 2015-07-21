@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rlDropings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txtDropings"
+            style="@style/blue_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Droppings - Mouse" />
+
+        <CheckBox
+            android:id="@+id/chkMouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlBait"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txtBait"
+            style="@style/blue_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Droppings - Rat" />
+
+        <CheckBox
+            android:id="@+id/chkRat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlTracks"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/txtTracks"
+            style="@style/blue_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Droppings - Other" />
+
+        <CheckBox
+            android:id="@+id/chkOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip" />
+    </RelativeLayout>
+
+<!--     <RelativeLayout -->
+<!--         android:id="@+id/rlNesting" -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:paddingBottom="5dip" -->
+<!--         android:paddingLeft="15dip" -->
+<!--         android:paddingRight="15dip" -->
+<!--         android:paddingTop="5dip" > -->
+
+<!--         <TextView -->
+<!--             android:id="@+id/txtNesting" -->
+<!--             style="@style/blue_text" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:text="Nesting Material" /> -->
+
+<!--         <CheckBox -->
+<!--             android:id="@+id/chkNestingMaterial" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:layout_marginRight="20dip" /> -->
+<!--     </RelativeLayout> -->
+
+    <Button
+        android:id="@+id/btnSaveEvidance"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:text="Save" />
+
+</LinearLayout><!-- From: file:/home/enot/Рабочий%20стол/project/SOURCE/fw_android_v5/app/src/main/res/layout/evidence.xml -->

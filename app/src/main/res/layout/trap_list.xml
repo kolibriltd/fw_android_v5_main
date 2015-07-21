@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/background_style"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/rlMain" -->
+    <!-- android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_margin="20dip" > -->
+
+    <com.anstar.common.SegmentedRadioGroup
+        android:id="@+id/segment_test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dip"
+        android:checkedButton="@+id/button_one"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/button_unChecked"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Un-Checked"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/radio_colors" />
+
+        <RadioButton
+            android:id="@+id/button_Checked"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Checked"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/radio_colors" />
+    </com.anstar.common.SegmentedRadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/rlSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_below="@+id/segment_test">
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:hint="Search"
+            android:textSize="14dip" />
+
+        <ImageView
+            android:id="@+id/imgCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/cross" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnScan"
+        android:layout_below="@+id/rlSearch" >
+
+        <include
+            android:id="@+id/listlayout"
+            layout="@layout/appointment_related" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnScan"
+        style="@style/large_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Scan" />
+
+</RelativeLayout>

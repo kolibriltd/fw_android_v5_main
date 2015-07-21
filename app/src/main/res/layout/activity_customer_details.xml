@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlService"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/txtCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dip"
+            android:textColor="#333333"
+            android:textSize="20dip" />
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/divider1" -->
+        <!-- style="@style/divider_dark" -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="2dip" -->
+        <!-- android:layout_below="@+id/txtCustomerName" /> -->
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlService" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/rlAddress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip" >
+
+                <TextView
+                    android:id="@+id/addtext"
+                    style="@style/gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:paddingLeft="15dip"
+                    android:paddingTop="5dip"
+                    android:text="Billing Address" />
+
+                <TextView
+                    android:id="@+id/txtBAddress"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="130dip"
+                    android:paddingTop="5dip" />
+
+                <TextView
+                    android:id="@+id/txtBAddress2"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtBAddress"
+                    android:layout_marginLeft="130dip"
+                    android:paddingTop="5dip" />
+
+                <TextView
+                    android:id="@+id/divider2"
+                    style="@style/divider_unique"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/txtBAddress2"
+                    android:layout_toRightOf="@+id/addtext" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lstBillingContact"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+                android:cacheColorHint="@android:color/transparent"
+                android:dividerHeight="0px"
+                android:listSelector="#00000000" />
+
+            <TextView
+                android:id="@+id/contacttext"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:background="#E5E5E5"
+                android:padding="10dip"
+                android:text="DETAILS"
+                android:textColor="#000000"
+                android:textSize="14dip" />
+
+            <RelativeLayout
+                android:id="@+id/rlContacts"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txtn"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Contacts" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/divider3"
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="10dip"
+                android:background="#BEBFBE" />
+
+            <RelativeLayout
+                android:id="@+id/rlServiceLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:paddingBottom="5dip"
+                android:paddingLeft="15dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/txt01"
+                    style="@style/dark_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Service Locations" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/navigation_arrow" />
+            </RelativeLayout>
+            <!-- <ListView -->
+            <!-- android:id="@+id/lstContact" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_marginLeft="10dip" -->
+            <!-- android:cacheColorHint="@android:color/transparent" -->
+            <!-- android:dividerHeight="0px" -->
+            <!-- android:listSelector="#00000000" /> -->
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
