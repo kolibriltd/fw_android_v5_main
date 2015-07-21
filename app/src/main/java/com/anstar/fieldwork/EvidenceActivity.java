@@ -5,7 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import com.anstar.models.AppointmentInfo;
 import com.anstar.models.InspectionInfo;
 import com.anstar.models.list.InspectionList;
 
-public class EvidenceActivity extends BaseActivity implements OnClickListener {
+public class EvidenceActivity extends AppCompatActivity implements OnClickListener {
 
 	int appointment_id;
 	int inspection_id = 0;
@@ -32,7 +33,8 @@ public class EvidenceActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.evidence);
+		setContentView(R.layout.activity_evidence);
+
 		// info = MainActivity.appointmentInfo;
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
@@ -41,6 +43,7 @@ public class EvidenceActivity extends BaseActivity implements OnClickListener {
 				inspection_id = b.getInt("Inspection_id");
 			}
 		}
+/*
 		ActionBar action = getSupportActionBar();
 		// action.setTitle("Traps Scan Details");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -48,6 +51,13 @@ public class EvidenceActivity extends BaseActivity implements OnClickListener {
 				+ "'>Pest Evidence</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
 
 		chkMouse = (CheckBox) findViewById(R.id.chkMouse);
 		chkOther = (CheckBox) findViewById(R.id.chkOther);

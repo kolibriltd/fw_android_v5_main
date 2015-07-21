@@ -72,7 +72,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.appointment, container, false);
+        View v = inflater.inflate(R.layout.fragment_appointment_list, container, false);
 
         btnNext = (ImageView) v.findViewById(R.id.btnNext);
         btnPrev = (ImageView) v.findViewById(R.id.btnPrev);

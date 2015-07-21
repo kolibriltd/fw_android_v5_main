@@ -6,6 +6,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
     <RelativeLayout
         android:id="@+id/rlDropings"
         android:layout_width="fill_parent"

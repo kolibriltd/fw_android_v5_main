@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             @Override
             public void onClick(View v) {
                 ((DashboardActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
-                ((DashboardActivity) getActivity()).getSupportFragmentManager()
+                getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, new AppointmentListFragment())
                         .commit();
