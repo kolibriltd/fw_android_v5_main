@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +35,7 @@ import com.anstar.models.list.TargetPestList;
 
 import java.util.ArrayList;
 
-public class MaterialUsageTargetListActivity extends BaseActivity implements
+public class MaterialUsageTargetListActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	private ListView lstTargetPests;
@@ -43,7 +44,7 @@ public class MaterialUsageTargetListActivity extends BaseActivity implements
 	private ImageView imgCancel;
 	private TargetPestAdapter m_adapter = null;
 	private ArrayList<TargetPestInfo> m_target = new ArrayList<TargetPestInfo>();
-	ActionBar action = null;
+	//ActionBar action = null;
 	TargetPestList target_list;
 	int material_usage_id = 0;
 	MaterialUsageRecords records = null;
@@ -51,7 +52,8 @@ public class MaterialUsageTargetListActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_conditions_list);
+		setContentView(R.layout.activity_material_usage_target_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Location Areas");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -59,6 +61,14 @@ public class MaterialUsageTargetListActivity extends BaseActivity implements
 				+ "'>Target Pests</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstTargetPests = (ListView) findViewById(R.id.lstMain);

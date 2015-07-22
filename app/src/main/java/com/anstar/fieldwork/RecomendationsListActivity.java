@@ -3,8 +3,9 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.RecomendationInfo;
@@ -28,7 +30,7 @@ import com.anstar.models.list.RecomendationsList;
 
 import java.util.ArrayList;
 
-public class RecomendationsListActivity extends BaseActivity implements
+public class RecomendationsListActivity extends AppCompatActivity implements
 		OnClickListener, ModelDelegate<RecomendationInfo> {
 
 	private ListView lstRecommendations;
@@ -42,11 +44,13 @@ public class RecomendationsListActivity extends BaseActivity implements
 	boolean isFromTrapMaterial = false;
 	final int ADD_MATERIAL = 2;
 	private RelativeLayout RlSubHeader;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_conditions_list);
+		setContentView(R.layout.activity_recomendations_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material List");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -54,6 +58,17 @@ public class RecomendationsListActivity extends BaseActivity implements
 				+ "'>Recommendations List</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstRecommendations = (ListView) findViewById(R.id.lstMain);
@@ -109,7 +124,7 @@ public class RecomendationsListActivity extends BaseActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			showProgress();
+			mBaseLoader.showProgress();
 			RecomendationsList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,7 +210,7 @@ public class RecomendationsListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<RecomendationInfo> list) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		if (list != null) {
 			m_recomendations = list;
 			// m_recomendations =
@@ -209,7 +224,7 @@ public class RecomendationsListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
 

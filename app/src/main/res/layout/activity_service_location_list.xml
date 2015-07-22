@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="#DEE0E2"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="30dip"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Search"
+            android:paddingBottom="5dip"
+            android:paddingLeft="35dip"
+            android:paddingTop="5dip" />
+
+        <ImageView
+            android:id="@+id/imgSearchServiceLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/search" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lstServices_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlSearch"
+        android:layout_margin="10dip"
+        android:cacheColorHint="@android:color/transparent"
+        android:dividerHeight="0px"
+        android:listSelector="#00000000" />
+
+</RelativeLayout>

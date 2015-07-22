@@ -410,7 +410,7 @@
                 android:paddingTop="5dip" >
 
                 <TextView
-                    android:id="@+id/txt01"
+                    android:id="@+id/txt02"
                     style="@style/appt_details_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

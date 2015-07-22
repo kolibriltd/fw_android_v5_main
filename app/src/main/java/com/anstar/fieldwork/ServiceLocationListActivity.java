@@ -3,8 +3,9 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.anstar.models.list.ServiceLocationsList;
 
 import java.util.ArrayList;
 
-public class ServiceLocationListActivity extends BaseActivity {
+public class ServiceLocationListActivity extends AppCompatActivity {
 
 	private ListView lstServiceLocations;
 	private EditText edtSearch;
@@ -33,7 +34,7 @@ public class ServiceLocationListActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_customer_contact_list);
+		setContentView(R.layout.activity_service_location_list);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			if (b.containsKey("CID")) {
@@ -43,6 +44,7 @@ public class ServiceLocationListActivity extends BaseActivity {
 				FromAddAppointment = b.getBoolean("FromAddAppointment");
 			}
 		}
+/*
 		ActionBar action = getSupportActionBar();
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
@@ -50,6 +52,14 @@ public class ServiceLocationListActivity extends BaseActivity {
 				+ "'>Service Location</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
 		lstServiceLocations = (ListView) findViewById(R.id.lstServices_list);
 		edtSearch = (EditText) findViewById(R.id.edtSearch);
 		imgSearch = (ImageView) findViewById(R.id.imgSearchServiceLocation);

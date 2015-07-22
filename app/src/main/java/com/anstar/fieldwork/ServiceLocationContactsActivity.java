@@ -3,8 +3,9 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import com.anstar.models.ServiceLocationContactInfo;
 
 import java.util.ArrayList;
 
-public class ServiceLocationContactsActivity extends BaseActivity {
+public class ServiceLocationContactsActivity extends AppCompatActivity {
 
 	ListView lstServiceLocations;
 	EditText edtSearch;
@@ -31,13 +32,14 @@ public class ServiceLocationContactsActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_customer_contact_list);
+		setContentView(R.layout.activity_service_location_contacts);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			if (b.containsKey("SILD")) {
 				service_loc_id = b.getInt("SILD");
 			}
 		}
+/*
 		ActionBar action = getSupportActionBar();
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
@@ -45,7 +47,16 @@ public class ServiceLocationContactsActivity extends BaseActivity {
 				+ "'>Service Location Contact</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
-		lstServiceLocations = (ListView) findViewById(R.id.lstServices_list);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+        lstServiceLocations = (ListView) findViewById(R.id.lstServices_list);
 		edtSearch = (EditText) findViewById(R.id.edtSearch);
 		imgSearch = (ImageView) findViewById(R.id.imgSearchServiceLocation);
 		m_locations = ServiceLocationContactInfo

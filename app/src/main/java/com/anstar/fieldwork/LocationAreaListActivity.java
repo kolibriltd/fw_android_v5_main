@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -36,7 +38,7 @@ import com.anstar.models.list.ServiceLocationsList;
 
 import java.util.ArrayList;
 
-public class LocationAreaListActivity extends BaseActivity implements
+public class LocationAreaListActivity extends AppCompatActivity implements
 		OnClickListener, ModelDelegate<LocationInfo> {
 
 	private ListView lstLocationAreaList;
@@ -46,13 +48,15 @@ public class LocationAreaListActivity extends BaseActivity implements
 	// MyAppointmentAdapter m_adapter;
 	private LocationAreaAdapter m_adapter = null;
 	private ArrayList<LocationAreaInfo> m_locationareas = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 	private int location_type_id;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_conditions_list);
+		setContentView(R.layout.activity_location_area_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Location Areas");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -60,6 +64,17 @@ public class LocationAreaListActivity extends BaseActivity implements
 				+ "'>Location Areas</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstLocationAreaList = (ListView) findViewById(R.id.lstMain);
@@ -204,14 +219,14 @@ public class LocationAreaListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<LocationInfo> list) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		// m_locationareas = list;
 		bindData();
 	}
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 	}
 

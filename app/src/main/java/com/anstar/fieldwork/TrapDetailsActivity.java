@@ -3,7 +3,8 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.anstar.activerecords.ActiveRecordException;
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Generics;
 import com.anstar.common.NetworkConnectivity;
@@ -54,7 +56,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TrapDetailsActivity extends BaseActivity implements
+public class TrapDetailsActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	int appointment_id;
@@ -67,7 +69,7 @@ public class TrapDetailsActivity extends BaseActivity implements
 	boolean isClean = false;
 
 	private AppointmentInfo appointmentInfo = null;
-	private ActionBar action = null;
+	//private ActionBar action = null;
 	private String barcode;
 
 	private TrapScanningInfo trapscan_info = null;
@@ -87,11 +89,13 @@ public class TrapDetailsActivity extends BaseActivity implements
 	Spinner spnBaitCondition, spnTrapCondition;
 	EditText edtException;
 	boolean isRemoved;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.trap_details);
+		setContentView(R.layout.activity_trap_details);
+
 		// info = MainActivity.appointmentInfo;
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
@@ -111,6 +115,7 @@ public class TrapDetailsActivity extends BaseActivity implements
 		if (barcode.length() == 0) {
 			barcode = Const.BarCode;
 		}
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Traps Scan Details");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -118,6 +123,16 @@ public class TrapDetailsActivity extends BaseActivity implements
 				+ "'>Traps Scan Details</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
 
 		lstMaterial = (ListView) findViewById(R.id.lstMaterialUsages);
 		btnSaveTrapData = (Button) findViewById(R.id.btnSaveTrapData);
@@ -379,7 +394,7 @@ public class TrapDetailsActivity extends BaseActivity implements
 
 	public void AddTraps(ArrayList<InspectionPest> m_list,
 			InspectionInfo inspection) {
-		showProgress();
+		mBaseLoader.showProgress();
 		InspectionInfo.AddInspectionRecord(appointment_id, m_list, inspection,
 				new UpdateMUInfoDelegate() {
 					@Override
@@ -406,12 +421,14 @@ public class TrapDetailsActivity extends BaseActivity implements
 								gotoback();
 							}
 
+						} else {
+                            mBaseLoader.hideProgress();
 						}
 					}
 
 					@Override
 					public void UpdateFail(String ErrorMessage) {
-						hideProgress();
+						mBaseLoader.hideProgress();
 						Toast.makeText(getApplicationContext(), ErrorMessage,
 								Toast.LENGTH_LONG).show();
 					}
@@ -419,7 +436,7 @@ public class TrapDetailsActivity extends BaseActivity implements
 	}
 
 	public void gotoback() {
-		hideProgress();
+        mBaseLoader.hideProgress();
 		TrapScanningInfo trap = TrapList.Instance()
 				.getTrapByBarcodeNdCustomerId(barcode, cust_id);
 		trap.isChecked = true;

@@ -3,7 +3,8 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.WorkHistroyInfo;
 import com.anstar.models.list.WorkHistoryList;
 
 import java.util.ArrayList;
 
-public class WorkHistoryListActivity extends BaseActivity {
+public class WorkHistoryListActivity extends AppCompatActivity {
 
 	private ListView lstWorkHistory;
 	private int service_location_id = 0, cid = 0;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.work_history_list);
+		setContentView(R.layout.activity_work_history_list);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			if (b.containsKey("sid")) {
@@ -35,23 +38,34 @@ public class WorkHistoryListActivity extends BaseActivity {
 				cid = b.getInt("cid");
 			}
 		}
-		ActionBar action = getSupportActionBar();
+/*		ActionBar action = getSupportActionBar();
+
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color)
 				+ "'>Work History</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
 
 		lstWorkHistory = (ListView) findViewById(R.id.lstWorkHistory);
 
-		showProgress();
+		mBaseLoader.showProgress();
 		if (cid > 0 && service_location_id > 0) {
 			WorkHistoryList.Instance().load(
 					new ModelDelegate<WorkHistroyInfo>() {
 						@Override
 						public void ModelLoaded(ArrayList<WorkHistroyInfo> list) {
-							hideProgress();
+							mBaseLoader.hideProgress();
 							if (list != null) {
 								CustomAdapter adapter = new CustomAdapter(list);
 								lstWorkHistory.setAdapter(adapter);
@@ -60,7 +74,7 @@ public class WorkHistoryListActivity extends BaseActivity {
 
 						@Override
 						public void ModelLoadFailedWithError(String error) {
-							hideProgress();
+							mBaseLoader.hideProgress();
 							Toast.makeText(getApplicationContext(), error,
 									Toast.LENGTH_LONG).show();
 						}

@@ -10,7 +10,8 @@ import android.graphics.Path;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +27,7 @@ import com.anstar.models.list.AppointmentModelList;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SignatureActivity extends BaseActivity implements OnClickListener {
+public class SignatureActivity extends AppCompatActivity implements OnClickListener {
 	private Button btnClearCustomerSign, btnClearTechnicianSign;
 	private LinearLayout llCustomerSignCanvas, llTechnitianSignCanvas;
 	private Canvas mCanvas;
@@ -37,7 +38,7 @@ public class SignatureActivity extends BaseActivity implements OnClickListener {
 	private ArrayList<SignaturePoints> TechsignInfo;
 	AppointmentInfo appointment_info = null;
 	int a_id = 0;
-	ActionBar action = null;
+	//ActionBar action = null;
 	float Cfactor = 0;
 	float Tfactor = 0;
 	int height = 0;
@@ -45,7 +46,8 @@ public class SignatureActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.signature);
+		setContentView(R.layout.activty_signature);
+
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			a_id = b.getInt(Const.Appointment_Id);
@@ -58,12 +60,20 @@ public class SignatureActivity extends BaseActivity implements OnClickListener {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		appointment_info = AppointmentModelList.Instance().getAppointmentById(
 				a_id);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Signature");
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color) + "'>Signature</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
 
 		// btnDone = (Button) findViewById(R.id.btnDone);
 		llCustomerSignCanvas = (LinearLayout) findViewById(R.id.llCustomerSignCanvas);

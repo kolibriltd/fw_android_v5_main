@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
@@ -32,21 +34,24 @@ import com.anstar.models.list.LineItemsList;
 
 import java.util.ArrayList;
 
-public class LineItemsActivity extends BaseActivity {
+public class LineItemsActivity extends AppCompatActivity {
 
 	private ListView lstMain;
 	int appointment_id;
 	private LineItemsListAdapter m_adapter = null;
 	public static ArrayList<LineItemsInfo> m_lineitems = null;
-	private ActionBar action = null;
+	//private ActionBar action = null;
 	private int EDIT_LINE_ITEM = 1;
 	private int ADD_LINE_ITEM = 2;
 	private TextView txtInstruction;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.line_items_list);
+		setContentView(R.layout.activity_line_items);
+
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material List");
 		action.setTitle(Html
@@ -55,6 +60,17 @@ public class LineItemsActivity extends BaseActivity {
 						+ "'>Line Items</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstMain = (ListView) findViewById(R.id.lstMain);
@@ -171,7 +187,7 @@ public class LineItemsActivity extends BaseActivity {
 													DialogInterface dialog,
 													int id) {
 												dialog.cancel();
-												showProgress();
+												mBaseLoader.showProgress();
 												LineItemsInfo
 														.DeleteLineItem(
 																lItem.id,
@@ -180,7 +196,7 @@ public class LineItemsActivity extends BaseActivity {
 																	public void UpdateSuccessFully(
 																			ServiceResponse res) {
 																		try {
-																			hideProgress();
+																			mBaseLoader.hideProgress();
 																			m_lineitems = LineItemsList
 																					.Instance()
 																					.load(appointment_id);
@@ -198,7 +214,7 @@ public class LineItemsActivity extends BaseActivity {
 																	@Override
 																	public void UpdateFail(
 																			String ErrorMessage) {
-																		hideProgress();
+																		mBaseLoader.hideProgress();
 																		Toast.makeText(
 																				getApplicationContext(),
 																				"There is some error.",
@@ -258,11 +274,11 @@ public class LineItemsActivity extends BaseActivity {
 		if (requestCode == EDIT_LINE_ITEM) {
 			if (resultCode == RESULT_OK) {
 				int id = data.getIntExtra("position", 0);
-				showProgress();
+				mBaseLoader.showProgress();
 				m_lineitems.get(id).EditLineItems(new UpdateInfoDelegate() {
 					@Override
 					public void UpdateSuccessFully(ServiceResponse res) {
-						hideProgress();
+						mBaseLoader.hideProgress();
 						try {
 							m_lineitems = LineItemsList.Instance().load(
 									appointment_id);
@@ -280,7 +296,7 @@ public class LineItemsActivity extends BaseActivity {
 						Toast.makeText(getApplicationContext(),
 								"There is some error.", Toast.LENGTH_LONG)
 								.show();
-						hideProgress();
+						mBaseLoader.hideProgress();
 					}
 				});
 			}

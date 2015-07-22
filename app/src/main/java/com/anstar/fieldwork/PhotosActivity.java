@@ -10,7 +10,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.model.helper.ServiceHelper;
 import com.anstar.models.ModelDelegates.CommonDelegate;
@@ -34,7 +36,7 @@ import com.anstar.models.list.PhotoAttachmentsList;
 import java.io.File;
 import java.util.ArrayList;
 
-public class PhotosActivity extends BaseActivity {
+public class PhotosActivity extends AppCompatActivity {
 
 	private GridView gridMain;
 	int appointment_id;
@@ -45,17 +47,29 @@ public class PhotosActivity extends BaseActivity {
 	final int EDIT_PHOTO = 1;
 	String url = "";
 	ArrayList<PhotoAttachmentsInfo> photos = new ArrayList<PhotoAttachmentsInfo>();
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.photos);
+		setContentView(R.layout.activity_photos);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material List");
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color) + "'>Pictures</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -168,13 +182,13 @@ public class PhotosActivity extends BaseActivity {
 														DialogInterface dialog,
 														int id) {
 													dialog.cancel();
-													showProgress();
+													mBaseLoader.showProgress();
 													photo.deletePhoto(new CommonDelegate() {
 
 														@Override
 														public void UpdateSuccessFully(
 																boolean b) {
-															hideProgress();
+															mBaseLoader.hideProgress();
 															Toast.makeText(
 																	getApplicationContext(),
 																	"Photo has been deleted successfully",
@@ -186,7 +200,7 @@ public class PhotosActivity extends BaseActivity {
 														@Override
 														public void UpdateFail(
 																String ErrorMessage) {
-															hideProgress();
+															mBaseLoader.hideProgress();
 															Toast.makeText(
 																	getApplicationContext(),
 																	ErrorMessage,

@@ -5,7 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.NotificationCenter;
 import com.anstar.model.helper.ServiceResponse;
@@ -32,21 +34,23 @@ import com.anstar.models.list.MaterialUsagesRecordsList;
 
 import java.util.ArrayList;
 
-public class MaterialUsageListActivity extends BaseActivity implements
+public class MaterialUsageListActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	private ListView lstMaterialUsage;
 	int appointment_id;
 	private MaterialUsageAdapter m_adapter = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 	ArrayList<MaterialUsage> m_list = null;
 	TextView txtMessage;
 	final int MATERIAL_REQUEST_ID = 1;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.appointment_related);
+		setContentView(R.layout.activity_material_usage_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material Usage");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -54,6 +58,16 @@ public class MaterialUsageListActivity extends BaseActivity implements
 				+ "'>Material Usage</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		txtMessage = (TextView) findViewById(R.id.txtNodata);
 		lstMaterialUsage = (ListView) findViewById(R.id.lstAppointment_Related);
 		m_list = new ArrayList<MaterialUsage>();
@@ -276,14 +290,14 @@ public class MaterialUsageListActivity extends BaseActivity implements
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// call();
-								showProgress();
+								mBaseLoader.showProgress();
 								MaterialUsage.DeleteMaterialUsageRecord(record,
 										appointment_id, info,
 										new UpdateMUInfoDelegate() {
 											@Override
 											public void UpdateSuccessFully(
 													ServiceResponse res) {
-												hideProgress();
+												mBaseLoader.hideProgress();
 												m_list = MaterialUsagesList
 														.Instance().load(
 																appointment_id);
@@ -293,7 +307,7 @@ public class MaterialUsageListActivity extends BaseActivity implements
 											@Override
 											public void UpdateFail(
 													String ErrorMessage) {
-												hideProgress();
+												mBaseLoader.hideProgress();
 												Toast.makeText(
 														getApplicationContext(),
 														ErrorMessage, Toast.LENGTH_LONG).show();

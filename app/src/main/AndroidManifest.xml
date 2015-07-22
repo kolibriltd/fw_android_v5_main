@@ -99,12 +99,12 @@
         </activity>
         <activity
             android:name=".TargetPestListActivity"
-            android:label="@string/app_name"
+            android:label="Target Pests"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PestTypeListActivity"
-            android:label="@string/app_name"
+            android:label="Pest Types"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -124,12 +124,12 @@
         </activity>
         <activity
             android:name=".MaterialUsageListActivity"
-            android:label="@string/app_name"
+            android:label="Material Usage"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SignatureActivity"
-            android:label="@string/app_name"
+            android:label="Signature"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -144,7 +144,7 @@
         </activity>
         <activity
             android:name=".LocationAreaListActivity"
-            android:label="@string/app_name"
+            android:label="Location Areas"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -154,17 +154,17 @@
         </activity>
         <activity
             android:name=".TrapScanningListActivity"
-            android:label="@string/app_name"
+            android:label="Devices"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TrapDetailsActivity"
-            android:label="@string/app_name"
+            android:label="Traps Scan Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".NewTrapDetailsActivity"
-            android:label="@string/app_name"
+            android:label="Device Inspection"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -204,22 +204,22 @@
         </activity>
         <activity
             android:name=".MaterialUsageTargetListActivity"
-            android:label="@string/app_name"
+            android:label="Target Pests"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TrapMaterialUsageActivity"
-            android:label="@string/app_name"
+            android:label="Material Usages"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LineItemsActivity"
-            android:label="@string/app_name"
+            android:label="Line Items"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ServiceLocationListActivity"
-            android:label="@string/app_name"
+            android:label="Service Location"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -229,17 +229,17 @@
         </activity>
         <activity
             android:name=".ServiceLocationDetailActivity"
-            android:label="@string/app_name"
+            android:label="Service Location Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ServiceLocationContactsActivity"
-            android:label="@string/app_name"
+            android:label="Service Location Contact"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ServiceLocationNoteActivity"
-            android:label="@string/app_name"
+            android:label="Service Location Note"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -249,7 +249,7 @@
         </activity>
         <activity
             android:name=".PdfFormsActivity"
-            android:label="@string/app_name"
+            android:label="Pdf Forms"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -269,12 +269,12 @@
         </activity>
         <activity
             android:name=".WorkHistoryListActivity"
-            android:label="@string/app_name"
+            android:label="Work History"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RecomendationsListActivity"
-            android:label="@string/app_name"
+            android:label="Recommendations List"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -284,7 +284,7 @@
         </activity>
         <activity
             android:name=".WorkHistoryDetailActivity"
-            android:label="@string/app_name"
+            android:label="Work History Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -294,7 +294,7 @@
         </activity>
         <activity
             android:name=".PhotosActivity"
-            android:label="@string/app_name"
+            android:label="Pictures"
             android:screenOrientation="portrait" >
         </activity>
         <activity

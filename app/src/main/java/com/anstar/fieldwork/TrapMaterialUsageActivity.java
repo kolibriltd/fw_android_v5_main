@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +31,12 @@ import com.anstar.models.list.MaterialUsagesRecordsList;
 
 import java.util.ArrayList;
 
-public class TrapMaterialUsageActivity extends BaseActivity {
+public class TrapMaterialUsageActivity extends AppCompatActivity {
 
 	private ListView lstMaterialUsage;
 	int appointment_id;
 	private MaterialUsageAdapter m_adapter = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 	ArrayList<MaterialUsage> m_list = null;
 	TextView txtMessage;
 	int inspection_id = 0;
@@ -44,7 +45,8 @@ public class TrapMaterialUsageActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.appointment_related);
+		setContentView(R.layout.activity_trap_material_usage);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material Usage");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -52,6 +54,15 @@ public class TrapMaterialUsageActivity extends BaseActivity {
 				+ "'>Material Usages</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
 		txtMessage = (TextView) findViewById(R.id.txtNodata);
 		lstMaterialUsage = (ListView) findViewById(R.id.lstAppointment_Related);
 		m_list = new ArrayList<MaterialUsage>();

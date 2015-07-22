@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
+
+    <RelativeLayout
+        style="@style/background_style"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="5dip">
+
+
+        <ScrollView
+            android:id="@+id/scrollView01"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:id="@+id/rlMain"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/llSign"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/llCustomerSignCanvas"
+                        android:layout_width="fill_parent"
+                        android:layout_height="150dip"
+                        android:layout_span="2"
+                        android:paddingLeft="10dip"
+                        android:paddingTop="10dip"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtDivider"
+                        style="@style/divider_light"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_above="@+id/rlInfo" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlInfo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="5dip">
+
+                        <TextView
+                            android:id="@+id/txtSignatureType"
+                            style="@style/dark_gray_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Customer Signature" />
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/btnClearCustomerSign"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Capture Signature" />
+
+                    <LinearLayout
+                        android:id="@+id/llTechnitianSignCanvas"
+                        android:layout_width="fill_parent"
+                        android:layout_height="150dip"
+                        android:layout_span="2"
+                        android:background="#FFFFFF"
+                        android:paddingLeft="10dip"
+                        android:paddingTop="10dip"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtDivider1"
+                        style="@style/divider_light"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_above="@+id/rlInfo1" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlInfo1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="5dip">
+
+                        <TextView
+                            android:id="@+id/txtSignatureType1"
+                            style="@style/dark_gray_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Technician Signature" />
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/btnClearTechnicianSign"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Capture Signature" />
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+        <!-- <Button -->
+        <!-- android:id="@+id/btnSave" -->
+        <!-- style="@style/large_button" -->
+        <!-- android:layout_width="fill_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_below="@+id/scrollView01" -->
+        <!-- android:layout_weight="1" -->
+        <!-- android:text="Save" /> -->
+
+    </RelativeLayout>
+</LinearLayout>

@@ -6,8 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.MaterialInfo;
@@ -32,7 +34,7 @@ import com.anstar.models.list.MaterialList;
 
 import java.util.ArrayList;
 
-public class MaterialListActivity extends BaseActivity implements
+public class MaterialListActivity extends AppCompatActivity implements
 		OnClickListener, ModelDelegate<MaterialInfo> {
 
 	private ListView lstAppointment;
@@ -42,14 +44,16 @@ public class MaterialListActivity extends BaseActivity implements
 	// MyAppointmentAdapter m_adapter;
 	private MaterialListAdapter m_adapter = null;
 	private ArrayList<MaterialInfo> m_materials = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 	boolean isFromTrapMaterial = false;
 	final int ADD_MATERIAL = 2;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_conditions_list);
+		setContentView(R.layout.activity_material_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Material List");
 		action.setTitle(Html.fromHtml("<font color='"
@@ -57,6 +61,16 @@ public class MaterialListActivity extends BaseActivity implements
 				+ "'>Material List</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstAppointment = (ListView) findViewById(R.id.lstMain);
@@ -76,7 +90,7 @@ public class MaterialListActivity extends BaseActivity implements
 		}
 
 		try {
-			showProgress();
+			mBaseLoader.showProgress();
 			MaterialList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,7 +134,7 @@ public class MaterialListActivity extends BaseActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			showProgress();
+			mBaseLoader.showProgress();
 			MaterialList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,7 +242,7 @@ public class MaterialListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<MaterialInfo> list) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		if (list != null) {
 			m_materials = Utils.Instance().sortMaterialCollections(list);
 			bindData();
@@ -240,7 +254,7 @@ public class MaterialListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 	}
 

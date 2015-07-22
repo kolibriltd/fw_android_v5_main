@@ -3,7 +3,8 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +24,7 @@ import com.anstar.models.list.ServiceLocationsList;
 
 import java.util.ArrayList;
 
-public class ServiceLocationDetailActivity extends BaseActivity implements
+public class ServiceLocationDetailActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	int service_loc_id, cid;
@@ -33,12 +34,12 @@ public class ServiceLocationDetailActivity extends BaseActivity implements
 
 	boolean isFromStarted;
 	private ServiceLocationsInfo servicelocation_info = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_customer_details);
+		setContentView(R.layout.activity_service_location_detail);
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		Bundle b = getIntent().getExtras();
@@ -46,17 +47,25 @@ public class ServiceLocationDetailActivity extends BaseActivity implements
 			service_loc_id = b.getInt("SLID");
 			cid = b.getInt("cid");
 		}
+/*
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color)
 				+ "'>Service Location Details</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
 
 		txtBAddress = (TextView) findViewById(R.id.txtBAddress);
 		txtBAddress2 = (TextView) findViewById(R.id.txtBAddress2);
 		txtName = (TextView) findViewById(R.id.txtCustomerName);
-		txt01 = (TextView) findViewById(R.id.txt01);
+		txt01 = (TextView) findViewById(R.id.txt02);
 		
 		rlContacts = (RelativeLayout) findViewById(R.id.rlContacts);
 		rlWorkHistory = (RelativeLayout) findViewById(R.id.rlServiceLocation);

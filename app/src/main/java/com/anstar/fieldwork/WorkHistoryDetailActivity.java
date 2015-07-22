@@ -2,7 +2,8 @@ package com.anstar.fieldwork;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +25,7 @@ import com.anstar.models.list.WorkHistoryList;
 
 import java.util.ArrayList;
 
-public class WorkHistoryDetailActivity extends BaseActivity implements
+public class WorkHistoryDetailActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	int whid, cid;
@@ -33,24 +34,32 @@ public class WorkHistoryDetailActivity extends BaseActivity implements
 
 	boolean isFromStarted;
 	private WorkHistroyInfo history_info = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.work_history_details);
+		setContentView(R.layout.activity_work_history_details);
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			whid = b.getInt("whid");
 		}
+/*
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color)
 				+ "'>Work History Details</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
 
 		txtNotes = (TextView) findViewById(R.id.txtNotes);
 		lstMaterialUsage = (ListView) findViewById(R.id.lstMaterialUsage);

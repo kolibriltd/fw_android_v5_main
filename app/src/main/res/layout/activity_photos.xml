@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/background_style"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
 
     <GridView
         android:id="@+id/gridMain"
@@ -16,4 +22,4 @@
         android:numColumns="3"
         android:verticalSpacing="10dip" />
 
-</RelativeLayout>
+</LinearLayout>

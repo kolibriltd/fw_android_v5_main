@@ -1,47 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/background_style"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
+        android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar" />
+        android:layout_height="wrap_content" />
 
-    <RelativeLayout
-        android:id="@+id/RlSubHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentStart="true">
+    <include
+        layout="@layout/search_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/edtSearch"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:hint="Search"
-            android:textSize="14dip" />
-
-        <ImageView
-            android:id="@+id/imgCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/cross" />
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/lstMain"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/RlSubHeader"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="#E5E5E5"
-        android:dividerHeight="1px"
-        android:listSelector="#00000000" />
-
-</RelativeLayout>
+</LinearLayout>

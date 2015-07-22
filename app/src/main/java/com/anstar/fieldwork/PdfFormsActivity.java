@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Html;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -31,7 +33,7 @@ import com.anstar.models.list.PdfFormsList;
 import java.io.File;
 import java.util.ArrayList;
 
-public class PdfFormsActivity extends BaseActivity {
+public class PdfFormsActivity extends AppCompatActivity {
 
 	private ListView lstMain, lstAttachment;
 	int appointment_id;
@@ -39,19 +41,31 @@ public class PdfFormsActivity extends BaseActivity {
 	private AttachmentListAdapter m_adapterAttach = null;
 	private ArrayList<PdfFormsInfo> m_pdfforms = null;
 	private ArrayList<AttachmentsInfo> m_attachmanes = null;
-	ActionBar action = null;
+	//ActionBar action = null;
+	private BaseLoader mBaseLoader;
 
 	// TextView txtInstruction;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pdf_forms_list);
+		setContentView(R.layout.activity_pdf_forms_list);
+/*
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color) + "'>Pdf Forms</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstMain = (ListView) findViewById(R.id.lstMain);
@@ -240,13 +254,13 @@ public class PdfFormsActivity extends BaseActivity {
 
 	public void DownloadPdf(final PdfFormsInfo pItem) {
 		if (pItem != null) {
-			showProgress();
+			mBaseLoader.showProgress();
 			DownloadPdf.Instance().downloadPdf(pItem.WorkOrderId, pItem.pid,
 					new DownLoadDelegate() {
 
 						@Override
 						public void DownLoadSuccessFully(String message) {
-							hideProgress();
+							mBaseLoader.hideProgress();
 
 							String filepath = "attachment_" + appointment_id
 									+ "_" + pItem.pid + ".pdf";
@@ -270,20 +284,21 @@ public class PdfFormsActivity extends BaseActivity {
 
 						@Override
 						public void DownLoadFailed(String error) {
-							hideProgress();
+
+							mBaseLoader.hideProgress();
 						}
 					});
 		}
 	}
 
 	public void DownloadAttachment(final AttachmentsInfo pItem) {
-		showProgress();
+		mBaseLoader.showProgress();
 		DownloadPdf.Instance().downloadAttachment(pItem.WorkOrderId, pItem.id,
 				new DownLoadDelegate() {
 
 					@Override
 					public void DownLoadSuccessFully(String message) {
-						hideProgress();
+						mBaseLoader.hideProgress();
 
 						String filepath = "attachment_" + appointment_id + "_"
 								+ pItem.id + ".pdf";
@@ -307,7 +322,7 @@ public class PdfFormsActivity extends BaseActivity {
 					@Override
 					public void DownLoadFailed(String error) {
 						Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-						hideProgress();
+						mBaseLoader.hideProgress();
 					}
 				});
 

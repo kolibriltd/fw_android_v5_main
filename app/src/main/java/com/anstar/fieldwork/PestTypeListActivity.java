@@ -6,8 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
+import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.MaterialUsageTargetPestInfo;
@@ -34,7 +36,7 @@ import com.anstar.models.list.PestTypeList;
 
 import java.util.ArrayList;
 
-public class PestTypeListActivity extends BaseActivity implements
+public class PestTypeListActivity extends AppCompatActivity implements
 		OnClickListener, ModelDelegate<PestsTypeInfo> {
 
 	private ListView lstPestList;
@@ -44,13 +46,15 @@ public class PestTypeListActivity extends BaseActivity implements
 	// MyAppointmentAdapter m_adapter;
 	private TargetPestAdapter m_adapter = null;
 	private ArrayList<PestsTypeInfo> m_pesttypes = null;
-	ActionBar action = null;
+	//ActionBar action = null;
 	boolean isFromCapture = false;
+	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_conditions_list);
+		setContentView(R.layout.activity_pest_type_list);
+/*
 		action = getSupportActionBar();
 		// action.setTitle("Pest Types");
 		action.setTitle(Html
@@ -59,6 +63,16 @@ public class PestTypeListActivity extends BaseActivity implements
 						+ "'>Pest Types</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
+
+		mBaseLoader = new BaseLoader(this);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstPestList = (ListView) findViewById(R.id.lstMain);
@@ -115,7 +129,7 @@ public class PestTypeListActivity extends BaseActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			showProgress();
+			mBaseLoader.showProgress();
 			PestTypeList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -279,7 +293,7 @@ public class PestTypeListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<PestsTypeInfo> list) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		if (list != null) {
 			m_pesttypes = Utils.Instance().sortPestCollections(list);
 			bindData();
@@ -292,7 +306,7 @@ public class PestTypeListActivity extends BaseActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		hideProgress();
+		mBaseLoader.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
 

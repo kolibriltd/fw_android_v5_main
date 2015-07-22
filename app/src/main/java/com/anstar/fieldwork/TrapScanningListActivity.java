@@ -7,8 +7,9 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ import com.dm.zbar.android.scanner.ZBarScannerActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TrapScanningListActivity extends BaseActivity implements
+public class TrapScanningListActivity extends AppCompatActivity implements
 		OnClickListener {
 
 	// private Button btnUnchecked, btnChecked;
@@ -65,12 +66,21 @@ public class TrapScanningListActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.trap_list);
+		setContentView(R.layout.activity_trap_scanning_list);
+/*
 		action = getSupportActionBar();
 		action.setTitle(Html.fromHtml("<font color='"
 				+ getString(R.string.header_text_color) + "'>Devices</font>"));
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
+*/
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		action = getSupportActionBar();
+		action.setDisplayHomeAsUpEnabled(true);
+		action.setDisplayShowHomeEnabled(true);
 
 		// btnUnchecked = (Button) findViewById(R.id.btnUnchecked);
 		// btnChecked = (Button) findViewById(R.id.btnChecked);
