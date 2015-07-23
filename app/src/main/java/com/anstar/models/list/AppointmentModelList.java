@@ -1,13 +1,5 @@
 package com.anstar.models.list;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.os.AsyncTask;
 
 import com.anstar.common.NetworkConnectivity;
@@ -22,6 +14,14 @@ import com.anstar.models.CustomerInfo;
 import com.anstar.models.DownloadPdf;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.TrapScanningInfo;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class AppointmentModelList implements ServiceHelperDelegate {
 
@@ -249,21 +249,12 @@ public class AppointmentModelList implements ServiceHelperDelegate {
 		return m_list;
 	}
 
-	public ArrayList<AppointmentInfo> getAppointmentBydate(Date date, boolean home_s) {
+	public ArrayList<AppointmentInfo> getAppointmentBydate(Date date) {
 		ArrayList<AppointmentInfo> m_list = new ArrayList<AppointmentInfo>();
 		if (m_modelList != null) {
-			int i = 0;
 			for (AppointmentInfo appointmentInfo : m_modelList) {
 				if (Utils.isSameDate(appointmentInfo.getStartAtDate(), date)) {
-					if (!home_s) {
-						if (i < 4) {
-							m_list.add(appointmentInfo);
-						}
-					}
-					else {
-						m_list.add(appointmentInfo);
-					}
-					i ++;
+					m_list.add(appointmentInfo);
 				}
 			}
 		}

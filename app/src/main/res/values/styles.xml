@@ -6,6 +6,7 @@
     <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light"></style> -->
     <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light.DarkActionBar"></style> -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- item name="android:windowTranslucentStatus">true</item -->
         <!-- customize the color palette -->
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/app_primary_color</item>
@@ -18,6 +19,33 @@
                colorControlHighlight & colorSwitchThumbNormal. -->
         <item name="drawerArrowStyle">@style/PatinaDrawerArrowToggle</item>
         <item name="actionBarTheme">@style/ActionBarTheme</item>
+    </style>
+
+    <style name="ThemeToolbarAccent" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- android:textColorPrimary is the  color of the title text
+             in the Toolbar, in the Theme.AppCompat theme:  -->
+        <item name="android:textColorPrimary">@color/app_accent_color</item>
+
+        <!-- android:textColorPrimaryInverse is the  color of the title
+             text in the Toolbar, in the Theme.AppCompat.Light theme:  -->
+        <!-- <item name="android:textColorPrimaryInverse">@color/abc_primary_text_material_light</item> -->
+
+        <!-- android:actionMenuTextColor is the color of the text of
+              action (menu) items in the Toolbar, at least in the
+              Theme.AppCompat theme.
+              For some reason, they already get the textColorPrimary
+              when running on API 21, but not on older versions of
+              Android, so this is only necessary to support older
+              Android versions.-->
+        <item name="actionMenuTextColor">@color/app_accent_color</item>
+        <!-- android:textColorSecondary is the color of the menu
+             overflow icon (three vertical dots) -->
+        <item name="android:textColorSecondary">@color/app_accent_color</item>
+
+        <!-- This would set the toolbar's background color,
+              but setting this also changes the popup menu's background,
+              even if we define popupTheme for our <Toolbar> -->
+        <!-- <item name="android:background">@color/color_primary</item> -->
     </style>
 
     <style name="PatinaDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">

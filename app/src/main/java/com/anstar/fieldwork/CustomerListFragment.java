@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -116,12 +117,13 @@ public class CustomerListFragment extends Fragment implements
 				FromAddAppointment = b.getBoolean("FromAddAppointment");
 		}
 
-		setHasOptionsMenu(true);
+		setHasOptionsMenu(false);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_customer_list);
 		try {
 			mBaseLoader.showProgress();
 			CustomerList.Instance().loadLocal(this);

@@ -20,7 +20,7 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_splech_scrin);
         if (isLogin()) {
             Intent i = new Intent(this, DashboardActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
         } else {
@@ -34,7 +34,7 @@ public class StartActivity extends Activity {
                     // This method will be executed once the timer is over
                     // Start your app main activity
                     Intent i = new Intent(StartActivity.this, LoginActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     // close this activity
                     finish();

@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -20,17 +19,13 @@ import android.widget.Toast;
 
 import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
-import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
-import com.anstar.common.SectionListAdapter;
 import com.anstar.common.Utils;
-import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.AppointmentInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.HomeInfo;
 import com.anstar.models.LineItemsInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
-import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.CustomerList;
@@ -45,8 +40,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class HomeFragment extends Fragment implements ModelDelegate<AppointmentInfo> {
     private static int APPOINTMENT_DETAIL = 1;
@@ -63,7 +56,6 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         lstAppointment = (ListView) rootView.findViewById(R.id.listView);
-
 
 
         return rootView;
@@ -86,6 +78,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_home);
         try {
             mBaseLoader.showProgress("Please wait...");
             AppointmentModelList.Instance().load(this);
@@ -210,11 +203,9 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.duration.setText(item.started_at_time + ";");
                     if (item.status.equals("Missed Appointment")) {
                         holder.marker_app.setBackgroundResource(R.color.marck_app_miss);
-                    }
-                    else if(item.status.equals("Complete")) {
+                    } else if (item.status.equals("Complete")) {
                         holder.marker_app.setBackgroundResource(R.color.marck_app_comp);
-                    }
-                    else if(item.status.equals("Scheduled")) {
+                    } else if (item.status.equals("Scheduled")) {
                         holder.marker_app.setBackgroundResource(R.color.marck_app_sched);
                     }
                     holder.appointments_item.setOnClickListener(new View.OnClickListener() {
@@ -326,7 +317,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     }
 
     private void bindData() {
-        m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate, false);
+        m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate);
         if (m_appointments.size() > 0) {
             ///
         } else {
@@ -377,30 +368,30 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
     public void loadCustomer() {
         ////CustomerList.Instance().ClearDB();
-      //  try {
-            CustomerList.Instance().loadLocal(new ModelDelegate<CustomerInfo>(){
+        //  try {
+        CustomerList.Instance().loadLocal(new ModelDelegate<CustomerInfo>() {
 
-                @Override
-                public void ModelLoaded(ArrayList<CustomerInfo> list) {
-                    mBaseLoader.hideProgress();
-                    if (list != null) {
-                        m_list = list;
-                        generateHashList();
-                        // adapter = new SectionListAdapter();
-                        //  adapter.delegate = CustomerListFragment.this;
-                        //  lstCustomer.setAdapter(adapter);
-                    } else {
-                        Toast.makeText(getActivity(),
-                                "No customer downloaded yet", Toast.LENGTH_LONG).show();
-                    }
+            @Override
+            public void ModelLoaded(ArrayList<CustomerInfo> list) {
+                mBaseLoader.hideProgress();
+                if (list != null) {
+                    m_list = list;
+                    generateHashList();
+                    // adapter = new SectionListAdapter();
+                    //  adapter.delegate = CustomerListFragment.this;
+                    //  lstCustomer.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getActivity(),
+                            "No customer downloaded yet", Toast.LENGTH_LONG).show();
                 }
+            }
 
-                @Override
-                public void ModelLoadFailedWithError(String error) {
-                    mBaseLoader.hideProgress();
-                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                }
-            });
+            @Override
+            public void ModelLoadFailedWithError(String error) {
+                mBaseLoader.hideProgress();
+                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
        /* } catch (Exception e) {
             e.printStackTrace();
         }*/
@@ -440,8 +431,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                 item_app.status = item.status;
                 m_list_home.add(item_app);
             }
-        }
-        else {
+        } else {
             HomeInfo layout_app_no = new HomeInfo();
             layout_app_no.typeView = "appointmets";
             layout_app_no.type_item = "no_app";

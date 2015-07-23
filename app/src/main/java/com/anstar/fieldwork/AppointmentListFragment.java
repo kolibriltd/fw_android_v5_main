@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -117,6 +118,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_appointment_list);
         try {
             mBaseLoader.showProgress("Please wait...");
             AppointmentModelList.Instance().load(this);
@@ -400,7 +402,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     }
 
     private void bindData() {
-        m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate, true);
+        m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate);
         if (m_appointments.size() > 0) {
             lstAppointment.setVisibility(View.VISIBLE);
             txtAppointmentCount.setTextSize(28);

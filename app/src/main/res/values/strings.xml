@@ -243,5 +243,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
+
+    <string name="title_fragment_home">Home</string>
+    <string name="title_fragment_customer_list">Customers</string>
+    <string name="title_fragment_appointment_list">Calendar</string>
+    <string name="title_fragment_setting">Settings</string>
+
 </resources>
