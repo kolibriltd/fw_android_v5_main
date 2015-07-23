@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,10 +22,12 @@ import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
+import com.anstar.common.SectionListAdapter;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.AppointmentInfo;
 import com.anstar.models.CustomerInfo;
+import com.anstar.models.HomeInfo;
 import com.anstar.models.LineItemsInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
@@ -41,6 +45,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements ModelDelegate<AppointmentInfo> {
     private static int APPOINTMENT_DETAIL = 1;
@@ -50,24 +56,14 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     private ListView lstAppointment;
     AppointmentAdapter m_adapter = null;
     private BaseLoader mBaseLoader;
+    private ArrayList<CustomerInfo> m_list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         lstAppointment = (ListView) rootView.findViewById(R.id.listView);
-        appointments = (TextView) rootView.findViewById(R.id.textView9);
-        appointments.setPaintFlags(appointments.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        appointments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DashboardActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new AppointmentListFragment())
-                        .commit();
-            }
-        });
+
 
 
         return rootView;
@@ -84,6 +80,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         NotificationCenter.Instance().addObserver(HomeFragment.this,
                 "refresh", "hideshowRefresh", null);
 
+
     }
 
     @Override
@@ -92,6 +89,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         try {
             mBaseLoader.showProgress("Please wait...");
             AppointmentModelList.Instance().load(this);
+
         } catch (Exception e) {
             mBaseLoader.hideProgress();
             e.printStackTrace();
@@ -99,9 +97,9 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     }
 
     public class AppointmentAdapter extends BaseAdapter {
-        ArrayList<AppointmentInfo> m_list = new ArrayList<AppointmentInfo>();
+        ArrayList<HomeInfo> m_list = new ArrayList<HomeInfo>();
 
-        public AppointmentAdapter(ArrayList<AppointmentInfo> list) {
+        public AppointmentAdapter(ArrayList<HomeInfo> list) {
             m_list = list;
         }
 
@@ -127,154 +125,177 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             holder = new ViewHolder();
             if (rowView == null) {
                 LayoutInflater li = getActivity().getLayoutInflater();
-                rowView = li.inflate(R.layout.appointment_item, null);
+                rowView = li.inflate(R.layout.home_item, null);
+                holder.firsname = (TextView) rowView.findViewById(R.id.cus_firstname);
+                holder.lastname = (TextView) rowView.findViewById(R.id.cus_lastname);
+                holder.relativeLayout1 = (RelativeLayout) rowView.findViewById(R.id.relativeLayout1);
+                holder.customer_item = (LinearLayout) rowView.findViewById(R.id.customer_item);
+                holder.customers = (TextView) rowView.findViewById(R.id.textView11);
+                holder.name = (TextView) rowView.findViewById(R.id.textView22);
+                holder.localname = (TextView) rowView.findViewById(R.id.textView23);
+                holder.duration = (TextView) rowView.findViewById(R.id.textView29);
+                holder.duration1 = (TextView) rowView.findViewById(R.id.textView69);
+                holder.date = (TextView) rowView.findViewById(R.id.textView24);
+                holder.relative_layut_2 = (RelativeLayout) rowView.findViewById(R.id.relative_layut_2);
+                holder.appointments_item = (RelativeLayout) rowView.findViewById(R.id.appointments_item);
+                holder.appointments = (TextView) rowView.findViewById(R.id.textView9);
+                holder.appointmens_line = (LinearLayout) rowView.findViewById(R.id.appointmens_line);
+                holder.customer_line = (LinearLayout) rowView.findViewById(R.id.customer_line);
+                holder.marker_app = (RelativeLayout) rowView.findViewById(R.id.marker_app);
+                holder.no_appointments_d = (RelativeLayout) rowView.findViewById(R.id.no_appointments_d);
                 rowView.setTag(holder);
-                holder.txtAppointment = (TextView) rowView
-                        .findViewById(R.id.txtAppontmentTitle);
-                holder.txtServiceLocationName = (TextView) rowView
-                        .findViewById(R.id.txtAppontmentType);
-                holder.txtStatus = (TextView) rowView
-                        .findViewById(R.id.txtStatus);
 
-                holder.txtStartEndTime = (TextView) rowView
-                        .findViewById(R.id.txtStartEndTime);
-                holder.txtLineItemName = (TextView) rowView
-                        .findViewById(R.id.txtLineItemName);
-                holder.chkConfirmed = (CheckBox) rowView
-                        .findViewById(R.id.chkConfirmed);
-
-                holder.rl = (RelativeLayout) rowView
-                        .findViewById(R.id.rlappointment);
             } else {
                 holder = (ViewHolder) rowView.getTag();
             }
 
-            final AppointmentInfo appointment = m_list.get(position);
-            CustomerInfo customerinfo = CustomerList.Instance()
-                    .getCustomerById(appointment.customer_id);
-            LineItemsInfo lineInfo = LineItemsList.Instance()
-                    .getFirstLineByWoId(appointment.id);
-            String[] temp = appointment.starts_at.split("T");
-            String[] temp2 = temp[1].split("-");
-            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
-            Date date = null;
-            Date endDate = null;
-            String time = "";
-            String[] temp1 = appointment.ends_at.split("T");
-            String[] temp12 = temp1[1].split("-");
+            final HomeInfo item = m_list.get(position);
 
-            String endtime = "";
-            try {
-                date = sdf.parse(temp2[0]);
-                endDate = sdf.parse(temp12[0]);
-                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a");
-                time = sdf1.format(date);
-                endtime = sdf1.format(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            ServiceLocationsInfo service = ServiceLocationsList.Instance()
-                    .getServiceLocationById(appointment.service_location_id);
-            if (service != null) {
+            if (item.typeView.equals("appointmets")) {
+                holder.appointmens_line.setVisibility(View.VISIBLE);
+                holder.customer_line.setVisibility(View.GONE);
+                holder.no_appointments_d.setVisibility(View.GONE);
+                SimpleDateFormat datformat = new SimpleDateFormat("ss");
+                SimpleDateFormat datformatN = new SimpleDateFormat("mm:ss");
+                if (item.type_item.equals("layout")) {
+                    holder.appointments_item.setVisibility(View.GONE);
+                    holder.relative_layut_2.setVisibility(View.VISIBLE);
+                    holder.appointments.setPaintFlags(holder.appointments.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    holder.appointments.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((DashboardActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container, new AppointmentListFragment())
+                                    .commit();
+                        }
+                    });
 
-                holder.txtServiceLocationName.setText(service.name);
-            }
-            if (appointment.confirmed) {
-                holder.chkConfirmed.setVisibility(View.VISIBLE);
-            }
-            String name = "";
-            if (customerinfo != null) {
-                if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
-                    name = customerinfo.name;
-                } else {
-                    name = customerinfo.name_prefix + " "
-                            + customerinfo.first_name + " "
-                            + customerinfo.last_name;
                 }
-                // holder.txtAppointmentType.setText(time + " "
-                // + customerinfo.customer_type);
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Please refresh your data.", Toast.LENGTH_LONG).show();
-            }
-            if (lineInfo != null) {
-                // holder.txtAppointmentType.setText(time + " " +
-                // lineInfo.name);
-                holder.txtLineItemName.setText(lineInfo.name);
-            }
-            holder.txtStartEndTime.setText(time + "  " + endtime);
-            if (name.contains("null")) {
-                name = name.replace("null", "");
-            }
-            holder.txtAppointment.setText(name);
-            // holder.txtStatus.setText(appointment.status);
-            if (appointment.status.equalsIgnoreCase("complete")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_background);
-                holder.txtStatus.setText("C");
-            } else if (appointment.status.equalsIgnoreCase("missed")
-                    || appointment.status
-                    .equalsIgnoreCase("Missed Appointment")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_missed);
-                // holder.txtStatus.setText("Missed");
-                holder.txtStatus.setText("M");
-            } else if (appointment.status.equalsIgnoreCase("scheduled")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_yellow);
-                holder.txtStatus.setText("S");
-            }
-            holder.rl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (NetworkConnectivity.isConnected()) {
-                        mBaseLoader.showProgress();
-                        appointment.RetriveData(new UpdateInfoDelegate() {
-                            @Override
-                            public void UpdateSuccessFully(ServiceResponse res) {
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                mBaseLoader.hideProgress();
-                                Intent i = new Intent(getActivity(),
-                                        AppointmentDetailsActivity.class);
-                                i.putExtra(Const.Appointment_Id, appointment.id);
-                                Const.app_id = appointment.id;
-                                startActivityForResult(i, APPOINTMENT_DETAIL);
-                            }
-
-                            @Override
-                            public void UpdateFail(String ErrorMessage) {
-                                mBaseLoader.hideProgress();
-                                Intent i = new Intent(getActivity(),
-                                        AppointmentDetailsActivity.class);
-                                i.putExtra(Const.Appointment_Id, appointment.id);
-                                Const.app_id = appointment.id;
-                                startActivityForResult(i, APPOINTMENT_DETAIL);
-                            }
-                        });
-                    } else {
-                        Intent i = new Intent(getActivity(),
-                                AppointmentDetailsActivity.class);
-                        i.putExtra(Const.Appointment_Id, appointment.id);
-                        Const.app_id = appointment.id;
-                        startActivityForResult(i, APPOINTMENT_DETAIL);
+                if (item.type_item.equals("item")) {
+                    holder.appointments_item.setVisibility(View.VISIBLE);
+                    holder.relative_layut_2.setVisibility(View.GONE);
+                    holder.no_appointments_d.setVisibility(View.GONE);
+                    CustomerInfo customerinfo = CustomerList.Instance()
+                            .getCustomerById(item.customer_id);
+                    String name = "";
+                    if (customerinfo != null) {
+                        if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
+                            name = customerinfo.name;
+                        } else {
+                            name = customerinfo.name_prefix + " "
+                                    + customerinfo.first_name + " "
+                                    + customerinfo.last_name;
+                        }
+                        holder.name.setText(name);
                     }
+                    ServiceLocationsInfo service = ServiceLocationsList.Instance().getServiceLocationById(item.service_location_id);
+                    if (service != null) {
+
+                        holder.localname.setText(service.name);
+                    }
+                    LineItemsInfo lineInfo = LineItemsList.Instance().getFirstLineByWoId(item.id);
+                    if (lineInfo != null) {
+                        holder.date.setText(lineInfo.name);
+                    }
+                    String newDate = null;
+                    try {
+                        Date dateNO = datformat.parse(item.duration + "");
+                        newDate = datformatN.format(dateNO);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    holder.duration1.setText(newDate);
+                    holder.duration.setText(item.started_at_time + ";");
+                    if (item.status.equals("Missed Appointment")) {
+                        holder.marker_app.setBackgroundResource(R.color.marck_app_miss);
+                    }
+                    else if(item.status.equals("Complete")) {
+                        holder.marker_app.setBackgroundResource(R.color.marck_app_comp);
+                    }
+                    else if(item.status.equals("Scheduled")) {
+                        holder.marker_app.setBackgroundResource(R.color.marck_app_sched);
+                    }
+                    holder.appointments_item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(getActivity(),
+                                    AppointmentDetailsActivity.class);
+                            i.putExtra(Const.Appointment_Id, item.id);
+                            Const.app_id = item.id;
+                            startActivityForResult(i, APPOINTMENT_DETAIL);
+                        }
+                    });
+
+
                 }
-            });
+                if (item.type_item == "no_app") {
+                    holder.appointments_item.setVisibility(View.GONE);
+                    holder.relative_layut_2.setVisibility(View.GONE);
+                    holder.no_appointments_d.setVisibility(View.VISIBLE);
+
+                }
+            }
+            if (item.typeView.equals("customers")) {
+                holder.appointmens_line.setVisibility(View.GONE);
+                holder.customer_line.setVisibility(View.VISIBLE);
+
+                if (item.type_item.equals("layout")) {
+                    holder.customer_item.setVisibility(View.GONE);
+                    holder.relativeLayout1.setVisibility(View.VISIBLE);
+                    holder.customers.setPaintFlags(holder.customers.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    holder.customers.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((DashboardActivity) getActivity()).getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container, new CustomerListFragment())
+                                    .commit();
+                        }
+                    });
+                }
+                if (item.type_item.equals("item")) {
+                    holder.customer_item.setVisibility(View.VISIBLE);
+                    holder.relativeLayout1.setVisibility(View.GONE);
+                    holder.firsname.setText("");
+                    holder.lastname.setText(item.name);
+                    holder.customer_item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent i = new Intent(getActivity(),
+                                    CustomerDetailsActivity.class);
+                            i.putExtra("customer_id", item.id_customer);
+                            startActivity(i);
+                        }
+                    });
+                }
+
+            }
 
             return rowView;
         }
     }
 
     public static class ViewHolder {
-        TextView txtAppointment;
-        TextView txtServiceLocationName, txtStartEndTime, txtLineItemName;
-        TextView txtStatus;
-        CheckBox chkConfirmed;
-        RelativeLayout rl;
+        TextView firsname;
+        TextView lastname;
+        RelativeLayout relativeLayout1;
+        RelativeLayout marker_app;
+        RelativeLayout no_appointments_d;
+        LinearLayout customer_item;
+        TextView customers;
+        TextView localname;
+        TextView name;
+        TextView duration;
+        TextView duration1;
+        TextView date;
+        RelativeLayout relative_layut_2;
+        RelativeLayout appointments_item;
+        TextView appointments;
+        LinearLayout appointmens_line;
+        LinearLayout customer_line;
     }
 
     @Override
@@ -294,6 +315,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         mBaseLoader.hideProgress();
         Utils.LogInfo("finish refresh...................");
         bindData();
+
         // loadAppointmentCustomer(list);
     }
 
@@ -306,11 +328,11 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     private void bindData() {
         m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate, false);
         if (m_appointments.size() > 0) {
-            m_adapter = new AppointmentAdapter(m_appointments);
-            lstAppointment.setAdapter(m_adapter);
+            ///
         } else {
 //            lstAppointment.setVisibility(View.INVISIBLE);
         }
+        loadCustomer();
     }
 
     // public static BluetoothAdapter bluetoothAdapter;
@@ -351,5 +373,109 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             startActivity(enableBtIntent);
         }
         return bluetoothAdapter;
+    }
+
+    public void loadCustomer() {
+        ////CustomerList.Instance().ClearDB();
+      //  try {
+            CustomerList.Instance().loadLocal(new ModelDelegate<CustomerInfo>(){
+
+                @Override
+                public void ModelLoaded(ArrayList<CustomerInfo> list) {
+                    mBaseLoader.hideProgress();
+                    if (list != null) {
+                        m_list = list;
+                        generateHashList();
+                        // adapter = new SectionListAdapter();
+                        //  adapter.delegate = CustomerListFragment.this;
+                        //  lstCustomer.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(getActivity(),
+                                "No customer downloaded yet", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void ModelLoadFailedWithError(String error) {
+                    mBaseLoader.hideProgress();
+                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+       /* } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    private void generateHashList() {
+        ArrayList<HomeInfo> m_list_home = new ArrayList<HomeInfo>();
+        int i = 0;
+        /*ArrayList<CustomerInfo> otherCharList = new ArrayList<CustomerInfo>();
+        for (CustomerInfo c : m_list) {
+            if (i < 4) {
+                String name = "";
+                if (c.customer_type.equalsIgnoreCase("Commercial")) {
+                    name = c.name;
+                } else {
+                    name = c.last_name;
+                }
+                m_list_four.add(c);
+            }
+            i++;
+        }*/
+        HomeInfo layout_app = new HomeInfo();
+        layout_app.typeView = "appointmets";
+        layout_app.type_item = "layout";
+        m_list_home.add(layout_app);
+
+        if (m_appointments.size() > 0) {
+            for (AppointmentInfo item : m_appointments) {
+                HomeInfo item_app = new HomeInfo();
+                item_app.typeView = "appointmets";
+                item_app.type_item = "item";
+                item_app.customer_id = item.customer_id;
+                item_app.id = item.id;
+                item_app.service_location_id = item.service_location_id;
+                item_app.duration = item.duration;
+                item_app.started_at_time = item.started_at_time;
+                item_app.status = item.status;
+                m_list_home.add(item_app);
+            }
+        }
+        else {
+            HomeInfo layout_app_no = new HomeInfo();
+            layout_app_no.typeView = "appointmets";
+            layout_app_no.type_item = "no_app";
+            m_list_home.add(layout_app_no);
+        }
+
+        HomeInfo layout_cus = new HomeInfo();
+        layout_cus.typeView = "customers";
+        layout_cus.type_item = "layout";
+        m_list_home.add(layout_cus);
+
+        for (CustomerInfo c : m_list) {
+            if (i < 4) {
+                HomeInfo item_cus = new HomeInfo();
+                String name = "";
+                if (c.customer_type.equalsIgnoreCase("Commercial")) {
+                    name = c.name;
+                } else {
+                    name = c.name_prefix + " "
+                            + c.first_name + " "
+                            + c.last_name;
+                }
+                item_cus.id_customer = c.id;
+                item_cus.typeView = "customers";
+                item_cus.type_item = "item";
+                item_cus.name = name;
+                m_list_home.add(item_cus);
+            }
+            i++;
+        }
+
+        m_adapter = new AppointmentAdapter(m_list_home);
+        lstAppointment.setAdapter(m_adapter);
+        m_adapter.notifyDataSetChanged();
+
     }
 }
