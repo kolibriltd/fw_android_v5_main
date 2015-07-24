@@ -59,8 +59,8 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     private ImageView btnNext, btnPrev;
     private ListView lstAppointment;
     // MyAppointmentAdapter m_adapter;
-    private TextView txtStartedAtDate, txtAppointmentPrice,
-            txtAppointmentCount, divider1;
+    private TextView txtStartedAtDate, divider1;
+    private RelativeLayout RlInfo;
     int pos = 0;
     AppointmentAdapter m_adapter = null;
     ArrayList<AppointmentInfo> m_appointments = null;
@@ -79,9 +79,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         btnPrev = (ImageView) v.findViewById(R.id.btnPrev);
         lstAppointment = (ListView) v.findViewById(R.id.lstAppointment);
         txtStartedAtDate = (TextView) v.findViewById(R.id.txtDate);
-        txtAppointmentCount = (TextView) v.findViewById(R.id.txtAppointmentCount);
-        txtAppointmentPrice = (TextView) v.findViewById(R.id.txtAppointmentPrice);
-        divider1 = (TextView) v.findViewById(R.id.divider1);
+        RlInfo = (RelativeLayout) v.findViewById(R.id.RlInfo);
 
         btnNext.setOnClickListener(this);
         btnPrev.setOnClickListener(this);
@@ -171,60 +169,23 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
             if (rowView == null) {
                 LayoutInflater li = getActivity().getLayoutInflater();
                 rowView = li.inflate(R.layout.appointment_item, null);
+                holder.name = (TextView) rowView.findViewById(R.id.textView22);
+                holder.localname = (TextView) rowView.findViewById(R.id.textView23);
+                holder.date = (TextView) rowView.findViewById(R.id.textView24);
+                holder.duration = (TextView) rowView.findViewById(R.id.textView29);
+                holder.duration1 = (TextView) rowView.findViewById(R.id.textView69);
+                holder.appointments_item_clik = (RelativeLayout) rowView.findViewById(R.id.appointments_item_clik);
+                holder.marker_app = (RelativeLayout) rowView.findViewById(R.id.marker_app);
                 rowView.setTag(holder);
-                holder.txtAppointment = (TextView) rowView
-                        .findViewById(R.id.txtAppontmentTitle);
-                holder.txtServiceLocationName = (TextView) rowView
-                        .findViewById(R.id.txtAppontmentType);
-                holder.txtStatus = (TextView) rowView
-                        .findViewById(R.id.txtStatus);
-
-                holder.txtStartEndTime = (TextView) rowView
-                        .findViewById(R.id.txtStartEndTime);
-                holder.txtLineItemName = (TextView) rowView
-                        .findViewById(R.id.txtLineItemName);
-                holder.chkConfirmed = (CheckBox) rowView
-                        .findViewById(R.id.chkConfirmed);
-
-                holder.rl = (RelativeLayout) rowView
-                        .findViewById(R.id.rlappointment);
             } else {
                 holder = (ViewHolder) rowView.getTag();
             }
 
-            final AppointmentInfo appointment = m_list.get(position);
+            final AppointmentInfo item = m_list.get(position);
+            SimpleDateFormat datformat = new SimpleDateFormat("ss");
+            SimpleDateFormat datformatN = new SimpleDateFormat("mm:ss");
             CustomerInfo customerinfo = CustomerList.Instance()
-                    .getCustomerById(appointment.customer_id);
-            LineItemsInfo lineInfo = LineItemsList.Instance()
-                    .getFirstLineByWoId(appointment.id);
-            String[] temp = appointment.starts_at.split("T");
-            String[] temp2 = temp[1].split("-");
-            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
-            Date date = null;
-            Date endDate = null;
-            String time = "";
-            String[] temp1 = appointment.ends_at.split("T");
-            String[] temp12 = temp1[1].split("-");
-
-            String endtime = "";
-            try {
-                date = sdf.parse(temp2[0]);
-                endDate = sdf.parse(temp12[0]);
-                SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a");
-                time = sdf1.format(date);
-                endtime = sdf1.format(endDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            ServiceLocationsInfo service = ServiceLocationsList.Instance()
-                    .getServiceLocationById(appointment.service_location_id);
-            if (service != null) {
-
-                holder.txtServiceLocationName.setText(service.name);
-            }
-            if (appointment.confirmed) {
-                holder.chkConfirmed.setVisibility(View.VISIBLE);
-            }
+                    .getCustomerById(item.customer_id);
             String name = "";
             if (customerinfo != null) {
                 if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
@@ -234,77 +195,41 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
                             + customerinfo.first_name + " "
                             + customerinfo.last_name;
                 }
-                // holder.txtAppointmentType.setText(time + " "
-                // + customerinfo.customer_type);
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Please refresh your data.", Toast.LENGTH_LONG).show();
+                holder.name.setText(name);
             }
+            ServiceLocationsInfo service = ServiceLocationsList.Instance().getServiceLocationById(item.service_location_id);
+            if (service != null) {
+
+                holder.localname.setText(service.name);
+            }
+            LineItemsInfo lineInfo = LineItemsList.Instance().getFirstLineByWoId(item.id);
             if (lineInfo != null) {
-                // holder.txtAppointmentType.setText(time + " " +
-                // lineInfo.name);
-                holder.txtLineItemName.setText(lineInfo.name);
+                holder.date.setText(lineInfo.name);
             }
-            holder.txtStartEndTime.setText(time + "  " + endtime);
-            if (name.contains("null")) {
-                name = name.replace("null", "");
+            String newDate = null;
+            try {
+                Date dateNO = datformat.parse(item.duration + "");
+                newDate = datformatN.format(dateNO);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-            holder.txtAppointment.setText(name);
-            // holder.txtStatus.setText(appointment.status);
-            if (appointment.status.equalsIgnoreCase("complete")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_background);
-                holder.txtStatus.setText("C");
-            } else if (appointment.status.equalsIgnoreCase("missed")
-                    || appointment.status
-                    .equalsIgnoreCase("Missed Appointment")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_missed);
-                // holder.txtStatus.setText("Missed");
-                holder.txtStatus.setText("M");
-            } else if (appointment.status.equalsIgnoreCase("scheduled")) {
-                holder.txtStatus
-                        .setBackgroundResource(R.drawable.status_yellow);
-                holder.txtStatus.setText("S");
+            holder.duration1.setText(newDate);
+            holder.duration.setText(item.started_at_time + ";");
+            if (item.status.equals("Missed Appointment")) {
+                holder.marker_app.setBackgroundResource(R.color.marck_app_miss);
+            } else if (item.status.equals("Complete")) {
+                holder.marker_app.setBackgroundResource(R.color.marck_app_comp);
+            } else if (item.status.equals("Scheduled")) {
+                holder.marker_app.setBackgroundResource(R.color.marck_app_sched);
             }
-            holder.rl.setOnClickListener(new OnClickListener() {
+            holder.appointments_item_clik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (NetworkConnectivity.isConnected()) {
-                        mBaseLoader.showProgress();
-                        appointment.RetriveData(new UpdateInfoDelegate() {
-                            @Override
-                            public void UpdateSuccessFully(ServiceResponse res) {
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                mBaseLoader.hideProgress();
-                                Intent i = new Intent(getActivity(),
-                                        AppointmentDetailsActivity.class);
-                                i.putExtra(Const.Appointment_Id, appointment.id);
-                                Const.app_id = appointment.id;
-                                startActivityForResult(i, APPOINTMENT_DETAIL);
-                            }
-
-                            @Override
-                            public void UpdateFail(String ErrorMessage) {
-                                mBaseLoader.hideProgress();
-                                Intent i = new Intent(getActivity(),
-                                        AppointmentDetailsActivity.class);
-                                i.putExtra(Const.Appointment_Id, appointment.id);
-                                Const.app_id = appointment.id;
-                                startActivityForResult(i, APPOINTMENT_DETAIL);
-                            }
-                        });
-                    } else {
-                        Intent i = new Intent(getActivity(),
-                                AppointmentDetailsActivity.class);
-                        i.putExtra(Const.Appointment_Id, appointment.id);
-                        Const.app_id = appointment.id;
-                        startActivityForResult(i, APPOINTMENT_DETAIL);
-                    }
+                    Intent i = new Intent(getActivity(),
+                            AppointmentDetailsActivity.class);
+                    i.putExtra(Const.Appointment_Id, item.id);
+                    Const.app_id = item.id;
+                    startActivityForResult(i, APPOINTMENT_DETAIL);
                 }
             });
             return rowView;
@@ -312,11 +237,13 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     }
 
     public static class ViewHolder {
-        TextView txtAppointment;
-        TextView txtServiceLocationName, txtStartEndTime, txtLineItemName;
-        TextView txtStatus;
-        CheckBox chkConfirmed;
-        RelativeLayout rl;
+        TextView name;
+        TextView localname;
+        TextView date;
+        TextView duration;
+        TextView duration1;
+        RelativeLayout appointments_item_clik;
+        RelativeLayout marker_app;
     }
 
     @Override
@@ -405,18 +332,12 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         m_appointments = AppointmentModelList.Instance().getAppointmentBydate(m_currentDate);
         if (m_appointments.size() > 0) {
             lstAppointment.setVisibility(View.VISIBLE);
-            txtAppointmentCount.setTextSize(28);
-            txtAppointmentCount.setText("" + m_appointments.size() + "");
-            setPrice(m_appointments);
             m_adapter = new AppointmentAdapter(m_appointments);
             lstAppointment.setAdapter(m_adapter);
-            divider1.setVisibility(View.VISIBLE);
+            RlInfo.setVisibility(View.GONE);
         } else {
-            txtAppointmentCount.setTextSize(16);
-            txtAppointmentCount.setText("No appointments scheduled");
-            txtAppointmentPrice.setText("");
-            lstAppointment.setVisibility(View.INVISIBLE);
-            divider1.setVisibility(View.GONE);
+            RlInfo.setVisibility(View.VISIBLE);
+            lstAppointment.setVisibility(View.GONE);
         }
         // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d");
@@ -449,14 +370,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         return dt;
     }
 
-    public void setPrice(ArrayList<AppointmentInfo> m_list) {
-        double total = 0;
-        for (AppointmentInfo info : m_list) {
-            total += LineItemsList.Instance().getLineItemsPriceByAppt(info.id);
-            // total = total + Double.parseDouble(info.price);
-        }
-        txtAppointmentPrice.setText("$" + String.format("%.02f", total));
-    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

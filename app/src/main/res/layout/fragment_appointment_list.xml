@@ -5,50 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!--  -->
-    <!-- <RelativeLayout -->
-    <!-- android:id="@+id/RlHeader" -->
-
-
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentTop="true" -->
-    <!-- android:background="@drawable/top_bar" > -->
-
-
-    <!-- <Button -->
-    <!-- android:id="@+id/btnBack" -->
-    <!-- style="@style/button_refresh" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_centerVertical="true" -->
-    <!-- android:layout_marginLeft="10dip" -->
-    <!-- android:layout_marginTop="5dip" -->
-    <!-- android:text="Back" /> -->
-
-
-    <!-- <TextView -->
-    <!-- android:id="@+id/txtSchedule" -->
-    <!-- style="@style/topbar_text" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_centerInParent="true" -->
-    <!-- android:text="Schedule" /> -->
-
-
-    <!-- <Button -->
-    <!-- android:id="@+id/btnRefresh" -->
-    <!-- style="@style/button_refresh" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentRight="true" -->
-    <!-- android:layout_centerVertical="true" -->
-    <!-- android:layout_marginRight="10dip" -->
-    <!-- android:layout_marginTop="5dip" -->
-    <!-- android:text="Refresh" /> -->
-    <!-- </RelativeLayout> -->
-
     <RelativeLayout
         android:id="@+id/RlSubHeader"
         android:layout_width="fill_parent"
@@ -87,36 +43,26 @@
     <RelativeLayout
         android:id="@+id/RlInfo"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:layout_marginTop="5dip" >
+        android:layout_marginTop="5dip"
+        android:visibility="gone">
 
-        <TextView
-            android:id="@+id/txtAppointmentCount"
-            style="@style/app_list_large_text"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="" />
-
+            android:id="@+id/no_appointments_img" android:layout_gravity="center_horizontal"
+            android:src="@drawable/ill_no_appointment" android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
         <TextView
-            android:id="@+id/txtAppointmentPrice"
-            style="@style/app_list_large_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="" />
+            android:text="No Appointments"
+            android:id="@+id/no_appointments_text" android:layout_below="@+id/no_appointments_img"
+            android:layout_centerHorizontal="true" android:textColor="#e8dfdf" android:layout_marginTop="10dp"
+            android:textSize="18dp"/>
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/divider1"
-        style="@style/divider_unique"
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="0dip"
-        android:layout_marginRight="0dip" />
 
     <ListView
         android:id="@+id/lstAppointment"
