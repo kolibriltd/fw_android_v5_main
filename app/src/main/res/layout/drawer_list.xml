@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/item_drawer_list_image"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="58dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:background="@null" />
@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/item_drawer_list_text"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="58dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="60dp"
         android:gravity="center_vertical"

@@ -3,9 +3,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:MyApp="http://schemas.android.com/apk/res-auto" >
 
-    <item
-        android:id="@+id/btnLogout"
-        android:icon="@drawable/ico_logout"
-        MyApp:showAsAction="ifRoom|withText|collapseActionView"
-        android:title="Log Out" />
 </menu>

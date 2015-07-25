@@ -248,5 +248,6 @@
     <string name="title_fragment_customer_list">Customers</string>
     <string name="title_fragment_appointment_list">Calendar</string>
     <string name="title_fragment_setting">Settings</string>
+    <string name="title_fragment_customer_details">Customer Details</string>
 
 </resources>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:MyApp="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/btnEdit"
-        android:icon="@drawable/edit" android:title=""
-        android:showAsAction="ifRoom|withText|collapseActionView"/>
+        android:icon="@drawable/edit"
+        MyApp:showAsAction="ifRoom|withText|collapseActionView"
+        android:title="Edit"/>
     <!-- <item -->
     <!-- android:id="@+id/menu_item_action_provider_overflow" -->
     <!-- android:actionProviderClass="com.actionbarsherlock.sample.demos.ActionProviders$SettingsActionProvider" -->

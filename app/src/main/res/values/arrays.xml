@@ -5,17 +5,20 @@
         <item>ic_calendar</item>
         <item>ic_customers</item>
         <item>ic_settings</item>
+        <item>ic_settings</item>
     </array>
     <array name="drawer_titles">
         <item>Home</item>
         <item>Calendar</item>
         <item>Customers</item>
         <item>Settings</item>
+        <item>Log Out</item>
     </array>
     <array name="drawer_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </array>
 </resources>

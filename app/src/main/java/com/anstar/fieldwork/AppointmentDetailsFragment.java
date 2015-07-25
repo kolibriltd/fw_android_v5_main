@@ -785,7 +785,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		} else if (v == rlName) {
 			if (!user.hide_customer_details) {
 				Intent i = new Intent(getActivity(),
-						CustomerDetailsActivity.class);
+						CustomerDetailsFragment.class);
 				i.putExtra("customer_id", appointmentInfo.customer_id);
 				startActivity(i);
 			}

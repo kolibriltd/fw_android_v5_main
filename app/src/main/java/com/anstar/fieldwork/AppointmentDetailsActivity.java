@@ -790,7 +790,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity implements
 		} else if (v == rlName) {
 			if (!user.hide_customer_details) {
 				Intent i = new Intent(AppointmentDetailsActivity.this,
-						CustomerDetailsActivity.class);
+						CustomerDetailsFragment.class);
 				i.putExtra("customer_id", appointmentInfo.customer_id);
 				startActivity(i);
 			}

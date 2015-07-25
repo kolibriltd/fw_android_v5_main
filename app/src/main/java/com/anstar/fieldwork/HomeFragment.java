@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                         public void onClick(View v) {
 
                             Intent i = new Intent(getActivity(),
-                                    CustomerDetailsActivity.class);
+                                    CustomerDetailsFragment.class);
                             i.putExtra("customer_id", item.id_customer);
                             startActivity(i);
                         }

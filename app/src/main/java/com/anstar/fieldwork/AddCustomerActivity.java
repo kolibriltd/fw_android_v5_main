@@ -742,7 +742,7 @@ public class AddCustomerActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onDialogConmfirm(String tag) {
+	public void onDialogConfirm(String tag) {
 		if (tag.equals("confirm_exit")) {
 			finish();
 		}

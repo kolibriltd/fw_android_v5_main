@@ -3,7 +3,6 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,19 +20,27 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
+import com.anstar.common.BaseLoader;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
+import com.anstar.common.Utils;
+import com.anstar.dialog.ConfirmDialog;
 import com.anstar.models.Account;
+import com.anstar.models.CustomerInfo;
+import com.anstar.models.ModelDelegates;
 import com.anstar.models.UserInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements
+        CustomerListFragment.OnCustomerListSelectedListener, ConfirmDialog.OnConfirmDialogListener {
 
     final private String ITEM_ICON = "item_icon";
     final private String ITEM_TEXT = "item_text";
+
+    final private String ROOT_FRAGMENT_NAME = "drawer_top";
 
     // Navigation drawer
     private DrawerLayout mDrawerLayout;
@@ -52,11 +59,14 @@ public class DashboardActivity extends AppCompatActivity {
             syncActionBarArrowState();
         }
     };
+    private BaseLoader mBaseLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        mBaseLoader = new BaseLoader(this);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -103,6 +113,16 @@ public class DashboardActivity extends AppCompatActivity {
 
         View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
         mDrawerList.addHeaderView(header, null, false);
+/*
+        View footer = getLayoutInflater().inflate(R.layout.drawer_footer, null);
+        mDrawerList.addFooterView(footer, null, false);
+        TextView logOut = (TextView) footer.findViewById(R.id.textViewLogOut);
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+*/
 
         String[] from = {ITEM_ICON, ITEM_TEXT};
         int[] to = {R.id.item_drawer_list_image, R.id.item_drawer_list_text};
@@ -113,7 +133,7 @@ public class DashboardActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setFragment(position);
+                useItem(position);
             }
         });
 
@@ -122,7 +142,7 @@ public class DashboardActivity extends AppCompatActivity {
         getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
 
         // Select Home fragment
-        setFragment(1);
+        useItem(1);
 
         NotificationCenter.Instance().addObserver(DashboardActivity.this,
                 "hidedash", "hideprogressdialog", null);
@@ -156,36 +176,62 @@ public class DashboardActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void setFragment(int position) {
-        Fragment fragment = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        //action.setTitle(mDrawerTitles[position - 1]);
+    /**
+     * Sets fragment as main view
+     * @param position navigation drawer's ListView's cursor position. Based on 1
+     */
+    private void useItem(int position) {
 
         switch (mDrawerValues[position - 1]) {
             case 0:
                 // Home
-                fragment = new HomeFragment();
+                closeAllFragments();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new HomeFragment(), mDrawerTitles[position - 1])
+                        .commit();
+
+                //Utils.showAnimatedFragment(this, new HomeFragment(), mDrawerTitles[position - 1], false);
                 break;
             case 1:
                 // Calendar
-                fragment = new AppointmentListFragment();
+                closeAllFragments();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new AppointmentListFragment(), mDrawerTitles[position - 1])
+                        .commit();
+
+//                Utils.showAnimatedFragment(this, new AppointmentListFragment(), mDrawerTitles[position - 1], false);
                 break;
             case 2:
                 // Customers
-                fragment = new CustomerListFragment();
+                closeAllFragments();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new CustomerListFragment(), mDrawerTitles[position - 1])
+                        .commit();
 
+
+                //Utils.showAnimatedFragment(this, new CustomerListFragment(), mDrawerTitles[position - 1], false);
                 break;
             case 3:
                 // Settings
-                fragment = new SettingFragment();
+                closeAllFragments();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new SettingFragment(), mDrawerTitles[position - 1])
+                        .commit();
+
+                //Utils.showAnimatedFragment(this, new SettingFragment(), mDrawerTitles[position - 1], false);
+                break;
+            case 4:
+                // Log out
+                if (NetworkConnectivity.isConnected()) {
+                    ConfirmDialog.newInstance("Confirm exit from account?").show(getSupportFragmentManager(), "log_out_dialog");
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Signout needs internet connection", Toast.LENGTH_LONG)
+                            .show();
+                }
                 break;
         }
         mDrawerLayout.closeDrawers();
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment, mDrawerTitles[position - 1])
-                .commit();
     }
 
     @Override
@@ -203,24 +249,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.btnLogout:
-                if (NetworkConnectivity.isConnected()) {
-                    Account account = Account.getUser();
-                    account.isLogin = false;
-                    try {
-                        account.save();
-                    } catch (ActiveRecordException e) {
-                        e.printStackTrace();
-                    }
-                    UserInfo.Instance().ClearDB();
-                    Intent i = new Intent(DashboardActivity.this,
-                            LoginActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Signout needs internet connection", Toast.LENGTH_LONG)
-                            .show();
-                }
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -250,5 +278,76 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             return super.onSupportNavigateUp();
         }
+    }
+
+    @Override
+    public void onCustomerItemSelected(CustomerInfo item) {
+        if (item.isAllreadyLoded) {
+            showCustomerDetailsFragment(item.id);
+        } else {
+            if (NetworkConnectivity.isConnected()) {
+                mBaseLoader.showProgress();
+                item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
+
+                    @Override
+                    public void UpdateSuccessFully(CustomerInfo info) {
+                        mBaseLoader.hideProgress();
+                        showCustomerDetailsFragment(info.id);
+                    }
+
+                    @Override
+                    public void UpdateFail(String ErrorMessage) {
+                        mBaseLoader.hideProgress();
+
+                    }
+                });
+            } else {
+                Toast.makeText(this,
+                        "Please check your internet connection.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void closeAllFragments() {
+        FragmentManager fm = getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+    }
+
+    private void showCustomerDetailsFragment(int id) {
+        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("customer_id", id);
+        fragment.setArguments(bundle);
+        Utils.showAnimatedFragment(this, fragment, "customer_detail", true);
+    }
+
+    private void logOut() {
+            Account account = Account.getUser();
+            account.isLogin = false;
+            try {
+                account.save();
+            } catch (ActiveRecordException e) {
+                e.printStackTrace();
+            }
+            UserInfo.Instance().ClearDB();
+            Intent i = new Intent(DashboardActivity.this,
+                    LoginActivity.class);
+            startActivity(i);
+            finish();
+    }
+
+    @Override
+    public void onDialogConfirm(String tag) {
+        if (tag.equals("log_out_dialog")) {
+            logOut();
+        }
+    }
+
+    @Override
+    public void onDialogCancel(String tag) {
+
     }
 }

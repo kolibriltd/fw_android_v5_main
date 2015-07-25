@@ -65,6 +65,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme" >
 
         <activity
@@ -165,11 +166,6 @@
         <activity
             android:name=".NewTrapDetailsActivity"
             android:label="Device Inspection"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".CustomerDetailsActivity"
-            android:label="Customer Details"
             android:screenOrientation="portrait" >
         </activity>
         <activity

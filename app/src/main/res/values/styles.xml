@@ -19,6 +19,12 @@
                colorControlHighlight & colorSwitchThumbNormal. -->
         <item name="drawerArrowStyle">@style/PatinaDrawerArrowToggle</item>
         <item name="actionBarTheme">@style/ActionBarTheme</item>
+        <item name="stickyListHeadersListViewStyle">@style/WidgetStickyListView</item>
+    </style>
+
+    <style name="WidgetStickyListView" parent="@android:style/Widget.ListView">
+        <!-- item name="android:paddingLeft">@dimen/vertical_padding</item>
+        <item name="android:paddingRight">@dimen/vertical_padding</item -->
     </style>
 
     <style name="ThemeToolbarAccent" parent="Theme.AppCompat.Light.NoActionBar">

@@ -19,7 +19,7 @@ public class ConfirmDialog extends DialogFragment {
     }
     
 	public interface OnConfirmDialogListener {
-		public void onDialogConmfirm(String tag);
+		public void onDialogConfirm(String tag);
 		public void onDialogCancel(String tag);
 	}
    
@@ -61,12 +61,12 @@ public class ConfirmDialog extends DialogFragment {
 								if (fragment != null
 										&& fragment instanceof OnConfirmDialogListener) {
 									((OnConfirmDialogListener) fragment)
-											.onDialogConmfirm(getTag());
+											.onDialogConfirm(getTag());
 								}
 								Activity activity = getActivity();
 								if (activity instanceof OnConfirmDialogListener) {
 									((OnConfirmDialogListener) activity)
-											.onDialogConmfirm(getTag());
+											.onDialogConfirm(getTag());
 								}
 							}
 						}).create();
