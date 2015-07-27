@@ -249,5 +249,9 @@
     <string name="title_fragment_appointment_list">Calendar</string>
     <string name="title_fragment_setting">Settings</string>
     <string name="title_fragment_customer_details">Customer Details</string>
+    <string name="title_fragment_customer_contact_list">Contacts list</string>
+    <string name="title_fragment_service_location_list">Service Location</string>
+    <string name="title_fragment_service_location_detail">Service Location Details</string>
+    <string name="title_fragment_contact_detail">Contact Detail</string>
 
 </resources>

@@ -219,11 +219,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".CustomerContactListActivity"
-            android:label="Service Location"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".ServiceLocationDetailActivity"
             android:label="Service Location Details"
             android:screenOrientation="portrait" >

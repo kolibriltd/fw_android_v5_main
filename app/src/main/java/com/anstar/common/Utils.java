@@ -17,9 +17,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +24,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
 
-import com.anstar.fieldwork.R;
 import com.anstar.model.helper.ServiceCaller;
 import com.anstar.model.helper.ServiceCaller.RequestMethod;
 import com.anstar.model.helper.ServiceHelper;
@@ -69,16 +65,6 @@ public class Utils {
 	private static volatile Utils _instance = null;
 
 
-	public static void showAnimatedFragment(AppCompatActivity activity, Fragment fragment, String tag, boolean add) {
-		FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-		transaction.setCustomAnimations(R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit,
-				R.anim.fragment_animation_enter, R.anim.fragment_animation_exit);
-		transaction.replace(R.id.container, fragment, tag);
-		if (add) {
-			transaction.addToBackStack(null);
-		}
-		transaction.commit();
-	}
 	/**
 	 * Get the Instance of the Utils Class
 	 * 

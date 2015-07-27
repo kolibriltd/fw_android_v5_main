@@ -63,7 +63,7 @@ public class CustomerDetailsFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        customer_id = getArguments().getInt("customer_id1");
+        customer_id = getArguments().getInt("customer_id");
         mCustomerInfo = CustomerList.Instance().getCustomerById(customer_id);
 
         setHasOptionsMenu(true);
@@ -78,15 +78,17 @@ public class CustomerDetailsFragment extends Fragment implements
 	@Override
 	public void onClick(View v) {
 		if (v == rlContacts) {
-			Intent i = new Intent(getActivity(),
-					CustomerContactListActivity.class);
-			i.putExtra("CID", customer_id);
-			startActivity(i);
+			CustomerContactListFragment fragment = new CustomerContactListFragment();
+			Bundle bundle = new Bundle();
+			bundle.putInt("CID", customer_id);
+			fragment.setArguments(bundle);
+			((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
 		} else if (v == rlServiceLocations) {
-			Intent i = new Intent(getActivity(),
-					ServiceLocationListActivity.class);
-			i.putExtra("CID", customer_id);
-			startActivity(i);
+			ServiceLocationListFragment fragment = new ServiceLocationListFragment();
+			Bundle bundle = new Bundle();
+			bundle.putInt("CID", customer_id);
+			fragment.setArguments(bundle);
+			((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
 		}
 	}
 
@@ -280,9 +282,7 @@ public class CustomerDetailsFragment extends Fragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.edit_menu, menu);
+        inflater.inflate(R.menu.fragment_customer_details, menu);
     }
 
 	@Override

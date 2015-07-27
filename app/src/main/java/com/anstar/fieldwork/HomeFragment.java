@@ -157,11 +157,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.appointments.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((DashboardActivity) getActivity()).getSupportActionBar().setTitle("Calendar");
-                            getActivity().getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.container, new AppointmentListFragment())
-                                    .commit();
+                            ((DashboardActivity) getActivity()).replaceAnimatedFragment(new AppointmentListFragment());
                         }
                     });
 
@@ -239,10 +235,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.customers.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((DashboardActivity) getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.container, new CustomerListFragment())
-                                    .commit();
+                            ((DashboardActivity) getActivity()).replaceAnimatedFragment(new CustomerListFragment());
                         }
                     });
                 }
@@ -255,10 +248,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                         @Override
                         public void onClick(View v) {
 
-                            Intent i = new Intent(getActivity(),
-                                    CustomerDetailsFragment.class);
-                            i.putExtra("customer_id", item.id_customer);
-                            startActivity(i);
+                            showCustomerDetailsFragment(item.id_customer);
                         }
                     });
                 }
@@ -267,6 +257,14 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
             return rowView;
         }
+    }
+
+    private void showCustomerDetailsFragment(int id) {
+        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("customer_id", id);
+        fragment.setArguments(bundle);
+        ((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
     }
 
     public static class ViewHolder {

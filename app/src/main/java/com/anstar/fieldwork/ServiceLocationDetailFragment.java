@@ -2,14 +2,13 @@ package com.anstar.fieldwork;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -24,7 +23,7 @@ import com.anstar.models.list.ServiceLocationsList;
 
 import java.util.ArrayList;
 
-public class ServiceLocationDetailActivity extends AppCompatActivity implements
+public class ServiceLocationDetailFragment extends Fragment implements
 		OnClickListener {
 
 	int service_loc_id, cid;
@@ -36,41 +35,20 @@ public class ServiceLocationDetailActivity extends AppCompatActivity implements
 	private ServiceLocationsInfo servicelocation_info = null;
 	//ActionBar action = null;
 
+	@Nullable
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_service_location_detail);
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		Bundle b = getIntent().getExtras();
-		if (b != null) {
-			service_loc_id = b.getInt("SLID");
-			cid = b.getInt("cid");
-		}
-/*
-		action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Service Location Details</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_service_location_detail, container, false);
 
-		ActionBar action = getSupportActionBar();
-		action.setDisplayHomeAsUpEnabled(true);
-		action.setDisplayShowHomeEnabled(true);
+		txtBAddress = (TextView) v.findViewById(R.id.txtBAddress);
+		txtBAddress2 = (TextView) v.findViewById(R.id.txtBAddress2);
+		txtName = (TextView) v.findViewById(R.id.txtCustomerName);
+		txt01 = (TextView) v.findViewById(R.id.txt02);
 
-		txtBAddress = (TextView) findViewById(R.id.txtBAddress);
-		txtBAddress2 = (TextView) findViewById(R.id.txtBAddress2);
-		txtName = (TextView) findViewById(R.id.txtCustomerName);
-		txt01 = (TextView) findViewById(R.id.txt02);
-		
-		rlContacts = (RelativeLayout) findViewById(R.id.rlContacts);
-		rlWorkHistory = (RelativeLayout) findViewById(R.id.rlServiceLocation);
+		rlContacts = (RelativeLayout) v.findViewById(R.id.rlContacts);
+		rlWorkHistory = (RelativeLayout) v.findViewById(R.id.rlServiceLocation);
 
-		lstContact = (ListView) findViewById(R.id.lstBillingContact);
+		lstContact = (ListView) v.findViewById(R.id.lstBillingContact);
 		lstContact.setDivider(null);
 
 		servicelocation_info = ServiceLocationsList.Instance()
@@ -80,17 +58,36 @@ public class ServiceLocationDetailActivity extends AppCompatActivity implements
 		rlContacts.setOnClickListener(this);
 		rlWorkHistory.setOnClickListener(this);
 		txt01.setText("Work History");
+
+		return v;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle b = getArguments();
+		if (b != null) {
+			service_loc_id = b.getInt("SLID");
+			cid = b.getInt("cid");
+		}
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Override
+	public void onResume() {
+		super.onResume();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_service_location_detail);
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (v == rlContacts) {
-			Intent i = new Intent(ServiceLocationDetailActivity.this,
+			Intent i = new Intent(getActivity(),
 					ServiceLocationContactsActivity.class);
 			i.putExtra("SILD", service_loc_id);
 			startActivity(i);
 		}else if (v == rlWorkHistory) {
-			Intent i = new Intent(ServiceLocationDetailActivity.this,
+			Intent i = new Intent(getActivity(),
 					WorkHistoryListActivity.class);
 			i.putExtra("sid", service_loc_id);
 			i.putExtra("cid", cid);
@@ -218,21 +215,25 @@ public class ServiceLocationDetailActivity extends AppCompatActivity implements
 		ArrayList<PhoneEmailInfo> m_list = new ArrayList<PhoneEmailInfo>();
 
 		public MyContactAdapter(ArrayList<PhoneEmailInfo> temp) {
+
 			m_list = temp;
 		}
 
 		@Override
 		public int getCount() {
+
 			return m_list.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
+
 			return m_list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
+
 			return m_list.get(position).hashCode();
 		}
 
@@ -243,7 +244,7 @@ public class ServiceLocationDetailActivity extends AppCompatActivity implements
 			holder = new ViewHolder();
 			final PhoneEmailInfo info = m_list.get(position);
 			if (rowView == null) {
-				LayoutInflater li = getLayoutInflater();
+				LayoutInflater li = getActivity().getLayoutInflater();
 				rowView = li.inflate(R.layout.phone_email_item, null);
 				rowView.setTag(holder);
 				holder.txtKind = (TextView) rowView.findViewById(R.id.txtKind);
@@ -257,18 +258,16 @@ public class ServiceLocationDetailActivity extends AppCompatActivity implements
 
 			holder.txtKind.setText(info.Kind);
 			holder.txtValue.setText(info.Value);
-			holder.rl.setOnClickListener(new View.OnClickListener() {
+			holder.rl.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 
 					if (info.Type.equalsIgnoreCase(ContactType.Phone.toString())) {
-						Utils.callPhone(info.Value,
-								ServiceLocationDetailActivity.this);
+						Utils.callPhone(info.Value, getActivity());
 					}
 					if (info.Type.equalsIgnoreCase(ContactType.Email.toString())) {
-						Utils.sendEmail(info.Value,
-								ServiceLocationDetailActivity.this);
+						Utils.sendEmail(info.Value, getActivity());
 					}
 				}
 			});

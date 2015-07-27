@@ -3,7 +3,9 @@ package com.anstar.fieldwork;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,11 +25,11 @@ import com.anstar.activerecords.ActiveRecordException;
 import com.anstar.common.BaseLoader;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
-import com.anstar.common.Utils;
 import com.anstar.dialog.ConfirmDialog;
 import com.anstar.models.Account;
+import com.anstar.models.CustomerContactInfo;
 import com.anstar.models.CustomerInfo;
-import com.anstar.models.ModelDelegates;
+import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.UserInfo;
 
 import java.util.ArrayList;
@@ -35,7 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity implements
-        CustomerListFragment.OnCustomerListSelectedListener, ConfirmDialog.OnConfirmDialogListener {
+        ConfirmDialog.OnConfirmDialogListener, CustomerListFragment.OnCustomerItemSelectedListener,
+        ServiceLocationListFragment.OnServiceLocationItemSelectedListener,
+        CustomerContactListFragment.OnCustomerContactItemSelectedListener {
 
     final private String ITEM_ICON = "item_icon";
     final private String ITEM_TEXT = "item_text";
@@ -185,40 +189,19 @@ public class DashboardActivity extends AppCompatActivity implements
         switch (mDrawerValues[position - 1]) {
             case 0:
                 // Home
-                closeAllFragments();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HomeFragment(), mDrawerTitles[position - 1])
-                        .commit();
-
-                //Utils.showAnimatedFragment(this, new HomeFragment(), mDrawerTitles[position - 1], false);
+                replaceAnimatedFragment(new HomeFragment());
                 break;
             case 1:
                 // Calendar
-                closeAllFragments();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new AppointmentListFragment(), mDrawerTitles[position - 1])
-                        .commit();
-
-//                Utils.showAnimatedFragment(this, new AppointmentListFragment(), mDrawerTitles[position - 1], false);
+                replaceAnimatedFragment(new AppointmentListFragment());
                 break;
             case 2:
                 // Customers
-                closeAllFragments();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new CustomerListFragment(), mDrawerTitles[position - 1])
-                        .commit();
-
-
-                //Utils.showAnimatedFragment(this, new CustomerListFragment(), mDrawerTitles[position - 1], false);
+                replaceAnimatedFragment(new CustomerListFragment());
                 break;
             case 3:
                 // Settings
-                closeAllFragments();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new SettingFragment(), mDrawerTitles[position - 1])
-                        .commit();
-
-                //Utils.showAnimatedFragment(this, new SettingFragment(), mDrawerTitles[position - 1], false);
+                replaceAnimatedFragment(new SettingFragment());
                 break;
             case 4:
                 // Log out
@@ -280,35 +263,6 @@ public class DashboardActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onCustomerItemSelected(CustomerInfo item) {
-        if (item.isAllreadyLoded) {
-            showCustomerDetailsFragment(item.id);
-        } else {
-            if (NetworkConnectivity.isConnected()) {
-                mBaseLoader.showProgress();
-                item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
-
-                    @Override
-                    public void UpdateSuccessFully(CustomerInfo info) {
-                        mBaseLoader.hideProgress();
-                        showCustomerDetailsFragment(info.id);
-                    }
-
-                    @Override
-                    public void UpdateFail(String ErrorMessage) {
-                        mBaseLoader.hideProgress();
-
-                    }
-                });
-            } else {
-                Toast.makeText(this,
-                        "Please check your internet connection.",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     private void closeAllFragments() {
         FragmentManager fm = getSupportFragmentManager();
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
@@ -316,18 +270,10 @@ public class DashboardActivity extends AppCompatActivity implements
         }
     }
 
-    private void showCustomerDetailsFragment(int id) {
-        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("customer_id", id);
-        fragment.setArguments(bundle);
-        Utils.showAnimatedFragment(this, fragment, "customer_detail", true);
-    }
-
     private void logOut() {
             Account account = Account.getUser();
-            account.isLogin = false;
             try {
+                account.isLogin = false;
                 account.save();
             } catch (ActiveRecordException e) {
                 e.printStackTrace();
@@ -349,5 +295,51 @@ public class DashboardActivity extends AppCompatActivity implements
     @Override
     public void onDialogCancel(String tag) {
 
+    }
+
+    public void addAnimatedFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.fragment_animation_enter, R.anim.fragment_animation_exit,
+                R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit);
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void replaceAnimatedFragment(Fragment fragment) {
+        closeAllFragments();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit,
+                R.anim.fragment_animation_enter, R.anim.fragment_animation_exit);
+        transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onCustomerItemSelected(CustomerInfo item) {
+        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("customer_id", item.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onServiceLocationItemSelected(ServiceLocationsInfo item) {
+        ServiceLocationDetailFragment fragment = new ServiceLocationDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("SLID", item.id);
+        bundle.putInt("cid", item.customer_id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onOnCustomerContactItemSelected(CustomerContactInfo item) {
+        ContactDetailFragment fragment = new ContactDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("CONTACT_ID", item.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
     }
 }

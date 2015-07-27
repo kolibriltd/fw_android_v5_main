@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anstar.common.BaseLoader;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.models.CustomerInfo;
+import com.anstar.models.ModelDelegates;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.list.CustomerList;
 
@@ -38,61 +38,78 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class CustomerListFragment extends Fragment implements
         ModelDelegate<CustomerInfo> {
 
-    private CustomerListAdapter mCustomerListAdapter;
-    private StickyListHeadersListView mCustomerList;
-    private ArrayList<ViewDataItem> mFullItemsList = new ArrayList<ViewDataItem>();
-    private ArrayList<ViewDataItem> mFilteredItemsList = new ArrayList<ViewDataItem>();
-    private EditText mEdtSearch;
+    private CustomerStickyHeadersListAdapter mCustomerStickyHeadersListAdapter;
+    private ArrayList<CustomerViewDataItem> mFullItemsList = new ArrayList<>();
     private BaseLoader mBaseLoader;
-
+    boolean mFromAddAppointment = false;
+    private OnCustomerItemSelectedListener mOnCustomerItemSelectedListener;
     // Container Activity must implement this interface
-    public interface OnCustomerListSelectedListener {
-        public void onCustomerItemSelected(CustomerInfo item);
+    public interface OnCustomerItemSelectedListener {
+        void onCustomerItemSelected(CustomerInfo item);
     }
-
-    private OnCustomerListSelectedListener mOnCustomerListSelectedListener;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_customer_list, container, false);
 
-        mEdtSearch = (EditText) v.findViewById(R.id.edtSearch);
-        mEdtSearch.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-                showFilteredList(s);
-            }
-
-        });
-        mCustomerListAdapter = new CustomerListAdapter(getActivity());
-        mCustomerList = (StickyListHeadersListView) v.findViewById(R.id.lstCustomer);
-        mCustomerList.setAdapter(mCustomerListAdapter);
+        mCustomerStickyHeadersListAdapter = new CustomerStickyHeadersListAdapter(getActivity());
+        StickyListHeadersListView mCustomerList = (StickyListHeadersListView) v.findViewById(R.id.lstCustomer);
+        mCustomerList.setAdapter(mCustomerStickyHeadersListAdapter);
         mCustomerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mOnCustomerListSelectedListener.onCustomerItemSelected(mFilteredItemsList.get(position).customerInfo);
+                loadCustomer(((CustomerViewDataItem) mCustomerStickyHeadersListAdapter.getItem(position)).customerInfo);
             }
         });
 
         return v;
     }
 
+    private void loadCustomer(CustomerInfo item) {
+        if (item.isAllreadyLoded) {
+            mOnCustomerItemSelectedListener.onCustomerItemSelected(item);
+        } else {
+            if (NetworkConnectivity.isConnected()) {
+                mBaseLoader.showProgress();
+                item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
+
+                    @Override
+                    public void UpdateSuccessFully(CustomerInfo info) {
+                        mBaseLoader.hideProgress();
+                        mOnCustomerItemSelectedListener.onCustomerItemSelected(info);
+                    }
+
+                    @Override
+                    public void UpdateFail(String ErrorMessage) {
+                        mBaseLoader.hideProgress();
+                        Toast.makeText(getActivity(),
+                                "Customer update fail.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(getActivity(),
+                        "Please check your internet connection.",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle b = getArguments();
+        if (b != null) {
+            if (b.containsKey("FromAddAppointment"))
+                mFromAddAppointment = b.getBoolean("FromAddAppointment");
+        }
         mBaseLoader = new BaseLoader(getActivity());
         setHasOptionsMenu(true);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onResume() {
         super.onResume();
@@ -102,6 +119,20 @@ public class CustomerListFragment extends Fragment implements
             CustomerList.Instance().loadLocal(this);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mOnCustomerItemSelectedListener = (OnCustomerItemSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnCustomerItemSelectedListener");
         }
     }
 
@@ -123,26 +154,11 @@ public class CustomerListFragment extends Fragment implements
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mOnCustomerListSelectedListener = (OnCustomerListSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnCustomerListSelectedListener");
-        }
-    }
-
     private void loadList(ArrayList<CustomerInfo> customerList) {
 
         mFullItemsList.clear();
         for (CustomerInfo c : customerList) {
-            String name = "";
-
+            String name;
             if (c.customer_type.equalsIgnoreCase("Commercial")) {
                 name = c.name;
             } else {
@@ -150,68 +166,46 @@ public class CustomerListFragment extends Fragment implements
                         + " " + c.last_name;
             }
             if (name != null) {
-                mFullItemsList.add(new ViewDataItem(name.trim(), c));
+                mFullItemsList.add(new CustomerViewDataItem(name.trim(), c));
             }
         }
-        IgnoreCaseComparator icc = new IgnoreCaseComparator();
+        CustomerViewDataIgnoreCaseComparator icc = new CustomerViewDataIgnoreCaseComparator();
         java.util.Collections.sort(mFullItemsList, icc);
     }
 
     private void showFilteredList(CharSequence subStr) {
         String subStrUpper = subStr.toString().toUpperCase();
-        mFilteredItemsList.clear();
-        for (ViewDataItem c : mFullItemsList) {
+        ArrayList<CustomerViewDataItem> filteredItemsList = new ArrayList<>();
+        for (CustomerViewDataItem c : mFullItemsList) {
             if (c.customerName.toUpperCase().contains(subStrUpper)) {
-                mFilteredItemsList.add(c);
+                filteredItemsList.add(c);
             }
         }
-        mCustomerListAdapter.notifyDataSetChanged();
+        mCustomerStickyHeadersListAdapter.setData(filteredItemsList);
     }
 
-/*
-    public void loadCustomer(CustomerInfo customerinfo) {
-
-        if (!customerinfo.isAllreadyLoded) {
-            if (NetworkConnectivity.isConnected()) {
-                mBaseLoader.showProgress();
-                customerinfo.RetriveData(new UpdateCustomerDelegate() {
-
-                    @Override
-                    public void UpdateSuccessFully(CustomerInfo info) {
-                        mBaseLoader.hideProgress();
-                        Intent i = new Intent();
-                        i.putExtra("customer_id", info.id);
-                        getActivity().setResult(Activity.RESULT_OK, i);
-// Oleg !!!!!!!!!!!!						finish();
-                    }
-
-                    @Override
-                    public void UpdateFail(String ErrorMessage) {
-                        mBaseLoader.hideProgress();
-                        Toast.makeText(getActivity(),
-                                "Please try again.", Toast.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                Toast.makeText(getActivity(),
-                        "Please check your internet connection.",
-                        Toast.LENGTH_LONG).show();
-// Oleg !!!!!!!!!!!!						finish();
-            }
-        } else {
-            Intent i = new Intent();
-            i.putExtra("customer_id", customerinfo.id);
-            getActivity().setResult(Activity.RESULT_OK, i);
-// Oleg !!!!!!!!!!!!						finish();
-        }
-    }
-*/
-
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_customer_list, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView sv = new SearchView(((AppCompatActivity) getActivity()).getSupportActionBar().getThemedContext());
+        //MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setActionView(item, sv);
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                showFilteredList(query);
+                return false;
+            }
 
-        inflater.inflate(R.menu.add_pest_menu, menu);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                showFilteredList(newText);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -238,18 +232,17 @@ public class CustomerListFragment extends Fragment implements
                     startActivity(i);
                 }
                 return true;
-            // case R.id.btnAppointments:
-            // return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class CustomerListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+    public class CustomerStickyHeadersListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
+        private ArrayList<CustomerViewDataItem> mFilteredItemsList = new ArrayList<>();
         private LayoutInflater inflater;
 
-        public CustomerListAdapter(Context context) {
+        public CustomerStickyHeadersListAdapter(Context context) {
 
             inflater = LayoutInflater.from(context);
         }
@@ -313,6 +306,11 @@ public class CustomerListFragment extends Fragment implements
             return mFilteredItemsList.get(position).customerName.subSequence(0, 1).charAt(0);
         }
 
+        public void setData(ArrayList<CustomerViewDataItem> itemsList) {
+            mFilteredItemsList = itemsList;
+            notifyDataSetChanged();
+        }
+
         class HeaderViewHolder {
             TextView text;
         }
@@ -323,18 +321,17 @@ public class CustomerListFragment extends Fragment implements
 
     }
 
-    class ViewDataItem {
+    public class CustomerViewDataItem {
         public final String customerName;
         public final CustomerInfo customerInfo;
 
-        public ViewDataItem(String name, CustomerInfo info) {
+        public CustomerViewDataItem(String name, CustomerInfo info) {
             customerName = name;
             customerInfo = info;
         }
     }
-
-    class IgnoreCaseComparator implements Comparator<ViewDataItem> {
-        public int compare(ViewDataItem strA, ViewDataItem strB) {
+    public class CustomerViewDataIgnoreCaseComparator implements Comparator<CustomerViewDataItem> {
+        public int compare(CustomerViewDataItem strA, CustomerViewDataItem strB) {
             return strA.customerName.compareToIgnoreCase(strB.customerName);
         }
     }

@@ -34,7 +34,7 @@ public class ServiceLocationListActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_service_location_list);
+		setContentView(R.layout.fragment_service_location_list);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			if (b.containsKey("CID")) {

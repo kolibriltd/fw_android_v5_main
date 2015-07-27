@@ -256,7 +256,7 @@ public class LocationAreaListActivity extends AppCompatActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.add_pest_menu, menu);
+		getMenuInflater().inflate(R.menu.fragment_customer_list, menu);
 		// if(!NetworkConnectivity.isConnected()){
 		// menu.findItem(R.id.btnAddPest).setVisible(false);
 		// }

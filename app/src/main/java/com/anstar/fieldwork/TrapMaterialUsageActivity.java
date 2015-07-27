@@ -205,7 +205,7 @@ public class TrapMaterialUsageActivity extends AppCompatActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.add_pest_menu, menu);
+		getMenuInflater().inflate(R.menu.fragment_customer_list, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

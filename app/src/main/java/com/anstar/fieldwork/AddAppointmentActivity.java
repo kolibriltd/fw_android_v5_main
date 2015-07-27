@@ -669,8 +669,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 									e.printStackTrace();
 								}
 								mBaseLoader.hideProgress();
-								Intent i = new Intent(
-										AddAppointmentActivity.this,
+								Intent i = new Intent(AddAppointmentActivity.this,
 										CustomerListFragment.class);
 								i.putExtra("FromAddAppointment", true);
 								startActivityForResult(i, CHOOSE_CUSTOMER);

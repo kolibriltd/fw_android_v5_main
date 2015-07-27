@@ -1,9 +1,9 @@
 package com.anstar.fieldwork;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import com.anstar.models.ServiceLocationContactInfo;
 
 import java.util.ArrayList;
 
-public class ContactDetailActivity extends AppCompatActivity {
+public class ContactDetailFragment extends Fragment {
 
 	TextView txtName, txtDescription, txtPhoneKind, txtPhone, txtEmail;
 	ListView lstContact;
@@ -31,20 +31,11 @@ public class ContactDetailActivity extends AppCompatActivity {
 	CustomerContactInfo customerinfo;
 	ServiceLocationContactInfo service_customer_info;
 
+	@Nullable
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_contact_detail);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_contact_detail, container, false);
 
-		Bundle b = getIntent().getExtras();
-		if (b != null) {
-			if (b.containsKey("CONTACT_ID")) {
-				Contact_id = b.getInt("CONTACT_ID");
-			}
-			if (b.containsKey("SERVICE_CONTACT_ID")) {
-				Service_Contact_id = b.getInt("SERVICE_CONTACT_ID");
-			}
-		}
 		if (Contact_id != 0) {
 			customerinfo = CustomerContactInfo
 					.getCustomerContactInfoById(Contact_id);
@@ -55,35 +46,19 @@ public class ContactDetailActivity extends AppCompatActivity {
 					.getServiceLocationContactsById(Service_Contact_id);
 			customerinfo = null;
 		}
-/*
-		ActionBar action = getSupportActionBar();
-		action = getSupportActionBar();
-		// action.setTitle("Add Material");
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Contact Detail</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
+		txtName = (TextView) v.findViewById(R.id.txtCustomerName);
+		txtDescription = (TextView) v.findViewById(R.id.txtDescription);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		txtPhoneKind = (TextView) v.findViewById(R.id.txtPhoneKind);
+		txtPhone = (TextView) v.findViewById(R.id.txtPhone);
+		txtEmail = (TextView) v.findViewById(R.id.txtEmail);
 
-		ActionBar action = getSupportActionBar();
-		action.setDisplayHomeAsUpEnabled(true);
-		action.setDisplayShowHomeEnabled(true);
+		lstContact = (ListView) v.findViewById(R.id.lstContact);
 
-		txtName = (TextView) findViewById(R.id.txtCustomerName);
-		txtDescription = (TextView) findViewById(R.id.txtDescription);
+		imgCall = (ImageView) v.findViewById(R.id.imgCall);
+		imgEmail = (ImageView) v.findViewById(R.id.imgEmail);
 
-		txtPhoneKind = (TextView) findViewById(R.id.txtPhoneKind);
-		txtPhone = (TextView) findViewById(R.id.txtPhone);
-		txtEmail = (TextView) findViewById(R.id.txtEmail);
-
-		lstContact = (ListView) findViewById(R.id.lstContact);
-
-		imgCall = (ImageView) findViewById(R.id.imgCall);
-		imgEmail = (ImageView) findViewById(R.id.imgEmail);
+		LoadContacts();
 
 		if (customerinfo != null) {
 			txtName.setText(customerinfo.first_name + " "
@@ -110,10 +85,10 @@ public class ContactDetailActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				if (customerinfo != null) {
 					Utils.callPhone(customerinfo.phone,
-							ContactDetailActivity.this);
+							getActivity());
 				} else {
 					Utils.callPhone(service_customer_info.phone,
-							ContactDetailActivity.this);
+							getActivity());
 				}
 			}
 		});
@@ -123,14 +98,38 @@ public class ContactDetailActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				if (customerinfo != null) {
 					Utils.sendEmail(customerinfo.email,
-							ContactDetailActivity.this);
+							getActivity());
 				} else {
 					Utils.sendEmail(service_customer_info.email,
-							ContactDetailActivity.this);
+							getActivity());
 				}
 			}
 		});
 
+		return v;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		Bundle b = getArguments();
+		if (b != null) {
+			if (b.containsKey("CONTACT_ID")) {
+				Contact_id = b.getInt("CONTACT_ID");
+			}
+			if (b.containsKey("SERVICE_CONTACT_ID")) {
+				Service_Contact_id = b.getInt("SERVICE_CONTACT_ID");
+			}
+		}
+
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Override
+	public void onResume() {
+		super.onResume();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_contact_detail);
 	}
 
 	public void LoadContacts() {
@@ -313,7 +312,7 @@ public class ContactDetailActivity extends AppCompatActivity {
 			holder = new ViewHolder();
 			final PhoneEmailInfo info = m_list.get(position);
 			if (rowView == null) {
-				LayoutInflater li = getLayoutInflater();
+				LayoutInflater li = getActivity().getLayoutInflater();
 				rowView = li.inflate(R.layout.phone_email_item, null);
 				rowView.setTag(holder);
 				holder.txtKind = (TextView) rowView.findViewById(R.id.txtKind);
@@ -333,10 +332,10 @@ public class ContactDetailActivity extends AppCompatActivity {
 				public void onClick(View v) {
 
 					if (info.Type.equalsIgnoreCase(ContactType.Phone.toString())) {
-						Utils.callPhone(info.Value, ContactDetailActivity.this);
+						Utils.callPhone(info.Value, getActivity());
 					}
 					if (info.Type.equalsIgnoreCase(ContactType.Email.toString())) {
-						Utils.sendEmail(info.Value, ContactDetailActivity.this);
+						Utils.sendEmail(info.Value, getActivity());
 					}
 				}
 			});

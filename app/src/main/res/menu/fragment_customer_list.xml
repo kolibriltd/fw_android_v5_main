@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:MyApp="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/btnEdit"
-        android:icon="@drawable/edit"
+        android:id="@+id/action_search"
+        android:orderInCategory="100"
+        android:title="Search"
+        MyApp:actionViewClass="android.support.v7.widget.SearchView"
+        MyApp:showAsAction="always" />
+    <item
+        android:id="@+id/btnAddPest"
+        android:orderInCategory="101"
+        android:icon="@drawable/add"
         MyApp:showAsAction="ifRoom|withText|collapseActionView"
-        android:title="Edit"/>
+        android:title="Add Pest"/>
     <!-- <item -->
     <!-- android:id="@+id/menu_item_action_provider_overflow" -->
     <!-- android:actionProviderClass="com.actionbarsherlock.sample.demos.ActionProviders$SettingsActionProvider" -->
