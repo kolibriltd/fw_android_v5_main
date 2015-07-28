@@ -103,8 +103,8 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 		edtSubtotal = (EditText) findViewById(R.id.edtSubtotal);
 		edtBalForward = (EditText) findViewById(R.id.edtBalForward);
 
-		edtStartedat = (EditText) findViewById(R.id.edtStarted);
-		edtFinisedat = (EditText) findViewById(R.id.edtFinished);
+		/*edtStartedat = (EditText) findViewById(R.id.edtStarted);
+		edtFinisedat = (EditText) findViewById(R.id.edtFinished);*/
 		edtAmount = (EditText) findViewById(R.id.edtAmount);
 		edtPrice = (EditText) findViewById(R.id.edtPrice);
 		// edtScheduledDate = (EditText) findViewById(R.id.edtScheduledDate);
@@ -193,7 +193,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 		loadValue();
 	}
 
-	private void StartedAt() {
+	/*private void StartedAt() {
 		if (m_startHour >= 12) {
 			String time = m_startHour + ":" + m_startMinute;
 			ConvertDate24To12Hour(edtStartedat, time, "PM");
@@ -201,7 +201,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 			String time = m_startHour + ":" + m_startMinute;
 			ConvertDate24To12Hour(edtStartedat, time, "AM");
 		}
-	}
+	}*/
 
 	private void FinishedAt() {
 		if (m_finishHour >= 12) {
@@ -236,7 +236,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 				int arg1, int arg2) {
 			m_startHour = arg1;
 			m_startMinute = arg2;
-			StartedAt();
+			///StartedAt();
 
 		}
 	};

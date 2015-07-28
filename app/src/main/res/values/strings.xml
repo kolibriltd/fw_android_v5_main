@@ -19,6 +19,7 @@
     <string name="logout">Logout</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="string_item_appointments">&#8226;&#8226;&#8226;</string>
 <!--     <string name="header_text_color">#ffffff</string> -->
     <string name="header_text_color">#333333</string>
 
@@ -253,5 +254,6 @@
     <string name="title_fragment_service_location_list">Service Location</string>
     <string name="title_fragment_service_location_detail">Service Location Details</string>
     <string name="title_fragment_contact_detail">Contact Detail</string>
+    <string name="title_activity_driving_directions">DrivingDirectionsActivity</string>
 
 </resources>

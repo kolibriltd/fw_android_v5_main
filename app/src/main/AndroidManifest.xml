@@ -25,6 +25,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <permission
         android:name="com.kl.kitlocate.KITLOCATE"
         android:label="KitLocate broadcast permission"
@@ -62,12 +66,11 @@
     <application
         android:name=".FieldworkApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".StartActivity"
             android:noHistory="true"
@@ -86,11 +89,6 @@
         <activity
             android:name=".DashboardActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".AppointmentDetailsActivity"
-            android:label="Work Order"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -288,6 +286,11 @@
             android:label="Pictures"
             android:screenOrientation="portrait" >
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAhUW1fJDrqsJKI8OpQiDMEaV0nxClflUg" />
+
         <activity
             android:name="com.anstar.barcodereader.zxing.CaptureActivity"
             android:clearTaskOnLaunch="true"
@@ -381,6 +384,12 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".DrivingDirectionsActivity"
+            android:label="@string/title_activity_driving_directions"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

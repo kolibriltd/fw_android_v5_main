@@ -225,11 +225,14 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
             holder.appointments_item_clik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(getActivity(),
-                            AppointmentDetailsActivity.class);
-                    i.putExtra(Const.Appointment_Id, item.id);
-                    Const.app_id = item.id;
-                    startActivityForResult(i, APPOINTMENT_DETAIL);
+                    AppointmentDetailsFragment aif = new AppointmentDetailsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Const.Appointment_Id, item.id);
+                    aif.setArguments(bundle);
+                    ((DashboardActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, aif)
+                            .commit();
                 }
             });
             return rowView;

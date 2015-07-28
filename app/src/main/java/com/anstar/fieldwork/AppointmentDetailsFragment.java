@@ -12,16 +12,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -88,13 +92,22 @@ public class AppointmentDetailsFragment extends Fragment implements
 		TimePickerDialog.OnTimeSetListener, OnClickListener, DatePickerDialog.OnDateSetListener {
 
 	int appointment_id = 0;
-	private TextView txtName, txtAddress, txtAddress2, txtContactname,
-			txtCutomerType, txtDrivingDirections, txtPdfName, txtPdfCount,
-			dividerEnvirnMent, txtAttn, dividerPic;
-	private RelativeLayout rlAppointmentInfo, rlTargetPests, rlMaterialUse,
-			rlNotes, rlInspections, rlTrapScaning, rlSignature, rlName,
-			rlDirections, rlEnvironment, rlPdf, rlWorkOrderDetails, rlPdfs,
-			rlAddress, rlPictures, rlCamera, rlServiceLocationNotes;
+	private TextView cus_name, cont_add_notes, private_notes_text, cont_edit_line_item, arrival_time,
+			add_chemical_use_count, add_devices_count, btnDrivingDirections;
+	private TextView duration, address, start_time, istruction, no_pdf, notes_text, no_chemical,
+			no_photos, total_devices, scanned_devices, un_scanned_devices;
+	RelativeLayout marker_app, lineItem, lineItemList, instruction_touch, instruction_item, pdf_forms_touch, pdf_forms_list;
+	private RelativeLayout notes_touch, notes_count, chemical_touch, chemical_count, photo_touch, photo_count, devices_touch, devices_count;
+
+	private RelativeLayout plus_count, count_plus_menu;
+	private ImageView plus, add_photo, add_line_item, add_notes, add_chemical;
+
+	/*timer*/
+
+	TextView minutes_timer, secunds_timer;
+	ImageView buttom_timer;
+	boolean start_time_b = false;
+
 	private Button btnSave, btnPrintPdf;
 	// private ImageView imgMap;
 	// AppoinmentInfo info = null;
@@ -122,48 +135,107 @@ public class AppointmentDetailsFragment extends Fragment implements
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.activity_appointment_details, container, false);
+		View rootView = inflater.inflate(R.layout.activity_appointment_details, container, false);
 
-        btnSave = (Button) v.findViewById(R.id.btnSave);
-        btnPrintPdf = (Button) v.findViewById(R.id.btnPrintPdf);
-        rlAppointmentInfo = (RelativeLayout) v.findViewById(R.id.rlAppointmentInfo);
-        rlTargetPests = (RelativeLayout) v.findViewById(R.id.rlTargetPests);
-        rlMaterialUse = (RelativeLayout) v.findViewById(R.id.rlMaterialUse);
-        rlNotes = (RelativeLayout) v.findViewById(R.id.rlNotes);
-        rlInspections = (RelativeLayout) v.findViewById(R.id.rlInspections);
-        rlTrapScaning = (RelativeLayout) v.findViewById(R.id.rlTrapScaning);
-        rlSignature = (RelativeLayout) v.findViewById(R.id.rlSignature);
-        rlDirections = (RelativeLayout) v.findViewById(R.id.rlDirections);
-        rlName = (RelativeLayout) v.findViewById(R.id.rlName);
-        rlEnvironment = (RelativeLayout) v.findViewById(R.id.rlEnvironment);
-        rlPdf = (RelativeLayout) v.findViewById(R.id.rlPdf);
-        rlServiceLocationNotes = (RelativeLayout) v.findViewById(R.id.rlServiceLocationNotes);
-        rlPdfs = (RelativeLayout) v.findViewById(R.id.rlPdfs);
-        rlCamera = (RelativeLayout) v.findViewById(R.id.rlCamera);
-        rlAddress = (RelativeLayout) v.findViewById(R.id.rlAddress);
-        rlPictures = (RelativeLayout) v.findViewById(R.id.rlPictures);
-        rlWorkOrderDetails = (RelativeLayout) v.findViewById(R.id.rlWorkOrderDetails);
-        txtPdfName = (TextView) v.findViewById(R.id.txtPdfName);
-        txtAddress = (TextView) v.findViewById(R.id.txtAddress);
-        txtName = (TextView) v.findViewById(R.id.txtServiceLocationName);
-        txtAddress2 = (TextView) v.findViewById(R.id.txtAddress2);
-        txtContactname = (TextView) v.findViewById(R.id.txtContactName);
-        txtCutomerType = (TextView) v.findViewById(R.id.txtServiceName);
-        dividerEnvirnMent = (TextView) v.findViewById(R.id.dividerEnvirnMent);
-        dividerPic = (TextView) v.findViewById(R.id.dividerPic);
-        txtAttn = (TextView) v.findViewById(R.id.txtAttn);
-        txtDrivingDirections = (TextView) v.findViewById(R.id.txtDrivingDirections);
-        txtPdfCount = (TextView) v.findViewById(R.id.txtPdfCount);
-        spnStatus = (Spinner) v.findViewById(R.id.spnStatus);
-        lstContact = (ListView) v.findViewById(R.id.lstContact);
-        edtStartedat = (EditText) v.findViewById(R.id.edtStarted);
-        edtFinisedat = (EditText) v.findViewById(R.id.edtFinished);
-        imgCamera = (ImageView) v.findViewById(R.id.imgCamera);
-        // edtScheduledDate = (EditText) findViewById(R.id.edtScheduledDate);
-        btnTrapCount = (Button) v.findViewById(R.id.btnCount);
-        lstContact.setDivider(null);
+		minutes_timer = (TextView) rootView.findViewById(R.id.minutes_timer);
+		secunds_timer = (TextView) rootView.findViewById(R.id.secunds_timer);
+		buttom_timer = (ImageView) rootView.findViewById(R.id.buttom_timer);
 
-        return v;
+		duration = (TextView) rootView.findViewById(R.id.textView16);
+		address = (TextView) rootView.findViewById(R.id.textView28);
+		marker_app = (RelativeLayout) rootView.findViewById(R.id.marker_app);
+		start_time = (TextView) rootView.findViewById(R.id.textView15);
+		istruction = (TextView) rootView.findViewById(R.id.textView47);
+		no_pdf = (TextView) rootView.findViewById(R.id.no_pdf);
+		notes_text = (TextView) rootView.findViewById(R.id.notes_text);
+		no_chemical = (TextView) rootView.findViewById(R.id.no_chemical);
+		no_photos = (TextView) rootView.findViewById(R.id.no_photo);
+		total_devices = (TextView) rootView.findViewById(R.id.total_devices);
+		scanned_devices = (TextView) rootView.findViewById(R.id.scannet_devices);
+		un_scanned_devices = (TextView) rootView.findViewById(R.id.un_scannet_devices);
+		cus_name = (TextView) rootView.findViewById(R.id.textView17);
+		cont_add_notes = (TextView) rootView.findViewById(R.id.cont_add_notes);
+		private_notes_text = (TextView) rootView.findViewById(R.id.private_notes_text);
+		cont_edit_line_item = (TextView) rootView.findViewById(R.id.cont_edit_line_item);
+		arrival_time = (TextView) rootView.findViewById(R.id.textView25);
+		add_chemical_use_count = (TextView) rootView.findViewById(R.id.add_chemical_use_count);
+		add_devices_count = (TextView) rootView.findViewById(R.id.add_devices_count);
+		btnDrivingDirections = (TextView) rootView.findViewById(R.id.btnDrivingDirections);
+
+		lineItem = (RelativeLayout) rootView.findViewById(R.id.line_item_cont);
+		lineItemList = (RelativeLayout) rootView.findViewById(R.id.line_item_info);
+
+		instruction_touch = (RelativeLayout) rootView.findViewById(R.id.instruction_touch);
+		instruction_item = (RelativeLayout) rootView.findViewById(R.id.istruction_item);
+
+		pdf_forms_touch = (RelativeLayout) rootView.findViewById(R.id.pdf_forms_touch);
+		pdf_forms_list = (RelativeLayout) rootView.findViewById(R.id.pdf_forms_list);
+
+		notes_touch = (RelativeLayout) rootView.findViewById(R.id.notes_touch);
+		notes_count = (RelativeLayout) rootView.findViewById(R.id.notes_count);
+
+		chemical_touch = (RelativeLayout) rootView.findViewById(R.id.chemical_touch);
+		chemical_count = (RelativeLayout) rootView.findViewById(R.id.chemical_count);
+
+		photo_touch = (RelativeLayout) rootView.findViewById(R.id.photo_touch);
+		photo_count = (RelativeLayout) rootView.findViewById(R.id.photo_count);
+
+		devices_count = (RelativeLayout) rootView.findViewById(R.id.divaces_count);
+		devices_touch = (RelativeLayout) rootView.findViewById(R.id.divaces_touch);
+
+		plus = (ImageView) rootView.findViewById(R.id.plus_right_bottom);
+		plus_count = (RelativeLayout) rootView.findViewById(R.id.plus_cont);
+		count_plus_menu = (RelativeLayout) rootView.findViewById(R.id.count_plus_menu);
+		add_photo = (ImageView) rootView.findViewById(R.id.add_photo);
+		add_notes = (ImageView) rootView.findViewById(R.id.add_notes);
+		add_chemical = (ImageView) rootView.findViewById(R.id.add_chemical);
+
+		plus.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (plus_count.getVisibility() == View.GONE) {
+					plus_count.setVisibility(View.VISIBLE);
+					Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.menuplus);
+					anim.reset();
+					plus_count.clearAnimation();
+					plus_count.startAnimation(anim);
+
+					Animation animc = AnimationUtils.loadAnimation(getActivity(), R.anim.menupluscount);
+					animc.reset();
+					count_plus_menu.clearAnimation();
+					count_plus_menu.startAnimation(animc);
+				} else {
+					plus_count.setVisibility(View.GONE);
+				}
+			}
+		});
+		buttom_timer.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (!start_time_b) {
+					startT(true);
+					buttom_timer.setImageResource(R.drawable.control_stop_timer);
+					start_time_b = true;
+				} else {
+					startT(false);
+					buttom_timer.setImageResource(R.drawable.control_start_timer);
+					start_time_b = false;
+				}
+			}
+		});
+
+		btnDrivingDirections.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), DrivingDirectionsActivity.class);
+				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
+				startActivity(i);
+			}
+		});
+
+		LoadValues();
+
+        return rootView;
 	}
 
 	@Override
@@ -210,6 +282,8 @@ public class AppointmentDetailsFragment extends Fragment implements
 			return;
 		}
 
+
+
 		customerinfo = CustomerList.Instance().getCustomerById(
 				appointmentInfo.customer_id);
 		serviceLocationInfo = ServiceLocationsList.Instance()
@@ -223,7 +297,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			return;
 		}
 		Const.customer_id = appointmentInfo.customer_id;
-		btnTrapCount.setText(TrapList
+		/*btnTrapCount.setText(TrapList
 				.Instance()
 				.getAllTrapsByCustomerId(appointmentInfo.customer_id,
 						serviceLocationInfo.id).size()
@@ -365,7 +439,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		// return false;
 		// }
 		// });
-		// edtScheduledDate.requestFocus();
+		// edtScheduledDate.requestFocus();*/
 	};
 
 	@Override
@@ -378,6 +452,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		if (appointment_id == 0) {
 			appointment_id = Const.app_id;
 		}
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("#" + appointment_id);
 		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
 				appointment_id);
 		if (customerinfo == null) {
@@ -388,7 +463,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		customerinfo = CustomerList.Instance().getCustomerById(
 				appointmentInfo.customer_id);
 		String filepath = appointment_id + ".pdf";
-		if (isFileExist(getStoragePath(filepath))) {
+		/*if (isFileExist(getStoragePath(filepath))) {
 			rlPdf.setVisibility(View.VISIBLE);
 			// String name = filepath.replace("_" + appointment_id, "");
 			txtPdfName.setText("attachment_pdf_form.pdf");
@@ -399,7 +474,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			}
 		} else {
 			rlPdf.setVisibility(View.GONE);
-		}
+		}*/
 	}
 
 	@Override
@@ -692,7 +767,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 
 			}
 
-		} else if (v == rlAppointmentInfo) {
+		} /*else if (v == rlAppointmentInfo) {
 			Intent i = new Intent(getActivity(),
 					AppointmentInfoActivity.class);
 			i.putExtra(Const.Appointment_Id, appointment_id);
@@ -754,7 +829,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 						Toast.LENGTH_LONG).show();
 			}
 
-		} else if (v == rlEnvironment) {
+		}*/ /*else if (v == rlEnvironment) {
 			Intent i = new Intent(getActivity(),
 					EnvironMentActivity.class);
 			i.putExtra(Const.Appointment_Id, appointment_id);
@@ -827,263 +902,32 @@ public class AppointmentDetailsFragment extends Fragment implements
 					ServiceLocationNoteActivity.class);
 			i.putExtra("SERVICELOCATIONID", serviceLocationInfo.getID());
 			startActivity(i);
-		}
+		}*/
 	}
 
 	public void LoadValues() {
-		String[] strattemp = appointmentInfo.starts_at.split("T");
-		// String time = temp[1].replace("-06:00", "");
-		// edtScheduledDate.setText(strattemp[0]);
+		if (appointmentInfo.status.equals("Missed Appointment")) {
+			marker_app.setBackgroundResource(R.color.marck_app_miss);
+		} else if (appointmentInfo.status.equals("Complete")) {
+			marker_app.setBackgroundResource(R.color.marck_app_comp);
+		} else if (appointmentInfo.status.equals("Scheduled")) {
+			marker_app.setBackgroundResource(R.color.marck_app_sched);
+		}
 
-		if (appointmentInfo.started_at_time == null
-				|| appointmentInfo.started_at_time.equalsIgnoreCase("null")) {
-			edtStartedat.setText("");
+		start_time.setText(appointmentInfo.starts_at_time);
+
+		String name;
+		if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
+			name = customerinfo.name;
 		} else {
-			final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-					Locale.UK);
-			try {
-				Date dt = sdf.parse(appointmentInfo.started_at_time);
-				m_startHour = dt.getHours();
-				m_startMinute = dt.getMinutes();
-				// String stime[] = appointmentInfo.started_at_time.substring(0,
-				// appointmentInfo.started_at_time.length()).split(":");
-				// String[] second = stime[1].split(" ");
-				// m_startHour = Integer.parseInt(stime[0]);
-				// m_startMinute = Integer.parseInt(second[0]);
-				StartedAt();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			// edtStartedat.setText(appointment.started_at_time);
-		}
-		if (appointmentInfo.finished_at_time == null
-				|| appointmentInfo.finished_at_time.equalsIgnoreCase("null")) {
-			edtFinisedat.setText("");
-		} else {
-			final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",
-					Locale.UK);
-			try {
-				Date dt = sdf.parse(appointmentInfo.finished_at_time);
-				m_finishHour = dt.getHours();
-				m_finishMinute = dt.getMinutes();
-				// String etime[] =
-				// appointmentInfo.finished_at_time.substring(0,
-				// appointmentInfo.finished_at_time.length()).split(":");
-				// String[] second = etime[1].split(" ");
-				// m_finishHour = Integer.parseInt(etime[0]);
-				// m_finishMinute = Integer.parseInt(second[0]);
-				FinishedAt();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			// edtFinisedat.setText(appointment.finished_at_time);
+			name = customerinfo.name_prefix + " "
+					+ customerinfo.first_name + " "
+					+ customerinfo.last_name;
 		}
 
-		// String[] temp = appointmentInfo.starts_at.split("T");
-		// String[] temp2 = temp[1].split("-");
-		// SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-		// Date date = null;
-		// String time = "";
-		// try {
-		// date = sdf.parse(temp2[0]);
-		// SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm a");
-		// time = sdf1.format(date);
-		// } catch (ParseException e) {
-		// e.printStackTrace();
-		// }
-		String name = "";
-		txtCutomerType.setText(appointmentInfo.starts_at_time.trim() + " - "
-				+ appointmentInfo.ends_at_time.trim());
-		if (customerinfo != null && customerinfo.customer_type != null
-				&& customerinfo.customer_type.length() > 0) {
-			if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
-				name = customerinfo.name;
-			} else {
-				name = customerinfo.name_prefix + " " + customerinfo.first_name
-						+ " " + customerinfo.last_name;
-			}
-		}
-		if (serviceLocationInfo.name != null
-				&& serviceLocationInfo.name.length() > 0) {
-			txtName.setText(serviceLocationInfo.name);
-		}
-		String addr = "";
-		if (serviceLocationInfo.street_two != null
-				&& serviceLocationInfo.street_two.length() > 0) {
-			addr = "\n" + serviceLocationInfo.street_two;
-		}
-		txtAddress.setText(serviceLocationInfo.street + addr);
-		StringBuilder sb = new StringBuilder();
-		if (serviceLocationInfo.city != null
-				&& serviceLocationInfo.city.length() > 0) {
-			sb.append(serviceLocationInfo.city + ", ");
-		}
-		if (serviceLocationInfo.state != null
-				&& serviceLocationInfo.state.length() > 0) {
-			sb.append(serviceLocationInfo.state + " ");
-		}
-		if (serviceLocationInfo.zip != null
-				&& serviceLocationInfo.zip.length() > 0) {
-			sb.append(serviceLocationInfo.zip);
-		}
-		txtAddress2.setText(sb.toString());
-
-		if (serviceLocationInfo.attention != null
-				&& serviceLocationInfo.attention.length() > 0) {
-			txtAttn.setText("Attn : " + serviceLocationInfo.attention);
-			txtAttn.setVisibility(View.VISIBLE);
-		} else {
-			txtAttn.setVisibility(View.GONE);
-		}
-
-		txtContactname.setText(name);
-		// edtStartedat.setText(appointmentInfo.started_at_time);
-		// edtFinisedat.setText(appointmentInfo.finished_at_time);
-		// if (serviceLocationInfo.name != null
-		// && serviceLocationInfo.name.length() > 0) {
-		// txtContactname.setText(serviceLocationInfo.name);
-		// } else {
-		// rlName.setVisibility(View.GONE);
-		// }
-
-		ArrayList<PdfFormsInfo> pinfos = PdfFormsList.Instance()
-				.getPdfFormsByWorkOrderId(appointmentInfo.id);
-		if (pinfos != null) {
-			txtPdfCount.setText(pinfos.size() + "");
-			if (pinfos.size() <= 0) {
-				rlPdfs.setVisibility(View.VISIBLE);
-			} else {
-				rlPdfs.setVisibility(View.VISIBLE);
-			}
-		}
-
-		ArrayList<PhoneEmailInfo> content = new ArrayList<PhoneEmailInfo>();
-		PhoneEmailInfo info = null;
-
-		if (serviceLocationInfo.phone != null
-				&& serviceLocationInfo.phone.length() > 0) {
-			info = new PhoneEmailInfo();
-			info.Kind = serviceLocationInfo.phone_kind;
-			info.Value = serviceLocationInfo.phone;
-			info.Type = ContactType.Phone.toString();
-			content.add(info);
-		}
-		if (serviceLocationInfo.phones != null
-				&& serviceLocationInfo.phones.size() > 0) {
-			int i = 0;
-
-			ArrayList<String> temp_contact = new ArrayList<String>();
-			for (String s : serviceLocationInfo.phones) {
-				if (s != null && s.length() > 0) {
-					s = s.replace("[", "");
-					s = s.replace("]", "");
-					if (s.contains(",")) {
-						String h[] = s.split(",");
-						for (int j = 0; j < h.length; j++) {
-							if (!temp_contact.contains(h[j])) {
-								temp_contact.add(h[j]);
-							}
-						}
-					} else {
-						temp_contact.add(s);
-					}
-				}
-			}
-			ArrayList<String> temp_kind = new ArrayList<String>();
-			for (String s : serviceLocationInfo.phones_kinds) {
-				if (s != null && s.length() > 0) {
-					s = s.replace("[", "");
-					s = s.replace("]", "");
-					if (s.contains(",")) {
-						String h[] = s.split(",");
-						for (int j = 0; j < h.length; j++) {
-							if (!temp_contact.contains(h[j])) {
-								temp_kind.add(h[j]);
-							}
-						}
-					} else {
-						temp_kind.add(s);
-					}
-				}
-			}
-			for (String ph : temp_contact) {
-				if (ph.length() > 0) {
-					info = new PhoneEmailInfo();
-					info.Kind = temp_kind.size() > i ? temp_kind.get(i) : "";
-					info.Value = ph;
-					info.Type = ContactType.Phone.toString();
-					content.add(info);
-					i++;
-				}
-			}
-		}
-		if (serviceLocationInfo.email != null
-				&& serviceLocationInfo.email.length() > 0) {
-			info = new PhoneEmailInfo();
-			info.Kind = "Email";
-			info.Value = serviceLocationInfo.email;
-			info.Type = ContactType.Email.toString();
-			content.add(info);
-		}
-		// if (serviceLocationInfo.service_emails != null
-		// && customerinfo.service_emails.size() > 0) {
-		// int i = 0;
-		// ArrayList<String> temp_email = new ArrayList<String>();
-		// for (String s : customerinfo.service_emails) {
-		// if (s != null && s.length() > 0) {
-		// s = s.replace("[", "");
-		// s = s.replace("]", "");
-		// if (s.contains(",")) {
-		// String h[] = s.split(",");
-		// for (int j = 0; j < h.length; j++) {
-		// if (!temp_email.contains(h[j])) {
-		// temp_email.add(h[j]);
-		// }
-		// }
-		// } else {
-		// temp_email.add(s);
-		// }
-		// }
-		// }
-		// ArrayList<String> temp_email_kind = new ArrayList<String>();
-		// for (String s : customerinfo.service_emails_kinds) {
-		// if (s != null && s.length() > 0) {
-		// s = s.replace("[", "");
-		// s = s.replace("]", "");
-		// if (s.contains(",")) {
-		// String h[] = s.split(",");
-		// for (int j = 0; j < h.length; j++) {
-		// if (!temp_email_kind.contains(h[j])) {
-		// temp_email_kind.add(h[j]);
-		// }
-		// }
-		// } else {
-		// temp_email_kind.add(s);
-		// }
-		// }
-		// }
-		//
-		// for (String em : temp_email) {
-		// if (em.length() > 0) {
-		// info = new PhoneEmailInfo();
-		// info.Kind = temp_email_kind.get(i);
-		// info.Value = em;
-		// info.Type = ContactType.Email.toString();
-		// content.add(info);
-		// i++;
-		// }
-		// }
-		// }
-
-		MyContactAdapter adapter = new MyContactAdapter(content);
-		lstContact.setAdapter(adapter);
-		// try {
-		// Thread.sleep(1000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		Utils.setListViewHeightBasedOnChildren(lstContact);
-		LoadStatus();
+		cus_name.setText(name);
+		address.setText(serviceLocationInfo.name + "\n" + serviceLocationInfo.country + "\n" + serviceLocationInfo.street + "\n" +
+				serviceLocationInfo.city + ", " + serviceLocationInfo.state + " " + serviceLocationInfo.zip);
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -1321,5 +1165,44 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 		return bluetoothAdapter;
 	}
+
+	private void startT(boolean timer) {
+		if (timer) {
+			timerHandler.removeCallbacks(timerRunnable);
+			timerHandler.postDelayed(timerRunnable, 0);
+		} else {
+			timerHandler.removeCallbacks(timerRunnable);
+		}
+	}
+
+	Handler timerHandler = new Handler();
+	public Runnable timerRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			Integer secund = Integer.parseInt(secunds_timer.getText().toString());
+			Integer minutes = Integer.parseInt(minutes_timer.getText().toString());
+			secund++;
+			if (secund == 60) {
+				secunds_timer.setText("00");
+				minutes++;
+				if (minutes < 10) {
+					minutes_timer.setText("0" + Integer.toString(minutes));
+				}
+				else {
+					minutes_timer.setText(Integer.toString(minutes));
+				}
+			}
+			else {
+				if (secund < 10) {
+					secunds_timer.setText("0" + Integer.toString(secund));
+				}
+				else {
+					secunds_timer.setText(Integer.toString(secund));
+				}
+			}
+			timerHandler.postDelayed(this, 1000);
+		}
+	};
 
 }
