@@ -1,14 +1,13 @@
 package com.anstar.fieldwork;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -25,8 +24,7 @@ import com.anstar.models.list.WorkHistoryList;
 
 import java.util.ArrayList;
 
-public class WorkHistoryDetailActivity extends AppCompatActivity implements
-		OnClickListener {
+public class WorkHistoryDetailFragment extends Fragment {
 
 	int whid, cid;
 	private TextView txtNotes, txtWoNumber, txtDate, txtTime, txtStatus;
@@ -34,49 +32,43 @@ public class WorkHistoryDetailActivity extends AppCompatActivity implements
 
 	boolean isFromStarted;
 	private WorkHistroyInfo history_info = null;
-	//ActionBar action = null;
+
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_work_history_details, container, false);
+
+		txtNotes = (TextView) v.findViewById(R.id.txtNotes);
+		lstMaterialUsage = (ListView) v.findViewById(R.id.lstMaterialUsage);
+		txtWoNumber = (TextView) v.findViewById(R.id.txtWoNumber);
+		txtDate = (TextView) v.findViewById(R.id.txtDate);
+		txtTime = (TextView) v.findViewById(R.id.txtTime);
+		txtStatus = (TextView) v.findViewById(R.id.txtStatus);
+
+		if (history_info != null) {
+			LoadValues();
+		}
+
+		return v;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_work_history_details);
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		Bundle b = getIntent().getExtras();
+		Bundle b = getArguments();
 		if (b != null) {
 			whid = b.getInt("whid");
 		}
-/*
-		action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Work History Details</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-
-		ActionBar action = getSupportActionBar();
-		action.setDisplayHomeAsUpEnabled(true);
-		action.setDisplayShowHomeEnabled(true);
-
-		txtNotes = (TextView) findViewById(R.id.txtNotes);
-		lstMaterialUsage = (ListView) findViewById(R.id.lstMaterialUsage);
-		txtWoNumber = (TextView) findViewById(R.id.txtWoNumber);
-		txtDate = (TextView) findViewById(R.id.txtDate);
-		txtTime = (TextView) findViewById(R.id.txtTime);
-		txtStatus = (TextView) findViewById(R.id.txtStatus);
 
 		history_info = WorkHistoryList.Instance().getHistoryById(whid);
 		history_info = history_info.getDetails();
-		if (history_info != null) {
-			LoadValues();
-		}
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
-	public void onClick(View v) {
+	public void onResume() {
+		super.onResume();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_work_history_detail);
 	}
 
 	public void LoadValues() {
@@ -132,21 +124,25 @@ public class WorkHistoryDetailActivity extends AppCompatActivity implements
 		ArrayList<MaterialUsage> m_list = new ArrayList<MaterialUsage>();
 
 		public MaterialUsageAdapter(ArrayList<MaterialUsage> temp) {
+
 			m_list = temp;
 		}
 
 		@Override
 		public int getCount() {
+
 			return m_list.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
+
 			return m_list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
+
 			return m_list.get(position).hashCode();
 		}
 
@@ -157,7 +153,7 @@ public class WorkHistoryDetailActivity extends AppCompatActivity implements
 			holder = new ViewHolder();
 			final MaterialUsage usage = m_list.get(position);
 			if (rowView == null) {
-				LayoutInflater li = getLayoutInflater();
+				LayoutInflater li = getActivity().getLayoutInflater();
 				rowView = li.inflate(R.layout.material_usage_list_item, null);
 				rowView.setTag(holder);
 				holder.main_item_text = (TextView) rowView

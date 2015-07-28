@@ -1,10 +1,10 @@
 package com.anstar.fieldwork;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,43 +21,23 @@ import com.anstar.models.list.WorkHistoryList;
 
 import java.util.ArrayList;
 
-public class WorkHistoryListActivity extends AppCompatActivity {
+public class WorkHistoryListFragment extends Fragment {
 
 	private ListView lstWorkHistory;
 	private int service_location_id = 0, cid = 0;
 	private BaseLoader mBaseLoader;
+	private OnWorkHistoryListSelectedListener mOnWorkHistoryListSelectedListener;
+	// Container Activity must implement this interface
+	public interface OnWorkHistoryListSelectedListener {
+		void onWorkHistoryListItemSelected(WorkHistroyInfo history);
+	}
 
+	@Nullable
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_work_history_list);
-		Bundle b = getIntent().getExtras();
-		if (b != null) {
-			if (b.containsKey("sid")) {
-				service_location_id = b.getInt("sid");
-				cid = b.getInt("cid");
-			}
-		}
-/*		ActionBar action = getSupportActionBar();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_work_history_list, container, false);
 
-		action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Work History</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
-
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-
-		ActionBar action = getSupportActionBar();
-		action.setDisplayHomeAsUpEnabled(true);
-		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
-
-		lstWorkHistory = (ListView) findViewById(R.id.lstWorkHistory);
+		lstWorkHistory = (ListView) v.findViewById(R.id.lstWorkHistory);
 
 		mBaseLoader.showProgress();
 		if (cid > 0 && service_location_id > 0) {
@@ -75,18 +55,55 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 						@Override
 						public void ModelLoadFailedWithError(String error) {
 							mBaseLoader.hideProgress();
-							Toast.makeText(getApplicationContext(), error,
+							Toast.makeText(getActivity(), error,
 									Toast.LENGTH_LONG).show();
 						}
 					}, cid, service_location_id);
 		}
 
+		return v;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle b = getArguments();
+		if (b != null) {
+			if (b.containsKey("sid")) {
+				service_location_id = b.getInt("sid");
+				cid = b.getInt("cid");
+			}
+		}
+
+		mBaseLoader = new BaseLoader(getActivity());
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mOnWorkHistoryListSelectedListener = (OnWorkHistoryListSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnServiceLocationDetailItemSelectedListener");
+		}
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	@Override
+	public void onResume() {
+		super.onResume();
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_work_history_list);
 	}
 
 	public class CustomAdapter extends BaseAdapter {
 		ArrayList<WorkHistroyInfo> m_list = new ArrayList<WorkHistroyInfo>();
 
 		public CustomAdapter(ArrayList<WorkHistroyInfo> list) {
+
 			m_list = list;
 		}
 
@@ -97,11 +114,13 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 
 		@Override
 		public Object getItem(int position) {
+
 			return m_list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
+
 			return position;
 		}
 
@@ -111,7 +130,7 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 			View rowView = convertView;
 			holder = new ViewHolder();
 			if (rowView == null) {
-				LayoutInflater li = getLayoutInflater();
+				LayoutInflater li = getActivity().getLayoutInflater();
 				rowView = li.inflate(R.layout.work_history_item, null);
 				rowView.setTag(holder);
 				holder.txtDate = (TextView) rowView.findViewById(R.id.txtDate);
@@ -139,10 +158,13 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 
 						@Override
 						public void onClick(View v) {
-							Intent i = new Intent(WorkHistoryListActivity.this,
+/*
+							Intent i = new Intent(getActivity(),
 									WorkHistoryDetailActivity.class);
 							i.putExtra("whid", history.id);
 							startActivity(i);
+*/
+							mOnWorkHistoryListSelectedListener.onWorkHistoryListItemSelected(history);
 						}
 					});
 			return rowView;

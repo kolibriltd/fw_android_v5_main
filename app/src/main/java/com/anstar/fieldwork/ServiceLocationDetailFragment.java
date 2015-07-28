@@ -1,6 +1,6 @@
 package com.anstar.fieldwork;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,7 +33,12 @@ public class ServiceLocationDetailFragment extends Fragment implements
 
 	boolean isFromStarted;
 	private ServiceLocationsInfo servicelocation_info = null;
-	//ActionBar action = null;
+	private OnServiceLocationDetailItemSelectedListener mOnServiceLocationDetailItemSelectedListener;
+	// Container Activity must implement this interface
+	public interface OnServiceLocationDetailItemSelectedListener {
+		void onServiceLocationDetailContactsSelected(ServiceLocationsInfo servicelocation_info);
+		void onServiceLocationDetailWorkHistorySelected(ServiceLocationsInfo servicelocation_info);
+	}
 
 	@Nullable
 	@Override
@@ -51,13 +56,11 @@ public class ServiceLocationDetailFragment extends Fragment implements
 		lstContact = (ListView) v.findViewById(R.id.lstBillingContact);
 		lstContact.setDivider(null);
 
-		servicelocation_info = ServiceLocationsList.Instance()
-				.getServiceLocationById(service_loc_id);
-
-		LoadValues();
 		rlContacts.setOnClickListener(this);
 		rlWorkHistory.setOnClickListener(this);
 		txt01.setText("Work History");
+
+		LoadValues();
 
 		return v;
 	}
@@ -69,6 +72,8 @@ public class ServiceLocationDetailFragment extends Fragment implements
 		if (b != null) {
 			service_loc_id = b.getInt("SLID");
 			cid = b.getInt("cid");
+			servicelocation_info = ServiceLocationsList.Instance()
+					.getServiceLocationById(service_loc_id);
 		}
 	}
 
@@ -82,16 +87,36 @@ public class ServiceLocationDetailFragment extends Fragment implements
 	@Override
 	public void onClick(View v) {
 		if (v == rlContacts) {
+/*
 			Intent i = new Intent(getActivity(),
 					ServiceLocationContactsActivity.class);
 			i.putExtra("SILD", service_loc_id);
 			startActivity(i);
+*/
+			mOnServiceLocationDetailItemSelectedListener.onServiceLocationDetailContactsSelected(servicelocation_info);
 		}else if (v == rlWorkHistory) {
+/*
 			Intent i = new Intent(getActivity(),
 					WorkHistoryListActivity.class);
 			i.putExtra("sid", service_loc_id);
 			i.putExtra("cid", cid);
 			startActivity(i);
+*/
+			mOnServiceLocationDetailItemSelectedListener.onServiceLocationDetailWorkHistorySelected(servicelocation_info);
+		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mOnServiceLocationDetailItemSelectedListener = (OnServiceLocationDetailItemSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnServiceLocationDetailItemSelectedListener");
 		}
 	}
 

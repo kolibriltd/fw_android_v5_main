@@ -25,14 +25,14 @@ public class ServiceLocationContactsActivity extends AppCompatActivity {
 
 	ListView lstServiceLocations;
 	EditText edtSearch;
-	ImageView imgSearch;
+	//ImageView imgSearch;
 	int service_loc_id = 0;
 	ArrayList<ServiceLocationContactInfo> m_locations;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_service_location_contacts);
+		setContentView(R.layout.fragment_service_location_contacts);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
 			if (b.containsKey("SILD")) {
@@ -58,7 +58,7 @@ public class ServiceLocationContactsActivity extends AppCompatActivity {
 
         lstServiceLocations = (ListView) findViewById(R.id.lstServices_list);
 		edtSearch = (EditText) findViewById(R.id.edtSearch);
-		imgSearch = (ImageView) findViewById(R.id.imgSearchServiceLocation);
+		//imgSearch = (ImageView) findViewById(R.id.imgSearchServiceLocation);
 		m_locations = ServiceLocationContactInfo
 				.getContactsByServiceId(service_loc_id);
 		if (m_locations == null) {
