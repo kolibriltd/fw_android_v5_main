@@ -31,7 +31,7 @@ public class CustomerContactListFragment extends Fragment {
 	private OnCustomerContactItemSelectedListener mOnCustomerContactItemSelectedListener;
 	// Container Activity must implement this interface
 	public interface OnCustomerContactItemSelectedListener {
-		void onOnCustomerContactItemSelected(CustomerContactInfo item);
+		void onCustomerContactItemSelected(CustomerContactInfo item);
 	}
 
 	@Nullable
@@ -139,7 +139,7 @@ public class CustomerContactListFragment extends Fragment {
 							i.putExtra("CONTACT_ID", service.id);
 							startActivity(i);
 */
-							mOnCustomerContactItemSelectedListener.onOnCustomerContactItemSelected(service);
+							mOnCustomerContactItemSelectedListener.onCustomerContactItemSelected(service);
 						}
 					});
 			return rowView;

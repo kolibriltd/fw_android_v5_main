@@ -1,6 +1,6 @@
 package com.anstar.fieldwork;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,9 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.Utils;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.PhoneEmailInfo;
@@ -37,6 +35,13 @@ public class CustomerDetailsFragment extends Fragment implements
 	private ListView lstContact;
 
 	private CustomerInfo mCustomerInfo = null;
+	private OnCustomerDetailsItemSelectedListener mOnCustomerDetailsItemSelectedListener;
+	// Container Activity must implement this interface
+	public interface OnCustomerDetailsItemSelectedListener {
+		void onCustomerDetailsContactsSelected(CustomerInfo item);
+		void onCustomerDetailsServiceLocationsSelected(CustomerInfo item);
+		void onCustomerDetailsEditSelected(CustomerInfo item);
+	}
 
 	@Nullable
 	@Override
@@ -54,7 +59,6 @@ public class CustomerDetailsFragment extends Fragment implements
         rlContacts.setOnClickListener(this);
         rlContacts.setOnClickListener(this);
         rlServiceLocations.setOnClickListener(this);
-        LoadValues();
 
 		return v;
 	}
@@ -69,26 +73,47 @@ public class CustomerDetailsFragment extends Fragment implements
         setHasOptionsMenu(true);
 	};
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mOnCustomerDetailsItemSelectedListener = (OnCustomerDetailsItemSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnCustomerDetailsItemSelectedListener");
+		}
+	}
+
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_customer_details);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_customer_details);
+		LoadValues();
     }
 
 	@Override
 	public void onClick(View v) {
 		if (v == rlContacts) {
+/*
 			CustomerContactListFragment fragment = new CustomerContactListFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt("CID", customer_id);
 			fragment.setArguments(bundle);
 			((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
+*/
+			mOnCustomerDetailsItemSelectedListener.onCustomerDetailsContactsSelected(mCustomerInfo);
 		} else if (v == rlServiceLocations) {
+/*
 			ServiceLocationListFragment fragment = new ServiceLocationListFragment();
 			Bundle bundle = new Bundle();
 			bundle.putInt("CID", customer_id);
 			fragment.setArguments(bundle);
 			((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
+*/
+			mOnCustomerDetailsItemSelectedListener.onCustomerDetailsServiceLocationsSelected(mCustomerInfo);
 		}
 	}
 
@@ -215,21 +240,25 @@ public class CustomerDetailsFragment extends Fragment implements
 		ArrayList<PhoneEmailInfo> m_list = new ArrayList<PhoneEmailInfo>();
 
 		public MyContactAdapter(ArrayList<PhoneEmailInfo> temp) {
+
 			m_list = temp;
 		}
 
 		@Override
 		public int getCount() {
+
 			return m_list.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
+
 			return m_list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
+
 			return m_list.get(position).hashCode();
 		}
 
@@ -289,6 +318,7 @@ public class CustomerDetailsFragment extends Fragment implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.btnEdit:
+/*
 			if (NetworkConnectivity.isConnected()) {
 				Intent i = new Intent(getActivity(),
 						AddCustomerActivity.class);
@@ -300,6 +330,8 @@ public class CustomerDetailsFragment extends Fragment implements
 						"Edit action needs internet connection", Toast.LENGTH_LONG)
 						.show();
 			}
+*/
+			mOnCustomerDetailsItemSelectedListener.onCustomerDetailsEditSelected(mCustomerInfo);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

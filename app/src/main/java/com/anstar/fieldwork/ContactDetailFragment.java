@@ -287,21 +287,25 @@ public class ContactDetailFragment extends Fragment {
 		ArrayList<PhoneEmailInfo> m_list = new ArrayList<PhoneEmailInfo>();
 
 		public MyContactAdapter(ArrayList<PhoneEmailInfo> temp) {
+
 			m_list = temp;
 		}
 
 		@Override
 		public int getCount() {
+
 			return m_list.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
+
 			return m_list.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
+
 			return m_list.get(position).hashCode();
 		}
 

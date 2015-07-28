@@ -7,8 +7,6 @@
 
 package com.anstar.print;
 
-import java.util.Set;
-
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,7 +18,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.anstar.fieldwork.BaseActivity;
 import com.anstar.fieldwork.R;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.Printer;
@@ -28,6 +25,8 @@ import com.brother.ptouch.sdk.PrinterInfo;
 import com.brother.ptouch.sdk.PrinterInfo.ErrorCode;
 import com.brother.ptouch.sdk.PrinterInfo.Model;
 import com.brother.ptouch.sdk.PrinterStatus;
+
+import java.util.Set;
 
 public abstract class BasePrint {
 
@@ -102,7 +101,8 @@ public abstract class BasePrint {
     
     private void getPreferences() {
         String macaddress = "", d = "";
-        Set<BluetoothDevice> pairedDevices = BaseActivity.bluetoothAdapter.getBondedDevices();
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
 //            	if(device.getName().equalsIgnoreCase("PJ_662")){
