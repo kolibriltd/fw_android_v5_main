@@ -1,5 +1,7 @@
 package com.anstar.fieldwork;
 
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,14 +25,20 @@ import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
 import com.anstar.common.BaseLoader;
+import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
+import com.anstar.common.Utils;
 import com.anstar.dialog.ConfirmDialog;
 import com.anstar.models.Account;
 import com.anstar.models.CustomerContactInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.UserInfo;
+import com.anstar.print.BasePrint;
+import com.anstar.print.MsgDialog;
+import com.anstar.print.MsgHandle;
+import com.anstar.print.PdfPrint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +47,11 @@ import java.util.List;
 public class DashboardActivity extends AppCompatActivity implements
         ConfirmDialog.OnConfirmDialogListener, CustomerListFragment.OnCustomerItemSelectedListener,
         ServiceLocationListFragment.OnServiceLocationItemSelectedListener,
-        CustomerContactListFragment.OnCustomerContactItemSelectedListener {
+        CustomerContactListFragment.OnCustomerContactItemSelectedListener,
+        CustomerDetailsFragment.OnCustomerDetailsItemSelectedListener,
+        HomeFragment.OnHomeItemSelectedListener{
+
+    private static int APPOINTMENT_DETAIL = 1;
 
     final private String ITEM_ICON = "item_icon";
     final private String ITEM_TEXT = "item_text";
@@ -189,18 +201,22 @@ public class DashboardActivity extends AppCompatActivity implements
         switch (mDrawerValues[position - 1]) {
             case 0:
                 // Home
+                closeAllFragments();
                 replaceAnimatedFragment(new HomeFragment());
                 break;
             case 1:
                 // Calendar
+                closeAllFragments();
                 replaceAnimatedFragment(new AppointmentListFragment());
                 break;
             case 2:
                 // Customers
+                closeAllFragments();
                 replaceAnimatedFragment(new CustomerListFragment());
                 break;
             case 3:
                 // Settings
+                closeAllFragments();
                 replaceAnimatedFragment(new SettingFragment());
                 break;
             case 4:
@@ -263,6 +279,41 @@ public class DashboardActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == APPOINTMENT_DETAIL) {
+            if (resultCode == Activity.RESULT_OK) {
+                String path = data.getStringExtra("printpath");
+                if (path.length() > 0)
+                    print(path);
+            }
+        }
+    }
+
+    public void print(final String path) {
+        MsgDialog mDialog = new MsgDialog(this);
+        MsgHandle mHandle = new MsgHandle(this, mDialog);
+        final BasePrint myPrint = new PdfPrint(this, mHandle, mDialog);
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        myPrint.setBluetoothAdapter(bluetoothAdapter);
+        ((PdfPrint) myPrint).setFiles(path);
+        try {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int pages = ((PdfPrint) myPrint).getPdfPages(path);
+                    ((PdfPrint) myPrint).setPrintPage(1, pages);
+                    myPrint.print();
+                }
+            });
+
+        } catch (Exception e) {
+            Utils.LogException(e);
+        }
+    }
+
     private void closeAllFragments() {
         FragmentManager fm = getSupportFragmentManager();
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
@@ -306,8 +357,7 @@ public class DashboardActivity extends AppCompatActivity implements
         transaction.commit();
     }
 
-    public void replaceAnimatedFragment(Fragment fragment) {
-        closeAllFragments();
+    private void replaceAnimatedFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit,
                 R.anim.fragment_animation_enter, R.anim.fragment_animation_exit);
@@ -335,10 +385,71 @@ public class DashboardActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onOnCustomerContactItemSelected(CustomerContactInfo item) {
+    public void onCustomerContactItemSelected(CustomerContactInfo item) {
         ContactDetailFragment fragment = new ContactDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("CONTACT_ID", item.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onCustomerDetailsContactsSelected(CustomerInfo item) {
+        CustomerContactListFragment fragment = new CustomerContactListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("CID", item.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onCustomerDetailsServiceLocationsSelected(CustomerInfo item) {
+        ServiceLocationListFragment fragment = new ServiceLocationListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("CID", item.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onCustomerDetailsEditSelected(CustomerInfo item) {
+        if (NetworkConnectivity.isConnected()) {
+            Intent i = new Intent(this, AddCustomerActivity.class);
+            i.putExtra("customer_id", item.id);
+            startActivity(i);
+            //finish();
+        } else {
+            Toast.makeText(this,
+                    "Edit action needs internet connection", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onHomeAppointmentsSelected() {
+        closeAllFragments();
+        replaceAnimatedFragment(new AppointmentListFragment());
+    }
+
+    @Override
+    public void onHomeCustomersSelected() {
+        closeAllFragments();
+        replaceAnimatedFragment(new CustomerListFragment());
+    }
+
+    @Override
+    public void onHomeAppointmentsListItemSelected(int item) {
+        Intent i = new Intent(this, AppointmentDetailsActivity.class);
+        i.putExtra(Const.Appointment_Id, item);
+//        Const.app_id = item.id;
+        startActivityForResult(i, APPOINTMENT_DETAIL);
+    }
+
+    @Override
+    public void onHomeCustomersListItemSelected(int item) {
+        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("customer_id", item);
         fragment.setArguments(bundle);
         addAnimatedFragment(fragment);
     }

@@ -207,14 +207,11 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.appointments_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AppointmentDetailsFragment aif = new AppointmentDetailsFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt(Const.Appointment_Id, item.id);
-                            aif.setArguments(bundle);
-                            ((DashboardActivity) getActivity()).getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.container, aif)
-                                    .commit();
+                            Intent i = new Intent(getActivity(),
+                                    AppointmentDetailsActivity.class);
+                            i.putExtra(Const.Appointment_Id, item.id);
+                            Const.app_id = item.id;
+                            startActivityForResult(i, APPOINTMENT_DETAIL);
                         }
                     });
 
