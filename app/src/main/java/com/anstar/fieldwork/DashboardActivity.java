@@ -24,7 +24,6 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
@@ -54,7 +53,8 @@ public class DashboardActivity extends AppCompatActivity implements
         HomeFragment.OnHomeItemSelectedListener,
         ServiceLocationDetailFragment.OnServiceLocationDetailItemSelectedListener,
         ServiceLocationContactsFragment.OnServiceLocationContactslItemSelectedListener,
-        WorkHistoryListFragment.OnWorkHistoryListSelectedListener  {
+        WorkHistoryListFragment.OnWorkHistoryListSelectedListener,
+        CaptureSignatureFragment.CaptureSignatureFragmentListener {
 
     private static int APPOINTMENT_DETAIL = 1;
 
@@ -80,14 +80,11 @@ public class DashboardActivity extends AppCompatActivity implements
             syncActionBarArrowState();
         }
     };
-    private BaseLoader mBaseLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        mBaseLoader = new BaseLoader(this);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -531,5 +528,38 @@ public class DashboardActivity extends AppCompatActivity implements
         bundle.putInt("whid", history.id);
         fragment.setArguments(bundle);
         addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onCaptureSignatureSaved() {
+/*
+        Toast.makeText(this,
+                "Your signature is successfully saved...",
+                Toast.LENGTH_LONG).show();
+        Intent i = new Intent(CaptureSignatureFragment.this,
+                SignatureActivity.class);
+        startActivity(i);
+        finish();
+*/
+/*
+        Fragment fragment = new SignatureFragment();
+        replaceAnimatedFragment(fragment);
+*/
+        onBackPressed();
+    }
+
+    @Override
+    public void onCaptureSignatureCancelClicked() {
+/*
+        Intent i = new Intent(CaptureSignatureFragment.this,
+                SignatureActivity.class);
+        startActivity(i);
+        finish();
+*/
+/*
+        Fragment fragment = new SignatureFragment();
+        replaceAnimatedFragment(fragment);
+*/
+        onBackPressed();
     }
 }
