@@ -4,9 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +32,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -33,11 +40,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -55,6 +65,12 @@ import com.anstar.models.AttachmentsInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.DownloadPdf;
 import com.anstar.models.DownloadPdf.UploadDelegate;
+import com.anstar.models.LineItemDetalInfo;
+import com.anstar.models.LineItemsInfo;
+import com.anstar.models.MaterialInfo;
+import com.anstar.models.MaterialUsage;
+import com.anstar.models.MaterialUsageRecords;
+import com.anstar.models.ModelDelegates;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
 import com.anstar.models.PaymentInfo;
@@ -64,9 +80,14 @@ import com.anstar.models.PhoneEmailInfo.ContactType;
 import com.anstar.models.PhotoAttachmentsInfo;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.StatusInfo;
+import com.anstar.models.TrapScanningInfo;
 import com.anstar.models.UserInfo;
 import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.CustomerList;
+import com.anstar.models.list.DilutionRatesList;
+import com.anstar.models.list.LineItemsList;
+import com.anstar.models.list.MaterialUsagesList;
+import com.anstar.models.list.MaterialUsagesRecordsList;
 import com.anstar.models.list.PdfFormsList;
 import com.anstar.models.list.PhotoAttachmentsList;
 import com.anstar.models.list.ServiceLocationsList;
@@ -80,6 +101,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,17 +119,28 @@ public class AppointmentDetailsFragment extends Fragment implements
 			add_chemical_use_count, add_devices_count, btnDrivingDirections;
 	private TextView duration, address, start_time, istruction, no_pdf, notes_text, no_chemical,
 			no_photos, total_devices, scanned_devices, un_scanned_devices;
-	RelativeLayout marker_app, lineItem, lineItemList, instruction_touch, instruction_item, pdf_forms_touch, pdf_forms_list;
+	private RelativeLayout marker_app, lineItem, lineItemList, instruction_touch, instruction_item, pdf_forms_touch, pdf_forms_list;
 	private RelativeLayout notes_touch, notes_count, chemical_touch, chemical_count, photo_touch, photo_count, devices_touch, devices_count;
-
+	private ListView listLineItem, listPdfForms, listChemicalUse;
 	private RelativeLayout plus_count, count_plus_menu;
 	private ImageView plus, add_photo, add_line_item, add_notes, add_chemical;
+	private GridView photoList;
+	private LineItemsListAdapter m_adapter = null;
+	private MaterialUsageAdapter m_adapter_chemical = null;
+	private PdfFormsListAdapter m_adapter_pdf = null;
+	private PhotosGridAdapter m_adapter_photo = null;
 
 	/*timer*/
 
 	TextView minutes_timer, secunds_timer;
 	ImageView buttom_timer;
 	boolean start_time_b = false;
+
+	private ArrayList<LineItemsInfo> m_lineitems = null;
+	private ArrayList<LineItemDetalInfo> m_lineitems_type = null;
+	private ArrayList<MaterialUsage> m_list_chemical = null;
+	private ArrayList<PdfFormsInfo> m_pdfforms = null;
+	ArrayList<PhotoAttachmentsInfo> photos = new ArrayList<PhotoAttachmentsInfo>();
 
 	private Button btnSave, btnPrintPdf;
 	// private ImageView imgMap;
@@ -129,6 +163,8 @@ public class AppointmentDetailsFragment extends Fragment implements
 	Button btnTrapCount;
 	private UserInfo user;
 	private BaseLoader mBaseLoader;
+	private ArrayList<TrapScanningInfo> m_traps = null;
+	String url = "";
 
 	// DateTimePickerDialog dl = null;
 
@@ -190,6 +226,11 @@ public class AppointmentDetailsFragment extends Fragment implements
 		add_notes = (ImageView) rootView.findViewById(R.id.add_notes);
 		add_chemical = (ImageView) rootView.findViewById(R.id.add_chemical);
 
+		listLineItem = (ListView) rootView.findViewById(R.id.list_line_item);
+		listPdfForms = (ListView) rootView.findViewById(R.id.list_pdf);
+		listChemicalUse = (ListView) rootView.findViewById(R.id.chemical_list);
+		photoList = (GridView) rootView.findViewById(R.id.list_photo);
+
 		plus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -228,6 +269,33 @@ public class AppointmentDetailsFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(getActivity(), DrivingDirectionsActivity.class);
+				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
+				startActivity(i);
+			}
+		});
+
+		add_devices_count.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), TrapScanningListActivity.class);
+				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
+				startActivity(i);
+			}
+		});
+
+		cont_edit_line_item.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), LineItemsActivity.class);
+				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
+				startActivity(i);
+			}
+		});
+
+		add_photo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), PhotosActivity.class);
 				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
 				startActivity(i);
 			}
@@ -278,11 +346,10 @@ public class AppointmentDetailsFragment extends Fragment implements
 			Toast.makeText(getActivity(),
 					"Please try again, something went wrong", Toast.LENGTH_LONG)
 					.show();
-//////////////			finish();
 			return;
 		}
-
-
+		m_pdfforms = new ArrayList<PdfFormsInfo>();
+		m_lineitems = LineItemsList.Instance().load(appointment_id);
 
 		customerinfo = CustomerList.Instance().getCustomerById(
 				appointmentInfo.customer_id);
@@ -293,10 +360,29 @@ public class AppointmentDetailsFragment extends Fragment implements
 			Toast.makeText(getActivity(),
 					"Please try again, something went wrong", Toast.LENGTH_LONG)
 					.show();
-////////////////			finish();
 			return;
 		}
+
+		m_list_chemical = MaterialUsagesList.Instance().load(appointment_id);
+		try {
+			m_pdfforms = PdfFormsList.Instance().load(appointment_id);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (serviceLocationInfo != null) {
+			m_traps = TrapList.Instance().getAllTrapsByCustomerId(
+					appointmentInfo.customer_id, serviceLocationInfo.id);
+		}
 		Const.customer_id = appointmentInfo.customer_id;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(ServiceHelper.URL);
+		sb.append(ServiceHelper.WORK_ORDERS + "/" + appointment_id + "/"
+				+ ServiceHelper.PHOTO_ATTACHMENTS);
+		// sb.append("api_key=");
+		// sb.append(Account.getkey());
+		url = sb.toString();
 		/*btnTrapCount.setText(TrapList
 				.Instance()
 				.getAllTrapsByCustomerId(appointmentInfo.customer_id,
@@ -455,6 +541,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("#" + appointment_id);
 		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
 				appointment_id);
+		m_lineitems = LineItemsList.Instance().load(appointment_id);
 		if (customerinfo == null) {
 			Toast.makeText(getActivity(),
 					"Please refresh your data.", Toast.LENGTH_LONG).show();
@@ -462,6 +549,13 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 		customerinfo = CustomerList.Instance().getCustomerById(
 				appointmentInfo.customer_id);
+
+		m_list_chemical = MaterialUsagesList.Instance().load(appointment_id);
+
+		if (serviceLocationInfo != null) {
+			m_traps = TrapList.Instance().getAllTrapsByCustomerId(
+					appointmentInfo.customer_id, serviceLocationInfo.id);
+		}
 		String filepath = appointment_id + ".pdf";
 		/*if (isFileExist(getStoragePath(filepath))) {
 			rlPdf.setVisibility(View.VISIBLE);
@@ -916,18 +1010,165 @@ public class AppointmentDetailsFragment extends Fragment implements
 
 		start_time.setText(appointmentInfo.starts_at_time);
 
-		String name;
-		if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
-			name = customerinfo.name;
-		} else {
-			name = customerinfo.name_prefix + " "
-					+ customerinfo.first_name + " "
-					+ customerinfo.last_name;
+		String name = "";
+		if (customerinfo != null) {
+			if (customerinfo.customer_type.equalsIgnoreCase("Commercial")) {
+				name = customerinfo.name;
+			} else {
+				name = customerinfo.name_prefix + " "
+						+ customerinfo.first_name + " "
+						+ customerinfo.last_name;
+			}
 		}
 
 		cus_name.setText(name);
-		address.setText(serviceLocationInfo.name + "\n" + serviceLocationInfo.country + "\n" + serviceLocationInfo.street + "\n" +
-				serviceLocationInfo.city + ", " + serviceLocationInfo.state + " " + serviceLocationInfo.zip);
+		if (serviceLocationInfo != null) {
+			address.setText(serviceLocationInfo.name + "\n" + serviceLocationInfo.country + "\n" + serviceLocationInfo.street + "\n" +
+					serviceLocationInfo.city + ", " + serviceLocationInfo.state + " " + serviceLocationInfo.zip);
+		}
+
+		notes_text.setText(appointmentInfo.notes);
+		private_notes_text.setText(appointmentInfo.private_notes);
+
+		istruction.setText(appointmentInfo.instructions);
+
+
+		if (m_traps != null) {
+			total_devices.setText(m_traps.size() + "");
+			int scaned = 0;
+			for (TrapScanningInfo trap : m_traps) {
+				if (trap.isChecked) {
+					scaned++;
+				}
+			}
+
+			scanned_devices.setText(scaned + "");
+			un_scanned_devices.setText((m_traps.size() - scaned) + "");
+		}
+		m_lineitems_type = new ArrayList<LineItemDetalInfo>();
+		LineItemDetalInfo title_line = new LineItemDetalInfo();
+		title_line.type_line = "title";
+		m_lineitems_type.add(title_line);
+
+		Double total = 0.0;
+		for (LineItemsInfo item : m_lineitems) {
+			LineItemDetalInfo item_line = new LineItemDetalInfo();
+			item_line.type_line = "item";
+			item_line.name = item.name;
+			item_line.price = item.price;
+			item_line.quantity = item.quantity;
+			m_lineitems_type.add(item_line);
+			total = total + Double.parseDouble(item.price);
+		}
+
+		LineItemDetalInfo total_line = new LineItemDetalInfo();
+		total_line.type_line = "total";
+		total_line.total_line = total;
+		m_lineitems_type.add(total_line);
+
+		m_adapter = new LineItemsListAdapter(m_lineitems_type);
+		listLineItem.setAdapter(m_adapter);
+
+		if (m_list_chemical != null) {
+			m_adapter_chemical = new MaterialUsageAdapter(m_list_chemical);
+			listChemicalUse.setAdapter(m_adapter_chemical);
+		}
+		if (m_pdfforms.size() > 0) {
+			m_adapter_pdf = new PdfFormsListAdapter(m_pdfforms);
+			listPdfForms.setAdapter(m_adapter_pdf);
+		}
+		else {
+			no_pdf.setVisibility(View.VISIBLE);
+			listPdfForms.setVisibility(View.GONE);
+		}
+
+		photos = new ArrayList<PhotoAttachmentsInfo>();
+		photos = PhotoAttachmentsList.Instance().load(appointment_id);
+		if (photos != null) {
+			m_adapter_photo = new PhotosGridAdapter(photos);
+			photoList.setAdapter(m_adapter_photo);
+		}
+
+		lineItem.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (lineItemList.getVisibility() == View.GONE) {
+					Utility.setListViewChild(listLineItem);
+					ClouseLayout("lineItemList");
+				}
+				else {
+					collapse(lineItemList);
+				}
+			}
+		});
+		instruction_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (instruction_item.getVisibility() == View.GONE) {
+					ClouseLayout("instruction_item");
+				}
+				else {
+					collapse(instruction_item);
+				}
+			}
+		});
+		pdf_forms_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (pdf_forms_list.getVisibility() == View.GONE) {
+					Utility.setListViewChild(listPdfForms);
+					ClouseLayout("pdf_forms_list");
+				}
+				else {
+					collapse(pdf_forms_list);
+				}
+			}
+		});
+		notes_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (notes_count.getVisibility() == View.GONE) {
+					ClouseLayout("notes_count");
+				}
+				else {
+					collapse(notes_count);
+				}
+			}
+		});
+		chemical_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (chemical_count.getVisibility() == View.GONE) {
+					Utility.setListViewChild(listChemicalUse);
+					ClouseLayout("chemical_count");
+				}
+				else {
+					collapse(chemical_count);
+				}
+			}
+		});
+		photo_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (photo_count.getVisibility() == View.GONE) {
+					ClouseLayout("photo_count");
+				}
+				else {
+					collapse(photo_count);
+				}
+			}
+		});
+		devices_touch.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (devices_count.getVisibility() == View.GONE) {
+					ClouseLayout("devices_count");
+				}
+				else {
+					collapse(devices_count);
+				}
+			}
+		});
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -976,77 +1217,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 	}
 
-	public class MyContactAdapter extends BaseAdapter {
 
-		ArrayList<PhoneEmailInfo> m_list = new ArrayList<PhoneEmailInfo>();
-
-		public MyContactAdapter(ArrayList<PhoneEmailInfo> temp) {
-			m_list = temp;
-		}
-
-		@Override
-		public int getCount() {
-			return m_list.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return m_list.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return m_list.get(position).hashCode();
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder;
-			View rowView = convertView;
-			holder = new ViewHolder();
-			final PhoneEmailInfo info = m_list.get(position);
-			if (rowView == null) {
-				LayoutInflater li = getActivity().getLayoutInflater();
-				rowView = li.inflate(R.layout.phone_email_item, null);
-				rowView.setTag(holder);
-				holder.txtKind = (TextView) rowView.findViewById(R.id.txtKind);
-				holder.txtValue = (TextView) rowView
-						.findViewById(R.id.txtValue);
-				holder.rl = (RelativeLayout) rowView
-						.findViewById(R.id.rlContact);
-			} else {
-				holder = (ViewHolder) rowView.getTag();
-			}
-
-			String kind = info.Kind;
-
-			if (info.Kind != null && info.Kind.length() <= 0) {
-				kind = "Other";
-			}
-			holder.txtKind.setText(kind);
-			holder.txtValue.setText(info.Value);
-			holder.rl.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-
-					if (info.Type.equalsIgnoreCase(ContactType.Phone.toString())) {
-						Utils.callPhone(info.Value, getActivity());
-					}
-					if (info.Type.equalsIgnoreCase(ContactType.Email.toString())) {
-						Utils.sendEmail(info.Value, getActivity());
-					}
-				}
-			});
-
-			return rowView;
-		}
-	}
-
-	public static class ViewHolder {
-		TextView txtKind, txtValue;
-		RelativeLayout rl;
-	}
 
 	public void showPrintDialog() {
 		String message = "Do you want to print service report?";
@@ -1204,5 +1375,435 @@ public class AppointmentDetailsFragment extends Fragment implements
 			timerHandler.postDelayed(this, 1000);
 		}
 	};
+
+	private void ClouseLayout(String layout_t) {
+		if (layout_t.equals("lineItemList")) {
+			expand(lineItemList);
+		}
+		else {
+			collapse(lineItemList);
+		}
+		if (layout_t.equals("instruction_item")) {
+			expand(instruction_item);
+		}
+		else {
+			collapse(instruction_item);
+		}
+		if (layout_t.equals("pdf_forms_list")) {
+			expand(pdf_forms_list);
+		}
+		else {
+			collapse(pdf_forms_list);
+		}
+		if (layout_t.equals("notes_count")) {
+			expand(notes_count);
+		}
+		else {
+			collapse(notes_count);
+		}
+		if (layout_t.equals("chemical_count")) {
+			expand(chemical_count);
+		}
+		else {
+			collapse(chemical_count);
+		}
+		if (layout_t.equals("photo_count")) {
+			expand(photo_count);
+		}
+		else {
+			collapse(photo_count);
+		}
+		if (layout_t.equals("devices_count")) {
+			expand(devices_count);
+		}
+		else {
+			collapse(devices_count);
+		}
+	}
+	public static void expand(final View v) {
+		v.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		final int targetHeight = v.getMeasuredHeight();
+
+		v.getLayoutParams().height = 0;
+		v.setVisibility(View.VISIBLE);
+		Animation a = new Animation()
+		{
+			@Override
+			protected void applyTransformation(float interpolatedTime, Transformation t) {
+				v.getLayoutParams().height = interpolatedTime == 1
+						? RelativeLayout.LayoutParams.WRAP_CONTENT
+						: (int)(targetHeight * interpolatedTime);
+				v.requestLayout();
+			}
+
+			@Override
+			public boolean willChangeBounds() {
+				return true;
+			}
+		};
+
+		// 1dp/ms
+		a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+		v.startAnimation(a);
+	}
+
+	public static void collapse(final View v) {
+		final int initialHeight = v.getMeasuredHeight();
+
+		Animation a = new Animation()
+		{
+			@Override
+			protected void applyTransformation(float interpolatedTime, Transformation t) {
+				if(interpolatedTime == 1){
+					v.setVisibility(View.GONE);
+				}else{
+					v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+					v.requestLayout();
+				}
+			}
+
+			@Override
+			public boolean willChangeBounds() {
+				return true;
+			}
+		};
+
+		// 1dp/ms
+		a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+		v.startAnimation(a);
+	}
+
+	public class LineItemsListAdapter extends BaseAdapter {
+		ArrayList<LineItemDetalInfo> m_list = new ArrayList<LineItemDetalInfo>();
+
+		public LineItemsListAdapter(ArrayList<LineItemDetalInfo> list) {
+			m_list = list;
+		}
+
+		@Override
+		public int getCount() {
+			return m_list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return m_list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View rowView = convertView;
+			if (rowView == null || !(rowView instanceof LinearLayout)) {
+				LayoutInflater vi = LayoutInflater.from(getActivity());
+				rowView = vi.inflate(R.layout.line_item, null);
+
+				ViewHolder holder = new ViewHolder();
+				holder.TitleLine = (TableRow) rowView.findViewById(R.id.title_line_item);
+				holder.ItemLine = (TableRow) rowView.findViewById(R.id.item_line_item);
+				holder.TotalLine = (TableRow) rowView.findViewById(R.id.total_line_item);
+				holder.name = (TextView) rowView.findViewById(R.id.textView41);
+				holder.quantity = (TextView) rowView.findViewById(R.id.textView42);
+				holder.price = (TextView) rowView.findViewById(R.id.textView43);
+				holder.total = (TextView) rowView.findViewById(R.id.textView46);
+				rowView.setTag(holder);
+			}
+
+			ViewHolder holder = (ViewHolder) rowView.getTag();
+
+			final LineItemDetalInfo item = m_list.get(position);
+			if (item.type_line.equals("title")) {
+				holder.TitleLine.setVisibility(View.VISIBLE);
+				holder.ItemLine.setVisibility(View.GONE);
+				holder.TotalLine.setVisibility(View.GONE);
+			}
+			if (item.type_line.equals("item")) {
+				holder.TitleLine.setVisibility(View.GONE);
+				holder.ItemLine.setVisibility(View.VISIBLE);
+				holder.TotalLine.setVisibility(View.GONE);
+				holder.name.setText(item.name + "");
+				holder.quantity.setText(item.quantity + "");
+				holder.price.setText("$" + item.price);
+			}
+			if (item.type_line.equals("total")) {
+				holder.TitleLine.setVisibility(View.GONE);
+				holder.ItemLine.setVisibility(View.GONE);
+				holder.TotalLine.setVisibility(View.VISIBLE);
+				holder.total.setText("$" + item.total_line);
+			}
+
+			return rowView;
+		}
+
+		private class ViewHolder {
+			TableRow TitleLine;
+			TableRow ItemLine;
+			TableRow TotalLine;
+			TextView name;
+			TextView quantity;
+			TextView price;
+			TextView total;
+		}
+	}
+
+	public class MaterialUsageAdapter extends BaseAdapter {
+		ArrayList<MaterialUsage> m_list = new ArrayList<MaterialUsage>();
+
+		public MaterialUsageAdapter(ArrayList<MaterialUsage> list) {
+			m_list = list;
+		}
+
+		@Override
+		public int getCount() {
+			return m_list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return m_list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View rowView = convertView;
+			if (rowView == null || !(rowView instanceof LinearLayout)) {
+				LayoutInflater vi = LayoutInflater.from(getActivity());
+				rowView = vi.inflate(R.layout.chemical_item, null);
+
+				ViewHolder holder = new ViewHolder();
+				holder.nameMatirial = (TextView) rowView.findViewById(R.id.textView49);
+				holder.nameDilution = (TextView) rowView.findViewById(R.id.textView50);
+				rowView.setTag(holder);
+			}
+
+			final MaterialUsage usage = m_list.get(position);
+			ViewHolder holder = (ViewHolder) rowView.getTag();
+			if (usage != null) {
+				holder.nameMatirial.setText(MaterialInfo
+						.getMaterialNamebyId(usage.material_id));
+				final ArrayList<MaterialUsageRecords> records = MaterialUsagesRecordsList
+						.Instance().getMaterialRecordsByUsageId(usage.id);
+				if (records != null && records.size() > 0) {
+					final MaterialUsageRecords record = records.get(0);
+					int locations = 1;
+					if (records != null) {
+						locations = records.size();
+					}
+					String appmethod = "";
+					if (record.application_method != null) {
+						appmethod = " , " + record.application_method;
+					}
+
+					if (record.amount != null && record.amount.length() > 0
+							&& !record.amount.equalsIgnoreCase("null")) {
+						holder.nameDilution.setText(DilutionRatesList
+								.Instance().getDilutionNameByid(
+										record.dilution_rate_id)
+								+ " , "
+								+ String.valueOf(Float
+								.parseFloat(record.amount) * locations)
+								+ " , " + record.measurement + appmethod);
+					} else {
+						holder.nameDilution.setText(DilutionRatesList
+								.Instance().getDilutionNameByid(
+										record.dilution_rate_id)
+								+ " , "
+								+ "0.0"
+								+ " , "
+								+ record.measurement
+								+ appmethod);
+					}
+				}
+
+			}
+
+			return rowView;
+		}
+
+		private class ViewHolder {
+			TextView nameMatirial;
+			TextView nameDilution;
+		}
+	}
+
+	public class PdfFormsListAdapter extends BaseAdapter {
+		ArrayList<PdfFormsInfo> m_list = new ArrayList<PdfFormsInfo>();
+
+		public PdfFormsListAdapter(ArrayList<PdfFormsInfo> list) {
+			m_list = list;
+		}
+
+		@Override
+		public int getCount() {
+			return m_list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return m_list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View rowView = convertView;
+			if (rowView == null || !(rowView instanceof LinearLayout)) {
+				LayoutInflater vi = LayoutInflater.from(getActivity());
+				rowView = vi.inflate(R.layout.main_list_item, null);
+
+				ViewHolder holder = new ViewHolder();
+				holder.main_item_text = (TextView) rowView.findViewById(R.id.main_item_text);
+				holder.rl_main_list_item = (RelativeLayout) rowView.findViewById(R.id.rl_main_list_item);
+				rowView.setTag(holder);
+			}
+
+			ViewHolder holder = (ViewHolder) rowView.getTag();
+			final PdfFormsInfo pItem = m_list.get(position);
+			holder.main_item_text.setText(pItem.name);
+			holder.rl_main_list_item.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// DownloadPdf(pItem);
+				}
+			});
+			return rowView;
+		}
+
+		private class ViewHolder {
+			TextView main_item_text;
+			RelativeLayout rl_main_list_item;
+		}
+	}
+
+	public class PhotosGridAdapter extends BaseAdapter {
+		ArrayList<PhotoAttachmentsInfo> m_list = new ArrayList<PhotoAttachmentsInfo>();
+
+		public PhotosGridAdapter(ArrayList<PhotoAttachmentsInfo> list) {
+			m_list = list;
+		}
+
+		@Override
+		public int getCount() {
+			return m_list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return m_list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View rowView = convertView;
+			if (rowView == null || !(rowView instanceof LinearLayout)) {
+				LayoutInflater vi = LayoutInflater.from(getActivity());
+				rowView = vi.inflate(R.layout.photos_item, null);
+
+				ViewHolder holder = new ViewHolder();
+				holder.imgPhoto = (ImageView) rowView.findViewById(R.id.imgPhoto);
+				holder.rl_main_list_item = (RelativeLayout) rowView.findViewById(R.id.rl_main_list_item);
+				rowView.setTag(holder);
+			}
+
+			ViewHolder holder = (ViewHolder) rowView.getTag();
+			final PhotoAttachmentsInfo photo = m_list.get(position);
+			ContextWrapper cw = new ContextWrapper(
+					FieldworkApplication.getContext());
+			// path to /data/data/yourapp/app_data/imageDir
+			File directory = cw.getDir(Environment.DIRECTORY_DOWNLOADS,
+					Context.MODE_PRIVATE);
+			String path = Const.FieldWorkImages + "_" + appointment_id + "_"
+					+ photo.id;
+			File mypath = new File(directory, path + ".jpg");
+			Bitmap myBitmap = BitmapFactory.decodeFile(mypath.getAbsolutePath());
+			if (myBitmap != null)
+				holder.imgPhoto.setImageBitmap(myBitmap);
+			return rowView;
+		}
+
+		private class ViewHolder {
+			ImageView imgPhoto;
+			RelativeLayout rl_main_list_item;
+		}
+	}
+
+	public static class Utility {
+		public static void setListViewChild(ListView list) {
+			ListAdapter listadapter = list.getAdapter();
+			if (listadapter == null) {
+				return;
+			}
+			int totalHight = 0;
+			for (int i = 0; i < listadapter.getCount(); i++) {
+				View listitem = listadapter.getView(i, null, list);
+				listitem.measure(0, 0);
+				totalHight += listitem.getMeasuredHeight();
+				Log.w("HEIGHT" + i, String.valueOf(listitem.getMeasuredHeight()));
+			}
+			ViewGroup.LayoutParams params = list.getLayoutParams();
+			params.height = totalHight;
+			list.setLayoutParams(params);
+		}
+
+		public static void setGridViewChild(GridView list) {
+			ListAdapter listadapter = list.getAdapter();
+			if (listadapter == null) {
+				return;
+			}
+			int totalHight = 0;
+			for (int i = 0; i < listadapter.getCount(); i++) {
+				View listitem = listadapter.getView(i, null, list);
+				listitem.measure(0, 0);
+				totalHight += listitem.getMeasuredHeight();
+			}
+			ViewGroup.LayoutParams params = list.getLayoutParams();
+			params.height = totalHight/3/*
+                    + (list.getHeight() * (listadapter.getCount() - 1))*/;
+			list.setLayoutParams(params);
+		}
+
+	}
+	private Bitmap decodeFile(File f) {
+		try {
+			// Decode image size
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+			// The new size we want to scale to
+			final int REQUIRED_SIZE=70;
+
+			// Find the correct scale value. It should be the power of 2.
+			int scale = 1;
+			while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+					o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+				scale *= 2;
+			}
+
+			// Decode with inSampleSize
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+		} catch (FileNotFoundException e) {}
+		return null;
+	}
 
 }

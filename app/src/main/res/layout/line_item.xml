@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_line_item" android:paddingLeft="16dp"
+        android:visibility="gone">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="DESC"
+                android:id="@+id/textView38" android:layout_weight="1.5" android:textColor="#6b6b6b"
+                android:paddingTop="10dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="QTY"
+                android:id="@+id/textView39" android:layout_weight="0.5" android:textColor="#6b6b6b"
+                android:paddingTop="10dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="PRICE"
+                android:id="@+id/textView40" android:layout_weight="0.7" android:textColor="#6b6b6b"
+                android:background="@drawable/left_table_border" android:paddingTop="10dp"
+                android:paddingBottom="10dp" android:paddingLeft="5dp"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttom_table_border" android:id="@+id/item_line_item"
+            android:paddingLeft="16dp">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView41" android:layout_weight="1.5" android:textColor="#6b6b6b"
+                android:paddingTop="10dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:id="@+id/textView42" android:layout_weight="0.5" android:textColor="#6b6b6b"
+                android:paddingTop="10dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="$200"
+                android:id="@+id/textView43" android:layout_weight="0.7" android:textColor="#6b6b6b"
+                android:paddingLeft="5dp" android:paddingTop="10dp" android:paddingBottom="10dp"
+                android:background="@drawable/left_bottom_table_border"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="@drawable/buttom_table_border"
+            android:id="@+id/total_line_item" android:paddingLeft="16dp"
+        android:visibility="gone">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView44" android:layout_weight="1.5" android:textColor="#6b6b6b"
+                android:paddingTop="20dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Tolal"
+                android:id="@+id/textView45" android:layout_weight="0.5" android:textColor="#6b6b6b"
+                android:paddingTop="20dp" android:paddingBottom="10dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="$200"
+                android:id="@+id/textView46" android:layout_weight="0.7" android:textColor="#6b6b6b"
+                android:paddingLeft="5dp" android:paddingTop="20dp"
+                android:background="@drawable/left_bottom_table_border" android:paddingBottom="10dp"/>
+    </TableRow>
+
+</LinearLayout>
