@@ -26,7 +26,6 @@ public class ServiceLocationListActivity extends AppCompatActivity {
 
 	private ListView lstServiceLocations;
 	private EditText edtSearch;
-	private ImageView imgSearch;
 	private int Customer_id = 0;
 	private ArrayList<ServiceLocationsInfo> m_locations;
 	private boolean FromAddAppointment = false;
@@ -62,7 +61,6 @@ public class ServiceLocationListActivity extends AppCompatActivity {
 
 		lstServiceLocations = (ListView) findViewById(R.id.lstServices_list);
 		edtSearch = (EditText) findViewById(R.id.edtSearch);
-		imgSearch = (ImageView) findViewById(R.id.imgSearchServiceLocation);
 		m_locations = ServiceLocationsList.Instance()
 				.getServiceLocationByCustId(Customer_id);
 		if (m_locations == null) {

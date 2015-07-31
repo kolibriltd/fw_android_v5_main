@@ -24,7 +24,6 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
@@ -33,8 +32,10 @@ import com.anstar.dialog.ConfirmDialog;
 import com.anstar.models.Account;
 import com.anstar.models.CustomerContactInfo;
 import com.anstar.models.CustomerInfo;
+import com.anstar.models.ServiceLocationContactInfo;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.UserInfo;
+import com.anstar.models.WorkHistroyInfo;
 import com.anstar.print.BasePrint;
 import com.anstar.print.MsgDialog;
 import com.anstar.print.MsgHandle;
@@ -49,7 +50,11 @@ public class DashboardActivity extends AppCompatActivity implements
         ServiceLocationListFragment.OnServiceLocationItemSelectedListener,
         CustomerContactListFragment.OnCustomerContactItemSelectedListener,
         CustomerDetailsFragment.OnCustomerDetailsItemSelectedListener,
-        HomeFragment.OnHomeItemSelectedListener{
+        HomeFragment.OnHomeItemSelectedListener,
+        ServiceLocationDetailFragment.OnServiceLocationDetailItemSelectedListener,
+        ServiceLocationContactsFragment.OnServiceLocationContactslItemSelectedListener,
+        WorkHistoryListFragment.OnWorkHistoryListSelectedListener,
+        CaptureSignatureFragment.CaptureSignatureFragmentListener {
 
     private static int APPOINTMENT_DETAIL = 1;
 
@@ -75,14 +80,11 @@ public class DashboardActivity extends AppCompatActivity implements
             syncActionBarArrowState();
         }
     };
-    private BaseLoader mBaseLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
-        mBaseLoader = new BaseLoader(this);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -348,13 +350,21 @@ public class DashboardActivity extends AppCompatActivity implements
 
     }
 
-    public void addAnimatedFragment(Fragment fragment) {
+    private void addAnimatedFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.fragment_animation_enter, R.anim.fragment_animation_exit,
                 R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit);
-        transaction.replace(R.id.container, fragment);
+        if (tag == null) {
+            transaction.replace(R.id.container, fragment);
+        } else {
+            transaction.replace(R.id.container, fragment, tag);
+        }
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void addAnimatedFragment(Fragment fragment) {
+        addAnimatedFragment(fragment, null);
     }
 
     private void replaceAnimatedFragment(Fragment fragment) {
@@ -452,5 +462,104 @@ public class DashboardActivity extends AppCompatActivity implements
         bundle.putInt("customer_id", item);
         fragment.setArguments(bundle);
         addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onServiceLocationDetailContactsSelected(ServiceLocationsInfo servicelocation_info) {
+/*
+        Intent i = new Intent(getActivity(),
+                ServiceLocationContactsActivity.class);
+        i.putExtra("SILD", service_loc_id);
+        startActivity(i);
+*/
+
+        ServiceLocationContactsFragment fragment = new ServiceLocationContactsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("SILD", servicelocation_info.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onServiceLocationDetailWorkHistorySelected(ServiceLocationsInfo servicelocation_info) {
+/*
+        Intent i = new Intent(getActivity(),
+                WorkHistoryListActivity.class);
+        i.putExtra("sid", service_loc_id);
+        i.putExtra("cid", cid);
+        startActivity(i);
+*/
+
+        WorkHistoryListFragment fragment = new WorkHistoryListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("sid", servicelocation_info.id);
+        bundle.putInt("cid", servicelocation_info.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onServiceLocationContactsListItemSelected(ServiceLocationContactInfo service) {
+/*
+        Intent i = new Intent(getActivity(),
+                ContactDetailActivity.class);
+        i.putExtra("SERVICE_CONTACT_ID", service.id);
+        startActivity(i);
+*/
+
+        ContactDetailFragment fragment = new ContactDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("SERVICE_CONTACT_ID", service.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onWorkHistoryListItemSelected(WorkHistroyInfo history) {
+/*
+        Intent i = new Intent(getActivity(),
+                WorkHistoryDetailActivity.class);
+        i.putExtra("whid", history.id);
+        startActivity(i);
+*/
+
+        WorkHistoryDetailFragment fragment = new WorkHistoryDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("whid", history.id);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
+    }
+
+    @Override
+    public void onCaptureSignatureSaved() {
+/*
+        Toast.makeText(this,
+                "Your signature is successfully saved...",
+                Toast.LENGTH_LONG).show();
+        Intent i = new Intent(CaptureSignatureFragment.this,
+                SignatureActivity.class);
+        startActivity(i);
+        finish();
+*/
+/*
+        Fragment fragment = new SignatureFragment();
+        replaceAnimatedFragment(fragment);
+*/
+        onBackPressed();
+    }
+
+    @Override
+    public void onCaptureSignatureCancelClicked() {
+/*
+        Intent i = new Intent(CaptureSignatureFragment.this,
+                SignatureActivity.class);
+        startActivity(i);
+        finish();
+*/
+/*
+        Fragment fragment = new SignatureFragment();
+        replaceAnimatedFragment(fragment);
+*/
+        onBackPressed();
     }
 }

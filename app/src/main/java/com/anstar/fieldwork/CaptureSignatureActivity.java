@@ -54,7 +54,7 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_capture_siganture);
+		setContentView(R.layout.fragment_capture_siganture);
 
 /*
 		ActionBar action = getSupportActionBar();

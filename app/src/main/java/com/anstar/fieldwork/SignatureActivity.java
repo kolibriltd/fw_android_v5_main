@@ -46,7 +46,7 @@ public class SignatureActivity extends AppCompatActivity implements OnClickListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activty_signature);
+		setContentView(R.layout.fragment_signature);
 
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
