@@ -21,6 +21,8 @@
     <string name="save">Save</string>
 <!--     <string name="header_text_color">#ffffff</string> -->
     <string name="header_text_color">#333333</string>
+    <string name="string_item_appointments">&#8226;&#8226;&#8226;</string>
+    <string name="title_activity_driving_directions">kkk</string>
 
     <string name="select_phone_kind">select</string>
     <string name="select_service_route">Select route</string>
@@ -253,5 +255,8 @@
     <string name="title_fragment_service_location_list">Service Location</string>
     <string name="title_fragment_service_location_detail">Service Location Details</string>
     <string name="title_fragment_contact_detail">Contact Detail</string>
+    <string name="title_fragment_work_history_detail">Work History Details</string>
+    <string name="title_fragment_work_history_list">Work History</string>
+    <string name="title_fragment_service_location_contacts">Service Location Contact</string>
 
 </resources>
