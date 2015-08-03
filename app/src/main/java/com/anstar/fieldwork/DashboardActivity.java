@@ -449,10 +449,18 @@ public class DashboardActivity extends AppCompatActivity implements
 
     @Override
     public void onHomeAppointmentsListItemSelected(int item) {
+/*
         Intent i = new Intent(this, AppointmentDetailsActivity.class);
         i.putExtra(Const.Appointment_Id, item);
 //        Const.app_id = item.id;
         startActivityForResult(i, APPOINTMENT_DETAIL);
+*/
+
+        Fragment fragment = new AppointmentDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Const.Appointment_Id, item);
+        fragment.setArguments(bundle);
+        addAnimatedFragment(fragment);
     }
 
     @Override

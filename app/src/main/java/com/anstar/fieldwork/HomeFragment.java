@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anstar.common.BaseLoader;
-import com.anstar.common.Const;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -31,10 +30,6 @@ import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.CustomerList;
 import com.anstar.models.list.LineItemsList;
 import com.anstar.models.list.ServiceLocationsList;
-import com.anstar.print.BasePrint;
-import com.anstar.print.MsgDialog;
-import com.anstar.print.MsgHandle;
-import com.anstar.print.PdfPrint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,6 +45,14 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     AppointmentAdapter m_adapter = null;
     private BaseLoader mBaseLoader;
     private ArrayList<CustomerInfo> m_list;
+    private OnHomeItemSelectedListener mOnHomeItemSelectedListener;
+    // Container Activity must implement this interface
+    public interface OnHomeItemSelectedListener {
+        void onHomeAppointmentsSelected();
+        void onHomeCustomersSelected();
+        void onHomeAppointmentsListItemSelected(int item);
+        void onHomeCustomersListItemSelected(int item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         mBaseLoader = new BaseLoader(getActivity());
         m_currentDate = new Date();
 
-        m_appointments = new ArrayList<AppointmentInfo>();
+        m_appointments = new ArrayList<>();
 
         NotificationCenter.Instance().addObserver(HomeFragment.this,
                 "refresh", "hideshowRefresh", null);
@@ -86,6 +89,20 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         } catch (Exception e) {
             mBaseLoader.hideProgress();
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mOnHomeItemSelectedListener = (OnHomeItemSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHomeItemSelectedListener");
         }
     }
 
@@ -157,7 +174,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.appointments.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((DashboardActivity) getActivity()).replaceAnimatedFragment(new AppointmentListFragment());
+                            mOnHomeItemSelectedListener.onHomeAppointmentsSelected();
                         }
                     });
 
@@ -207,11 +224,16 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.appointments_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+/*
+
                             Intent i = new Intent(getActivity(),
                                     AppointmentDetailsActivity.class);
                             i.putExtra(Const.Appointment_Id, item.id);
                             Const.app_id = item.id;
                             startActivityForResult(i, APPOINTMENT_DETAIL);
+
+*/
+                            mOnHomeItemSelectedListener.onHomeAppointmentsListItemSelected(item.id);
                         }
                     });
 
@@ -235,7 +257,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.customers.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((DashboardActivity) getActivity()).replaceAnimatedFragment(new CustomerListFragment());
+                            mOnHomeItemSelectedListener.onHomeCustomersSelected();
                         }
                     });
                 }
@@ -248,7 +270,8 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                         @Override
                         public void onClick(View v) {
 
-                            showCustomerDetailsFragment(item.id_customer);
+                            //showCustomerDetailsFragment(item.id_customer);
+                            mOnHomeItemSelectedListener.onHomeCustomersListItemSelected(item.id_customer);
                         }
                     });
                 }
@@ -259,6 +282,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         }
     }
 
+/*
     private void showCustomerDetailsFragment(int id) {
         CustomerDetailsFragment fragment = new CustomerDetailsFragment();
         Bundle bundle = new Bundle();
@@ -266,6 +290,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         fragment.setArguments(bundle);
         ((DashboardActivity) getActivity()).addAnimatedFragment(fragment);
     }
+*/
 
     public static class ViewHolder {
         TextView firsname;
@@ -286,6 +311,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         LinearLayout appointmens_line;
         LinearLayout customer_line;
     }
+/*
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -298,6 +324,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             }
         }
     }
+*/
 
     @Override
     public void ModelLoaded(ArrayList<AppointmentInfo> list) {
@@ -324,6 +351,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         loadCustomer();
     }
 
+/*
     // public static BluetoothAdapter bluetoothAdapter;
     protected BasePrint myPrint = null;
     protected MsgHandle mHandle;
@@ -351,6 +379,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             Utils.LogException(e);
         }
     }
+*/
 
     protected BluetoothAdapter getBluetoothAdapter() {
         final BluetoothAdapter bluetoothAdapter = BluetoothAdapter
