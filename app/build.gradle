@@ -28,4 +28,5 @@ dependencies {
     compile files('libs/kitlocate.jar')
     compile 'com.android.support:appcompat-v7:22.+'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
 }
