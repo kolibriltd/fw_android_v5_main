@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -42,7 +42,6 @@ public class PdfFormsActivity extends AppCompatActivity {
 	private ArrayList<PdfFormsInfo> m_pdfforms = null;
 	private ArrayList<AttachmentsInfo> m_attachmanes = null;
 	//ActionBar action = null;
-	private BaseLoader mBaseLoader;
 
 	// TextView txtInstruction;
 
@@ -63,8 +62,6 @@ public class PdfFormsActivity extends AppCompatActivity {
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -254,13 +251,13 @@ public class PdfFormsActivity extends AppCompatActivity {
 
 	public void DownloadPdf(final PdfFormsInfo pItem) {
 		if (pItem != null) {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			DownloadPdf.Instance().downloadPdf(pItem.WorkOrderId, pItem.pid,
 					new DownLoadDelegate() {
 
 						@Override
 						public void DownLoadSuccessFully(String message) {
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 
 							String filepath = "attachment_" + appointment_id
 									+ "_" + pItem.pid + ".pdf";
@@ -285,20 +282,20 @@ public class PdfFormsActivity extends AppCompatActivity {
 						@Override
 						public void DownLoadFailed(String error) {
 
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 						}
 					});
 		}
 	}
 
 	public void DownloadAttachment(final AttachmentsInfo pItem) {
-		mBaseLoader.showProgress();
+		ProgressDialog.showProgress(this);
 		DownloadPdf.Instance().downloadAttachment(pItem.WorkOrderId, pItem.id,
 				new DownLoadDelegate() {
 
 					@Override
 					public void DownLoadSuccessFully(String message) {
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 
 						String filepath = "attachment_" + appointment_id + "_"
 								+ pItem.id + ".pdf";
@@ -322,7 +319,7 @@ public class PdfFormsActivity extends AppCompatActivity {
 					@Override
 					public void DownLoadFailed(String error) {
 						Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 					}
 				});
 

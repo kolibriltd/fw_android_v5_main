@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -50,7 +50,7 @@ public class LocationAreaListActivity extends AppCompatActivity implements
 	private ArrayList<LocationAreaInfo> m_locationareas = null;
 	//ActionBar action = null;
 	private int location_type_id;
-	private BaseLoader mBaseLoader;
+	private ProgressDialog mProgressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class LocationAreaListActivity extends AppCompatActivity implements
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
 
-		mBaseLoader = new BaseLoader(this);
+		mProgressDialog = new ProgressDialog(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -219,14 +219,14 @@ public class LocationAreaListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<LocationInfo> list) {
-		mBaseLoader.hideProgress();
+		mProgressDialog.hideProgress();
 		// m_locationareas = list;
 		bindData();
 	}
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		mBaseLoader.hideProgress();
+		mProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 	}
 

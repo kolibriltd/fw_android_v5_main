@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Generics;
 import com.anstar.model.helper.ServiceResponse;
@@ -34,7 +34,6 @@ public class AddTrapsActivity extends AppCompatActivity {
 	int customer_id = 0, appointment_id = 0;
 	ArrayList<TrapTypesInfo> m_trap_types = null;
 	AppointmentInfo appointmentInfo;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,6 @@ public class AddTrapsActivity extends AppCompatActivity {
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		btnSave = (Button) findViewById(R.id.btnSaveTraps);
 		edtBarcode = (EditText) findViewById(R.id.edtBarcode);
@@ -116,7 +114,7 @@ public class AddTrapsActivity extends AppCompatActivity {
 							.getTrapTypesInfoIdByname(
 									spnTrapType.getSelectedItem().toString());
 				}
-                mBaseLoader.showProgress();
+                ProgressDialog.showProgress(AddTrapsActivity.this);
 
 				TrapScanningInfo.AddTraps(number, trap_type_id, customer_id,
 						barcode, building, floor, location,
@@ -125,7 +123,7 @@ public class AddTrapsActivity extends AppCompatActivity {
 
 							@Override
 							public void UpdateSuccessFully(ServiceResponse res) {
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 								Intent i = new Intent(AddTrapsActivity.this,
 										NewTrapDetailsActivity.class);
 								i.putExtra(Const.Appointment_Id, appointment_id);
@@ -137,7 +135,7 @@ public class AddTrapsActivity extends AppCompatActivity {
 
 							@Override
 							public void UpdateFail(String ErrorMessage) {
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 								Toast.makeText(getApplicationContext(),
 										ErrorMessage, Toast.LENGTH_LONG).show();
 							}

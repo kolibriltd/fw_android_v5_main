@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.AppointmentInfo;
@@ -26,7 +26,6 @@ public class EnvironMentActivity extends AppCompatActivity {
 	private Button btnSave;
 	//ActionBar action = null;
 	AppointmentInfo appointmentInfo = null;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,6 @@ public class EnvironMentActivity extends AppCompatActivity {
 		android.support.v7.app.ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		btnSave = (Button) findViewById(R.id.btnSave);
 		spnWindDirection = (Spinner) findViewById(R.id.spnWindDirection);
@@ -107,7 +105,7 @@ public class EnvironMentActivity extends AppCompatActivity {
 				String temp = edtTemperature.getText().toString();
 
 				if (appointmentInfo != null) {
-					mBaseLoader.showProgress();
+					ProgressDialog.showProgress(EnvironMentActivity.this);
 					AppointmentInfo.SaveEnvironMent(appointmentInfo.getID(),
 							squft, wind_dir, wind_speed, temp,
 							new UpdateInfoDelegate() {
@@ -115,7 +113,7 @@ public class EnvironMentActivity extends AppCompatActivity {
 								@Override
 								public void UpdateSuccessFully(
 										ServiceResponse res) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									if (!res.isError()) {
 										Toast.makeText(
 												getApplicationContext(),
@@ -131,7 +129,7 @@ public class EnvironMentActivity extends AppCompatActivity {
 
 								@Override
 								public void UpdateFail(String ErrorMessage) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									Toast.makeText(getApplicationContext(),
 											ErrorMessage, Toast.LENGTH_LONG)
 											.show();

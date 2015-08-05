@@ -3,7 +3,6 @@ package com.anstar.fieldwork;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -11,9 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.location.Location;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,16 +21,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -53,7 +45,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.Utils;
@@ -70,13 +62,9 @@ import com.anstar.models.LineItemsInfo;
 import com.anstar.models.MaterialInfo;
 import com.anstar.models.MaterialUsage;
 import com.anstar.models.MaterialUsageRecords;
-import com.anstar.models.ModelDelegates;
-import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
 import com.anstar.models.PaymentInfo;
 import com.anstar.models.PdfFormsInfo;
-import com.anstar.models.PhoneEmailInfo;
-import com.anstar.models.PhoneEmailInfo.ContactType;
 import com.anstar.models.PhotoAttachmentsInfo;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.StatusInfo;
@@ -103,13 +91,11 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class AppointmentDetailsFragment extends Fragment implements
 		TimePickerDialog.OnTimeSetListener, OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -162,7 +148,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 	boolean print;
 	Button btnTrapCount;
 	private UserInfo user;
-	private BaseLoader mBaseLoader;
 	private ArrayList<TrapScanningInfo> m_traps = null;
 	String url = "";
 
@@ -330,8 +315,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
 */
-
-		mBaseLoader = new BaseLoader(getActivity());
 
 		Bundle b = getArguments();
 		if (b != null) {
@@ -822,7 +805,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 						"Finish time required for saving", Toast.LENGTH_LONG)
 						.show();
 			} else {
-                mBaseLoader.showProgress("Syncing with server");
+                ProgressDialog.showProgress(getActivity(), "Syncing with server");
 				String[] time = appointmentInfo.starts_at.split("T");
 				String date = appointmentInfo.starts_at;
 				// date = date + "T" + time[1];
@@ -835,7 +818,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 
 							@Override
 							public void UpdateSuccessFully(ServiceResponse res) {
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 								UploadPdf(appointment_id);
 								boolean print = setting.getBoolean("ISPRINT",
 										false);
@@ -855,7 +838,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 							public void UpdateFail(String ErrorMessage) {
 								Toast.makeText(getActivity(),
 										ErrorMessage, Toast.LENGTH_LONG).show();
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 							}
 						});
 

@@ -388,8 +388,14 @@
         <activity
             android:name=".DrivingDirectionsActivity"
             android:label="@string/title_activity_driving_directions"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
+
+        <service
+            android:name=".SyncService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

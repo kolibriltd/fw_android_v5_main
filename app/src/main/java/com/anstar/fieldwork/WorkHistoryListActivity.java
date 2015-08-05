@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.WorkHistroyInfo;
 import com.anstar.models.list.WorkHistoryList;
@@ -25,7 +25,6 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 
 	private ListView lstWorkHistory;
 	private int service_location_id = 0, cid = 0;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +54,15 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
 
-		mBaseLoader = new BaseLoader(this);
-
 		lstWorkHistory = (ListView) findViewById(R.id.lstWorkHistory);
 
-		mBaseLoader.showProgress();
+		ProgressDialog.showProgress(this);
 		if (cid > 0 && service_location_id > 0) {
 			WorkHistoryList.Instance().load(
 					new ModelDelegate<WorkHistroyInfo>() {
 						@Override
 						public void ModelLoaded(ArrayList<WorkHistroyInfo> list) {
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 							if (list != null) {
 								CustomAdapter adapter = new CustomAdapter(list);
 								lstWorkHistory.setAdapter(adapter);
@@ -74,7 +71,7 @@ public class WorkHistoryListActivity extends AppCompatActivity {
 
 						@Override
 						public void ModelLoadFailedWithError(String error) {
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 							Toast.makeText(getApplicationContext(), error,
 									Toast.LENGTH_LONG).show();
 						}

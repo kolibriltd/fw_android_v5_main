@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.MaterialUsageTargetPestInfo;
@@ -48,7 +48,6 @@ public class PestTypeListActivity extends AppCompatActivity implements
 	private ArrayList<PestsTypeInfo> m_pesttypes = null;
 	//ActionBar action = null;
 	boolean isFromCapture = false;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,8 +69,6 @@ public class PestTypeListActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -129,7 +126,7 @@ public class PestTypeListActivity extends AppCompatActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			PestTypeList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -293,7 +290,7 @@ public class PestTypeListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<PestsTypeInfo> list) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		if (list != null) {
 			m_pesttypes = Utils.Instance().sortPestCollections(list);
 			bindData();
@@ -306,7 +303,7 @@ public class PestTypeListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
 

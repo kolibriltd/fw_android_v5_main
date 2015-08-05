@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Generics;
 import com.anstar.common.NetworkConnectivity;
@@ -89,7 +89,6 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 	private static int TARGET_REQUEST_ID = 2;
 	int location_type_id = 0;
 	boolean isFromTrapMaterial = false;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -139,7 +138,6 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		m_Dilutions = DilutionRatesList.Instance().getDilutionList();
 		m_measurements = new MeasurementInfo().getMeasurementList();
@@ -409,7 +407,8 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 			Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG)
 					.show();
 		} else {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
+
 			List<String> list = new ArrayList<String>();
 			ArrayList<Integer> locationIds = new ArrayList<Integer>();
 			ArrayList<MaterialUsageRecords> m_records = new ArrayList<MaterialUsageRecords>();
@@ -546,7 +545,7 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 													@Override
 													public void UpdateFail(
 															String ErrorMessage) {
-														mBaseLoader.hideProgress();
+														ProgressDialog.hideProgress();
 														Toast.makeText(
 																getApplicationContext(),
 																ErrorMessage,
@@ -559,7 +558,7 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 
 								@Override
 								public void UpdateFail(String ErrorMessage) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									Toast.makeText(getApplicationContext(),
 											ErrorMessage, Toast.LENGTH_LONG)
 											.show();
@@ -604,7 +603,7 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 
 								@Override
 								public void UpdateFail(String ErrorMessage) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									Toast.makeText(getApplicationContext(),
 											ErrorMessage, Toast.LENGTH_LONG)
 											.show();
@@ -630,7 +629,7 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 							@Override
 							public void UpdateFail(String ErrorMessage) {
 
-								mBaseLoader.hideProgress();
+								ProgressDialog.hideProgress();
 							}
 						});
 
@@ -641,7 +640,7 @@ public class AddMaterialUsageActivity extends AppCompatActivity {
 	}
 
 	public void gotoback() {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		if (isFromTrapMaterial) {
 			Intent i = new Intent(AddMaterialUsageActivity.this,
 					TrapMaterialUsageActivity.class);

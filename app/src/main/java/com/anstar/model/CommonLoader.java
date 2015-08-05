@@ -1,17 +1,10 @@
-package com.anstar.common;
+package com.anstar.model;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.Window;
-import android.widget.TextView;
-
-import com.anstar.fieldwork.R;
 import com.anstar.models.Account;
 import com.anstar.models.ApplicationDeviceTypeInfo;
 import com.anstar.models.ApplicationMethodInfo;
 import com.anstar.models.AppointmentConditionsInfo;
+import com.anstar.models.AppointmentInfo;
 import com.anstar.models.BaitConditionsInfo;
 import com.anstar.models.BillingTermsInfo;
 import com.anstar.models.CustomerInfo;
@@ -32,14 +25,17 @@ import com.anstar.models.TrapTypesInfo;
 import com.anstar.models.UserInfo;
 import com.anstar.models.list.ApplicationDeviceTypeList;
 import com.anstar.models.list.AppointmentConditionsList;
+import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.BaitConditionsList;
 import com.anstar.models.list.BillingTermsList;
 import com.anstar.models.list.CustomerList;
 import com.anstar.models.list.DeviceTypesList;
 import com.anstar.models.list.DilutionRatesList;
+import com.anstar.models.list.InspectionList;
 import com.anstar.models.list.LocationInfoList;
 import com.anstar.models.list.MaterialList;
 import com.anstar.models.list.PestTypeList;
+import com.anstar.models.list.PhotoAttachmentsList;
 import com.anstar.models.list.RecomendationsList;
 import com.anstar.models.list.ServiceRoutesList;
 import com.anstar.models.list.ServicesList;
@@ -47,522 +43,614 @@ import com.anstar.models.list.StatusList;
 import com.anstar.models.list.TaxRateList;
 import com.anstar.models.list.TrapConditionsList;
 import com.anstar.models.list.TrapTypesList;
+import com.anstar.models.list.WorkHistoryList;
 
 import java.util.ArrayList;
 
 /**
- * Created by oleg on 19.07.15.
+ * Created by oleg on 04.08.15.
  */
-public class BaseLoader {
-    private final Context mContext;
-    private static ProgressDialog mProgressDialog = null;
+public class CommonLoader {
 
-    private int mItemsProcessed = 0;
-
-    private DataLoadedListener mDataLoadedListener;
-
-    public void setDataLoadedListener(DataLoadedListener dataLoadedListener) {
-        mDataLoadedListener = dataLoadedListener;
+    public interface OnLoadListener {
+        void onDataLoaded();
     }
 
-    private synchronized void addItemsProcessed(int itemsProcessed) {
-        mItemsProcessed += itemsProcessed;
+    public void setOnLoadListener(OnLoadListener loadListener) {
+        mOnLoadListener = loadListener;
     }
 
-    private int getItemsProcessed() {
-        return mItemsProcessed;
-    }
+    private OnLoadListener mOnLoadListener;
 
-    public BaseLoader(Activity activity) {
+    private int mLoaded = 0;
 
-        mContext = activity;
-    }
-
-    private synchronized void createProgressDialog() {
-        if (mContext != null) {
-            mProgressDialog = new ProgressDialog(mContext, R.style.TransparentProgressDialog);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-            mProgressDialog.setContentView(R.layout.custom_progressdialog);
+    private synchronized void checkLoaded() {
+        mLoaded--;
+        if (mLoaded == 0 && mOnLoadListener != null) {
+            mOnLoadListener.onDataLoaded();
         }
     }
-
-    public void showProgress() {
-        showProgress("Please wait...");
+    
+    private synchronized void addLoadingItem() {
+        mLoaded++;
     }
 
-    public void showProgress(String msg) {
-        if (mProgressDialog == null) {
-            createProgressDialog();
-        }
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.show();
-        }
-        if (getItemsProcessed() == 0) {
-            mProgressDialog.setMessage(msg);
-        }
+    public void clear() {
+        CustomerList.Instance().ClearDB();
+        DilutionRatesList.Instance().ClearDB();
+        LocationInfoList.Instance().ClearDB();
+        StatusList.Instance().ClearDB();
+        MeasurementInfo.ClearDB();
+        ApplicationMethodInfo.ClearDB();
+        MaterialList.Instance().ClearDB();
+        PestTypeList.Instance().ClearDB();
+        DeviceTypesList.Instance().ClearDB();
+        BaitConditionsList.Instance().ClearDB();
+        TrapConditionsList.Instance().ClearDB();
+        TrapTypesList.Instance().ClearDB();
+        TaxRateList.Instance().ClearDB();
+        ServiceRoutesList.Instance().ClearDB();
+        ServicesList.Instance().ClearDB();
+        BillingTermsList.Instance().ClearDB();
+        RecomendationsList.Instance().ClearDB();
+        PhotoAttachmentsList.Instance().ClearDB();
+        ApplicationDeviceTypeList.Instance().ClearDB();
+
+        AppointmentModelList.Instance().ClearDB();
+        InspectionList.Instance().ClearDB();
+        WorkHistoryList.Instance().ClearDB();
+
+        UserInfo.Instance().ClearDB();
     }
 
-    public void hideProgress() {
-        if (mProgressDialog != null && getItemsProcessed() == 0) {
-            if (mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
-                mProgressDialog = null;
-            }
-        }
-    }
-
-    private synchronized void showProgressInc(int itemsToLoad) {
-        showProgress("Syncing customer database and settings...");
-        addItemsProcessed(itemsToLoad);
-    }
-
-    private synchronized void hideProgressDec() {
-        if (mItemsProcessed > 0) {
-            mItemsProcessed--;
-        }
-        if (mItemsProcessed == 0) {
-
-            hideProgress();
-
-            if (mDataLoadedListener != null) {
-                mDataLoadedListener.onDataLoaded();
-            }
-        }
-    }
-
-    public void loadAllData(boolean withCustomerList) {
+    public void loadMin() {
 
         if (Account.getkey().length() <= 0) {
             return;
         }
 
-        if (withCustomerList) {
-            showProgressInc(20);
-        } else {
-            showProgressInc(19);
-        }
-
-        if (withCustomerList) {
-            try {
-                CustomerList.Instance().refreshCustomerList(
-                        new ModelDelegates.ModelDelegate<CustomerInfo>() {
-
-                            @Override
-                            public void ModelLoaded(ArrayList<CustomerInfo> list) {
-                                try {
-                                    Account info = Account.getUser();
-                                    if (info != null) {
-                                        info.LastModifiedCustomerData = String
-                                                .valueOf(System.currentTimeMillis());
-                                        info.isCustomerLoded = true;
-                                        info.save();
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                hideProgressDec();
-                            }
-
-                            @Override
-                            public void ModelLoadFailedWithError(String error) {
-                                hideProgressDec();
-                            }
-                        });
-            } catch (Exception e) {
-                e.printStackTrace();
-                hideProgressDec();
-            }
-        }
-
         try {
+            addLoadingItem();
             UserInfo.Instance().load(new ModelDelegates.ModelDelegate<UserInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<UserInfo> list) {
-                    hideProgressDec();
+
+                    loadDict();
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
         } catch (Exception e1) {
             e1.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
+        }
+    }
+
+
+    public void loadMax() {
+
+        if (Account.getkey().length() <= 0) {
+            return;
         }
 
         try {
-            DilutionRatesList.Instance().load(
-                    new ModelDelegates.ModelDelegate<DilutionInfo>() {
+            addLoadingItem();
+            UserInfo.Instance().load(new ModelDelegates.ModelDelegate<UserInfo>() {
+
+                @Override
+                public void ModelLoaded(ArrayList<UserInfo> list) {
+
+                    loadAppointmentModelList();
+                    loadCustomerList();
+                    loadDict();
+                    
+                    checkLoaded();
+                }
+
+                @Override
+                public void ModelLoadFailedWithError(String error) {
+
+                    checkLoaded();
+                }
+            });
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            checkLoaded();
+        }
+    }
+
+    public void loadWithCustomerList() {
+
+        if (Account.getkey().length() <= 0) {
+            return;
+        }
+
+        try {
+            addLoadingItem();
+            UserInfo.Instance().load(new ModelDelegates.ModelDelegate<UserInfo>() {
+
+                @Override
+                public void ModelLoaded(ArrayList<UserInfo> list) {
+
+                    loadCustomerList();
+                    loadDict();
+                    checkLoaded();
+                }
+
+                @Override
+                public void ModelLoadFailedWithError(String error) {
+
+                    checkLoaded();
+                }
+            });
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            checkLoaded();
+        }
+    }
+
+    public void loadCustomerList() {
+
+        try {
+            addLoadingItem();
+            CustomerList.Instance().refreshCustomerList(
+                    new ModelDelegates.ModelDelegate<CustomerInfo>() {
+
                         @Override
-                        public void ModelLoaded(ArrayList<DilutionInfo> list) {
-                            hideProgressDec();
+                        public void ModelLoaded(ArrayList<CustomerInfo> list) {
+                            try {
+                                Account info = Account.getUser();
+                                if (info != null) {
+                                    info.LastModifiedCustomerData = String
+                                            .valueOf(System.currentTimeMillis());
+                                    info.isCustomerLoded = true;
+                                    info.save();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
+        }
+    }
+
+    public void loadAppointmentModelList() {
+        try {
+            addLoadingItem();
+            AppointmentModelList.Instance().load(new ModelDelegates.ModelDelegate<AppointmentInfo>() {
+
+                @Override
+                public void ModelLoaded(ArrayList<AppointmentInfo> list) {
+                    checkLoaded();
+                }
+
+                @Override
+                public void ModelLoadFailedWithError(
+                        String error) {
+                    checkLoaded();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            checkLoaded();
+        }
+    }
+
+    public void loadDict() {
+
+        try {
+            addLoadingItem();
+            DilutionRatesList.Instance().load(
+                    new ModelDelegates.ModelDelegate<DilutionInfo>() {
+                        @Override
+                        public void ModelLoaded(ArrayList<DilutionInfo> list) {
+
+                            checkLoaded();
+                        }
+
+                        @Override
+                        public void ModelLoadFailedWithError(String error) {
+
+                            checkLoaded();
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             ApplicationDeviceTypeList.Instance().load(
                     new ModelDelegates.ModelDelegate<ApplicationDeviceTypeInfo>() {
                         @Override
                         public void ModelLoaded(
                                 ArrayList<ApplicationDeviceTypeInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             PestTypeList.Instance().load(new ModelDelegates.ModelDelegate<PestsTypeInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<PestsTypeInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             LocationInfoList.Instance().load(new ModelDelegates.ModelDelegate<LocationInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<LocationInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             StatusList.Instance().load(new ModelDelegates.ModelDelegate<StatusInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<StatusInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             TaxRateList.Instance().load(new ModelDelegates.ModelDelegate<TaxRates>() {
                 @Override
                 public void ModelLoaded(ArrayList<TaxRates> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             ServicesList.Instance().load(new ModelDelegates.ModelDelegate<ServicesInfo>() {
                 @Override
                 public void ModelLoaded(ArrayList<ServicesInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             DeviceTypesList.Instance().load(
                     new ModelDelegates.ModelDelegate<DeviceTypesInfo>() {
 
                         @Override
                         public void ModelLoaded(ArrayList<DeviceTypesInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             BaitConditionsList.Instance().load(
                     new ModelDelegates.ModelDelegate<BaitConditionsInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<BaitConditionsInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             TrapConditionsList.Instance().load(
                     new ModelDelegates.ModelDelegate<TrapConditionsInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<TrapConditionsInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             TrapTypesList.Instance().load(new ModelDelegates.ModelDelegate<TrapTypesInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<TrapTypesInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             ServiceRoutesList.Instance().load(
                     new ModelDelegates.ModelDelegate<ServiceRoutesInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<ServiceRoutesInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             MaterialList.Instance().load(new ModelDelegates.ModelDelegate<MaterialInfo>() {
 
                 @Override
                 public void ModelLoaded(ArrayList<MaterialInfo> list) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
 
                 @Override
                 public void ModelLoadFailedWithError(String error) {
-                    hideProgressDec();
+
+                    checkLoaded();
                 }
             });
 
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             MeasurementInfo
                     .getMeasurements(new ModelDelegates.ModelDelegate<MeasurementInfo>() {
 
                         @Override
                         public void ModelLoaded(ArrayList<MeasurementInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             BillingTermsList.Instance().load(
                     new ModelDelegates.ModelDelegate<BillingTermsInfo>() {
 
                         @Override
                         public void ModelLoaded(ArrayList<BillingTermsInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             RecomendationsList.Instance().load(
                     new ModelDelegates.ModelDelegate<RecomendationInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<RecomendationInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             AppointmentConditionsList.Instance().load(
                     new ModelDelegates.ModelDelegate<AppointmentConditionsInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<AppointmentConditionsInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
         try {
+            addLoadingItem();
             ApplicationMethodInfo
                     .getMeasurements(new ModelDelegates.ModelDelegate<ApplicationMethodInfo>() {
 
                         @Override
                         public void ModelLoaded(
                                 ArrayList<ApplicationMethodInfo> list) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
 
                         @Override
                         public void ModelLoadFailedWithError(String error) {
-                            hideProgressDec();
+
+                            checkLoaded();
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
-            hideProgressDec();
+            checkLoaded();
         }
 
-    }
-
-    public class ProgressDialog extends Dialog {
-
-        public ProgressDialog(Context context, int theme) {
-            super(context, theme);
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.custom_progressdialog);
-
-            setCancelable(false);
-            setCanceledOnTouchOutside(false);
-        }
-
-        void setMessage(String message) {
-            TextView msg = (TextView) findViewById(R.id.textViewMessage);
-            msg.setText(message);
-        }
-    }
-
-    public interface DataLoadedListener {
-        public void onDataLoaded();
     }
 }

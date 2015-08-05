@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.NotificationCenter;
 import com.anstar.model.helper.ServiceResponse;
@@ -41,7 +41,6 @@ public class TargetPestListActivity extends AppCompatActivity implements
 	ActionBar action = null;
 	TargetPestList list = null;
 	TextView txtMessage;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,8 +62,6 @@ public class TargetPestListActivity extends AppCompatActivity implements
 		action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		txtMessage = (TextView) findViewById(R.id.txtNodata);
 		lstTargetPest = (ListView) findViewById(R.id.lstAppointment_Related);
@@ -214,7 +211,7 @@ public class TargetPestListActivity extends AppCompatActivity implements
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// call();
-								mBaseLoader.showProgress();
+								ProgressDialog.showProgress(TargetPestListActivity.this);
 								TargetPestInfo.DeleteTargetPests(target_id,
 										new UpdateInfoDelegate() {
 
@@ -232,13 +229,13 @@ public class TargetPestListActivity extends AppCompatActivity implements
 												m_targetpests = list
 														.load(appointment_id);
 												bindData();
-												mBaseLoader.hideProgress();
+												ProgressDialog.hideProgress();
 											}
 
 											@Override
 											public void UpdateFail(
 													String ErrorMessage) {
-												mBaseLoader.hideProgress();
+												ProgressDialog.hideProgress();
 												Toast.makeText(
 														getApplicationContext(),
 														ErrorMessage,

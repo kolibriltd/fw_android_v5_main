@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.WorkHistroyInfo;
 import com.anstar.models.list.WorkHistoryList;
@@ -25,7 +25,6 @@ public class WorkHistoryListFragment extends Fragment {
 
 	private ListView lstWorkHistory;
 	private int service_location_id = 0, cid = 0;
-	private BaseLoader mBaseLoader;
 	private OnWorkHistoryListSelectedListener mOnWorkHistoryListSelectedListener;
 	// Container Activity must implement this interface
 	public interface OnWorkHistoryListSelectedListener {
@@ -39,13 +38,13 @@ public class WorkHistoryListFragment extends Fragment {
 
 		lstWorkHistory = (ListView) v.findViewById(R.id.lstWorkHistory);
 
-		mBaseLoader.showProgress();
+		ProgressDialog.showProgress(getActivity());
 		if (cid > 0 && service_location_id > 0) {
 			WorkHistoryList.Instance().load(
 					new ModelDelegate<WorkHistroyInfo>() {
 						@Override
 						public void ModelLoaded(ArrayList<WorkHistroyInfo> list) {
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 							if (list != null) {
 								CustomAdapter adapter = new CustomAdapter(list);
 								lstWorkHistory.setAdapter(adapter);
@@ -54,7 +53,7 @@ public class WorkHistoryListFragment extends Fragment {
 
 						@Override
 						public void ModelLoadFailedWithError(String error) {
-							mBaseLoader.hideProgress();
+							ProgressDialog.hideProgress();
 							Toast.makeText(getActivity(), error,
 									Toast.LENGTH_LONG).show();
 						}
@@ -74,8 +73,6 @@ public class WorkHistoryListFragment extends Fragment {
 				cid = b.getInt("cid");
 			}
 		}
-
-		mBaseLoader = new BaseLoader(getActivity());
 	}
 
 	@Override

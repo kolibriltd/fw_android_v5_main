@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.RecomendationInfo;
@@ -44,7 +44,6 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 	boolean isFromTrapMaterial = false;
 	final int ADD_MATERIAL = 2;
 	private RelativeLayout RlSubHeader;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,8 +65,6 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 		action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -124,7 +121,7 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			RecomendationsList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,7 +207,7 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<RecomendationInfo> list) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		if (list != null) {
 			m_recomendations = list;
 			// m_recomendations =
@@ -224,7 +221,7 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
 

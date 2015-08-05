@@ -33,7 +33,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.CustomTimePickerDialog;
 import com.anstar.common.MultipleSelectionSpinner;
 import com.anstar.common.NetworkConnectivity;
@@ -82,14 +82,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 	public static ArrayList<LineItemsInfo> lineitems;
 	private TaxRates trate;
 	private ArrayList<ServiceRoutesInfo> routesInfo = new ArrayList<ServiceRoutesInfo>();
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_appointment);
-
-		mBaseLoader = new BaseLoader(this);
 
 //		action = getSupportActionBar();
 		// action.setTitle("Add Material");
@@ -567,12 +564,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 				// serviceInfo.name =
 				// edtServiceLocationName.getText().toString();
 
-				mBaseLoader.showProgress("Saving Appointment...");
+				ProgressDialog.showProgress(this, "Saving Appointment...");
 				AppointmentInfo.AddAppointment(new UpdateAppointmentDelegate() {
 
 					@Override
 					public void UpdateSuccessFully(AppointmentInfo info) {
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 						Toast.makeText(FieldworkApplication.getContext(),
 								"Appointment added successfully",
 								Toast.LENGTH_LONG).show();
@@ -581,7 +578,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 
 					@Override
 					public void UpdateFail(String ErrorMessage) {
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 						Toast.makeText(FieldworkApplication.getContext(),
 								ErrorMessage, Toast.LENGTH_LONG).show();
 					}
@@ -652,7 +649,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 
 	private void downloadCustomer() {
 		if (NetworkConnectivity.isConnected()) {
-			mBaseLoader.showProgress("Syncing customer database");
+			ProgressDialog.showProgress(this, "Syncing customer database");
 			try {
 				CustomerList.Instance().refreshCustomerList(
 						new ModelDelegate<CustomerInfo>() {
@@ -668,7 +665,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 								} catch (ActiveRecordException e) {
 									e.printStackTrace();
 								}
-								mBaseLoader.hideProgress();
+								ProgressDialog.hideProgress();
 								Intent i = new Intent(AddAppointmentActivity.this,
 										CustomerListFragment.class);
 								i.putExtra("FromAddAppointment", true);
@@ -679,11 +676,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements
 							public void ModelLoadFailedWithError(String error) {
 								Toast.makeText(AddAppointmentActivity.this,
 										error, Toast.LENGTH_LONG).show();
-								mBaseLoader.hideProgress();
+								ProgressDialog.hideProgress();
 							}
 						});
 			} catch (Exception e) {
-				mBaseLoader.hideProgress();
+				ProgressDialog.hideProgress();
 				e.printStackTrace();
 			}
 

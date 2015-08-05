@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.LocationAreaInfo;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
@@ -21,7 +21,6 @@ public class AddLocationActivity extends AppCompatActivity implements
 	private EditText edtLocationName;
 	//ActionBar action = null;
 	int locationtype_id = 0;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,12 +50,11 @@ public class AddLocationActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		btnSave.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (edtLocationName.getText().toString().trim().length() > 0) {
-					mBaseLoader.showProgress();
+					ProgressDialog.showProgress(AddLocationActivity.this);
 					LocationAreaInfo.AddLocationArea(edtLocationName.getText()
 							.toString().trim(), locationtype_id,
 							AddLocationActivity.this);
@@ -71,14 +69,14 @@ public class AddLocationActivity extends AppCompatActivity implements
 
 	@Override
 	public void UpdateSuccessFully(ServiceResponse res) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		// LocationInfoList.Instance().ClearDB();
 		finish();
 	}
 
 	@Override
 	public void UpdateFail(String ErrorMessage) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), ErrorMessage, Toast.LENGTH_LONG).show();
 	}
 

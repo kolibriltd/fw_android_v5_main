@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.models.AppointmentConditionsInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
@@ -42,7 +42,6 @@ public class ConditionsListActivity extends AppCompatActivity implements
 	private ArrayList<AppointmentConditionsInfo> m_conditions = null;
 	//ActionBar action = null;
 	private RelativeLayout RlSubHeader;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class ConditionsListActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -121,7 +119,7 @@ public class ConditionsListActivity extends AppCompatActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			AppointmentConditionsList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,7 +205,7 @@ public class ConditionsListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<AppointmentConditionsInfo> list) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		if (list != null) {
 			m_conditions = list;
 			// m_recomendations =
@@ -221,7 +219,7 @@ public class ConditionsListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 	}
 

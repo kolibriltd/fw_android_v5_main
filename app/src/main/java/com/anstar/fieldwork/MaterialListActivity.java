@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.models.MaterialInfo;
@@ -47,7 +47,6 @@ public class MaterialListActivity extends AppCompatActivity implements
 	//ActionBar action = null;
 	boolean isFromTrapMaterial = false;
 	final int ADD_MATERIAL = 2;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +68,6 @@ public class MaterialListActivity extends AppCompatActivity implements
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
 
-		mBaseLoader = new BaseLoader(this);
-
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		lstAppointment = (ListView) findViewById(R.id.lstMain);
@@ -90,7 +87,7 @@ public class MaterialListActivity extends AppCompatActivity implements
 		}
 
 		try {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			MaterialList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,7 +131,7 @@ public class MaterialListActivity extends AppCompatActivity implements
 	protected void onResume() {
 		super.onResume();
 		try {
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(this);
 			MaterialList.Instance().load(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -242,7 +239,7 @@ public class MaterialListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoaded(ArrayList<MaterialInfo> list) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		if (list != null) {
 			m_materials = Utils.Instance().sortMaterialCollections(list);
 			bindData();
@@ -254,7 +251,7 @@ public class MaterialListActivity extends AppCompatActivity implements
 
 	@Override
 	public void ModelLoadFailedWithError(String error) {
-		mBaseLoader.hideProgress();
+		ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 	}
 

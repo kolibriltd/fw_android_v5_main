@@ -22,7 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.dialog.DateTimePickerDialog;
@@ -65,7 +65,6 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 	String PaidType = "";
 	// InvoiceInfo invoice = null;
 	PaymentInfo payment_info = null;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,6 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		edtTotalDue = (EditText) findViewById(R.id.edtTotalDue);
 		edtTax = (EditText) findViewById(R.id.edtTax);
@@ -312,7 +310,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 				} catch (ActiveRecordException e) {
 					e.printStackTrace();
 				}
-				mBaseLoader.showProgress();
+				ProgressDialog.showProgress(this);
 				// if(invoice == null)
 				// invoice = new InvoiceInfo();
 				payment_info.amount = amt;
@@ -348,7 +346,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 
 							@Override
 							public void UpdateSuccessFully(ServiceResponse res) {
-								mBaseLoader.hideProgress();
+								ProgressDialog.hideProgress();
 								if (!res.isError()) {
 									Toast.makeText(
 											getApplicationContext(),
@@ -361,7 +359,7 @@ public class AppointmentInfoActivity extends AppCompatActivity implements
 
 							@Override
 							public void UpdateFail(String ErrorMessage) {
-								mBaseLoader.hideProgress();
+								ProgressDialog.hideProgress();
 								Toast.makeText(getApplicationContext(),
 										ErrorMessage, Toast.LENGTH_LONG).show();
 							}

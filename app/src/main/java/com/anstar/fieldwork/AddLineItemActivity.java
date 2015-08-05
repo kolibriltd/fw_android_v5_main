@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.LineItemsInfo;
@@ -43,7 +43,6 @@ public class AddLineItemActivity extends AppCompatActivity {
 	private boolean isedit = false, isFromDetails = false, service_taxable = false;
 	int id = 0, payable_id = 0;
 	private String desc = "";
-    private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,6 @@ public class AddLineItemActivity extends AppCompatActivity {
         ActionBar action = getSupportActionBar();
         action.setDisplayHomeAsUpEnabled(true);
         action.setDisplayShowHomeEnabled(true);
-        mBaseLoader = new BaseLoader(this);
 
 		loadServices();
 		
@@ -280,19 +278,20 @@ public class AddLineItemActivity extends AppCompatActivity {
 					info.taxable = false;
 				}
 				if (isFromDetails) {
-                    mBaseLoader.showProgress();
+                    ProgressDialog.showProgress(this);
 					info.WorkOrderId = id;
 					info.AddLineItems(new UpdateInfoDelegate() {
 						@Override
 						public void UpdateSuccessFully(ServiceResponse res) {
-                            mBaseLoader.hideProgress();
+                            ProgressDialog.hideProgress();
 							Intent i = new Intent();
 							setResult(RESULT_OK, i);
 							finish();
 						}
 						@Override
 						public void UpdateFail(String ErrorMessage) {
-                            mBaseLoader.hideProgress();
+
+							ProgressDialog.hideProgress();
 						}
 					});
 				} else {

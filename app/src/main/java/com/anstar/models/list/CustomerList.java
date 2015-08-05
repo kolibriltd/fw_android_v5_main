@@ -1,12 +1,5 @@
 package com.anstar.models.list;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.AsyncTask;
 
 import com.anstar.activerecords.ActiveRecordException;
@@ -24,6 +17,13 @@ import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.ServiceLocationContactInfo;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.UserInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerList implements ServiceHelperDelegate {
 
@@ -65,8 +65,7 @@ public class CustomerList implements ServiceHelperDelegate {
 							.ModelLoadFailedWithError(ServiceHelper.COMMON_ERROR);
 			}
 		} else {
-			if (m_delegate != null)
-				m_delegate.ModelLoaded(m_modelList);
+			m_delegate.ModelLoaded(m_modelList);
 		}
 	}
 
@@ -96,8 +95,7 @@ public class CustomerList implements ServiceHelperDelegate {
 			}
 
 		} else {
-			if (m_delegate != null)
-				m_delegate.ModelLoadFailedWithError(ServiceHelper.COMMON_ERROR);
+			m_delegate.ModelLoadFailedWithError(ServiceHelper.COMMON_ERROR);
 		}
 
 	}

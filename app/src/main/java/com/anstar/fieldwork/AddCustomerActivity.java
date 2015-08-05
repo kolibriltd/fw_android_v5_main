@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Generics;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.SegmentedRadioGroup;
@@ -76,7 +76,6 @@ public class AddCustomerActivity extends AppCompatActivity implements
 	private CustomerInfo customerinfo;
 	private ServiceLocationsInfo location;
 	private ActionBar action;
-    private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,8 +88,6 @@ public class AddCustomerActivity extends AppCompatActivity implements
 				+ getString(R.string.header_text_color)
 				+ "'>New Customer</font>"));
 */
-
-        mBaseLoader = new BaseLoader(this);
 
 		if (!NetworkConnectivity.isConnected()) {
 			Toast.makeText(getApplicationContext(),
@@ -693,12 +690,12 @@ public class AddCustomerActivity extends AppCompatActivity implements
 					}
 				}
 
-                mBaseLoader.showProgress("Saving Customer...");
+                ProgressDialog.showProgress(this, "Saving Customer...");
 				CustomerInfo.AddCustomer(cinfo, serviceInfo,
 						new ModelDelegates.UpdateCustomerDelegate() {
 							@Override
 							public void UpdateSuccessFully(CustomerInfo info) {
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 								Toast.makeText(
 										FieldworkApplication.getContext(),
 										"Customer data saved successfully", Toast.LENGTH_LONG)
@@ -708,7 +705,7 @@ public class AddCustomerActivity extends AppCompatActivity implements
 
 							@Override
 							public void UpdateFail(String ErrorMessage) {
-                                mBaseLoader.hideProgress();
+                                ProgressDialog.hideProgress();
 								Toast.makeText(
 										FieldworkApplication.getContext(),
 										ErrorMessage, Toast.LENGTH_LONG).show();

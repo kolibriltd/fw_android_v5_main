@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.JsonCreator;
 import com.anstar.common.Utils;
@@ -50,7 +50,6 @@ public class CaptureSignatureFragment extends Fragment implements
 	AppointmentInfo appointment_info = null;
 	int a_id = 0;
 	float Cfactor = 0;
-	private BaseLoader mBaseLoader;
 	private CaptureSignatureFragmentListener mCaptureSignatureFragmentListener;
 	// Container Activity must implement this interface
 	public interface CaptureSignatureFragmentListener {
@@ -99,7 +98,6 @@ public class CaptureSignatureFragment extends Fragment implements
 		m_points = new ArrayList<>();
 		appointment_info = AppointmentModelList.Instance().getAppointmentById(
 				a_id);
-		mBaseLoader = new BaseLoader(getActivity());
 	}
 
 	@Override
@@ -266,7 +264,7 @@ public class CaptureSignatureFragment extends Fragment implements
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mBaseLoader.showProgress();
+			ProgressDialog.showProgress(getActivity());
 		}
 
 		@Override
@@ -300,7 +298,7 @@ public class CaptureSignatureFragment extends Fragment implements
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			mBaseLoader.hideProgress();
+			ProgressDialog.hideProgress();
 /*
 			Toast.makeText(getActivity(),
 					"Your signature is successfully saved...",

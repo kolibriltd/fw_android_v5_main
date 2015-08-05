@@ -17,24 +17,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
-import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.AppointmentInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.LineItemsInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
-import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
 import com.anstar.models.ServiceLocationsInfo;
 import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.CustomerList;
@@ -68,7 +65,6 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     int j = 0;
     //ActionBar action = null;
     Date m_currentDate;
-    private BaseLoader mBaseLoader;
 
     @Nullable
     @Override
@@ -90,8 +86,6 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mBaseLoader = new BaseLoader(getActivity());
 
 //        action = getSupportActionBar();
         // action.setTitle("Schedule");
@@ -118,10 +112,10 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_appointment_list);
         try {
-            mBaseLoader.showProgress("Please wait...");
+            ProgressDialog.showProgress(getActivity(), "Please wait...");
             AppointmentModelList.Instance().load(this);
         } catch (Exception e) {
-            mBaseLoader.hideProgress();
+            ProgressDialog.hideProgress();
             e.printStackTrace();
         }
     }
@@ -296,7 +290,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
 
     @Override
     public void ModelLoaded(ArrayList<AppointmentInfo> list) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         Utils.LogInfo("finish refresh...................");
         bindData();
         // loadAppointmentCustomer(list);
@@ -327,7 +321,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
 
     @Override
     public void ModelLoadFailedWithError(String error) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
@@ -394,10 +388,10 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
                     LineItemsList.Instance().ClearDB();
 
                     try {
-                        mBaseLoader.showProgress("Please wait...");
+                        ProgressDialog.showProgress(getActivity());
                         AppointmentModelList.Instance().load(this);
                     } catch (Exception e) {
-                        mBaseLoader.hideProgress();
+                        ProgressDialog.hideProgress();
                         e.printStackTrace();
                     }
                 } else {

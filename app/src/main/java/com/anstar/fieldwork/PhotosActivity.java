@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.model.helper.ServiceHelper;
 import com.anstar.models.ModelDelegates.CommonDelegate;
@@ -47,7 +47,6 @@ public class PhotosActivity extends AppCompatActivity {
 	final int EDIT_PHOTO = 1;
 	String url = "";
 	ArrayList<PhotoAttachmentsInfo> photos = new ArrayList<PhotoAttachmentsInfo>();
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +67,6 @@ public class PhotosActivity extends AppCompatActivity {
 		action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -182,13 +179,13 @@ public class PhotosActivity extends AppCompatActivity {
 														DialogInterface dialog,
 														int id) {
 													dialog.cancel();
-													mBaseLoader.showProgress();
+													ProgressDialog.showProgress(PhotosActivity.this);
 													photo.deletePhoto(new CommonDelegate() {
 
 														@Override
 														public void UpdateSuccessFully(
 																boolean b) {
-															mBaseLoader.hideProgress();
+															ProgressDialog.hideProgress();
 															Toast.makeText(
 																	getApplicationContext(),
 																	"Photo has been deleted successfully",
@@ -200,7 +197,7 @@ public class PhotosActivity extends AppCompatActivity {
 														@Override
 														public void UpdateFail(
 																String ErrorMessage) {
-															mBaseLoader.hideProgress();
+															ProgressDialog.hideProgress();
 															Toast.makeText(
 																	getApplicationContext(),
 																	ErrorMessage,

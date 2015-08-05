@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
@@ -56,7 +56,6 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 	static ArrayList<String> conids = new ArrayList<String>();
 	private ArrayList<RecomendationInfo> mReclist = new ArrayList<RecomendationInfo>();
 	private ArrayList<AppointmentConditionsInfo> mConlist = new ArrayList<AppointmentConditionsInfo>();
-	private BaseLoader mBaseLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,6 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-		mBaseLoader = new BaseLoader(this);
 
 		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
 				appointment_id);
@@ -282,7 +280,7 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 						Toast.LENGTH_LONG).show();
 			} else {
 				if (appointmentInfo != null) {
-					mBaseLoader.showProgress();
+					ProgressDialog.showProgress(this);
 
 					AppointmentInfo.saveNotes(appointmentInfo.getID(), notes,privatenotes,
 							recids, conids, new UpdateInfoDelegate() {
@@ -290,7 +288,7 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 								@Override
 								public void UpdateSuccessFully(
 										ServiceResponse res) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									if (!res.isError()) {
 										Toast.makeText(getApplicationContext(),
 												"Notes save successfully",
@@ -305,7 +303,7 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 
 								@Override
 								public void UpdateFail(String ErrorMessage) {
-									mBaseLoader.hideProgress();
+									ProgressDialog.hideProgress();
 									Toast.makeText(getApplicationContext(),
 											ErrorMessage, Toast.LENGTH_LONG)
 											.show();

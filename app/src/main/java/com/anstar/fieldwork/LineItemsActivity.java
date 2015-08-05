@@ -22,7 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
@@ -44,7 +44,6 @@ public class LineItemsActivity extends AppCompatActivity {
 	private int EDIT_LINE_ITEM = 1;
 	private int ADD_LINE_ITEM = 2;
 	private TextView txtInstruction;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +67,6 @@ public class LineItemsActivity extends AppCompatActivity {
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -187,7 +184,7 @@ public class LineItemsActivity extends AppCompatActivity {
 													DialogInterface dialog,
 													int id) {
 												dialog.cancel();
-												mBaseLoader.showProgress();
+												ProgressDialog.showProgress(LineItemsActivity.this);
 												LineItemsInfo
 														.DeleteLineItem(
 																lItem.id,
@@ -196,7 +193,7 @@ public class LineItemsActivity extends AppCompatActivity {
 																	public void UpdateSuccessFully(
 																			ServiceResponse res) {
 																		try {
-																			mBaseLoader.hideProgress();
+																			ProgressDialog.hideProgress();
 																			m_lineitems = LineItemsList
 																					.Instance()
 																					.load(appointment_id);
@@ -214,7 +211,7 @@ public class LineItemsActivity extends AppCompatActivity {
 																	@Override
 																	public void UpdateFail(
 																			String ErrorMessage) {
-																		mBaseLoader.hideProgress();
+																		ProgressDialog.hideProgress();
 																		Toast.makeText(
 																				getApplicationContext(),
 																				"There is some error.",
@@ -274,11 +271,11 @@ public class LineItemsActivity extends AppCompatActivity {
 		if (requestCode == EDIT_LINE_ITEM) {
 			if (resultCode == RESULT_OK) {
 				int id = data.getIntExtra("position", 0);
-				mBaseLoader.showProgress();
+				ProgressDialog.showProgress(this);
 				m_lineitems.get(id).EditLineItems(new UpdateInfoDelegate() {
 					@Override
 					public void UpdateSuccessFully(ServiceResponse res) {
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 						try {
 							m_lineitems = LineItemsList.Instance().load(
 									appointment_id);
@@ -296,7 +293,7 @@ public class LineItemsActivity extends AppCompatActivity {
 						Toast.makeText(getApplicationContext(),
 								"There is some error.", Toast.LENGTH_LONG)
 								.show();
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 					}
 				});
 			}

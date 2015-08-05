@@ -25,7 +25,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Generics;
 import com.anstar.common.NetworkConnectivity;
@@ -89,7 +89,6 @@ public class TrapDetailsActivity extends AppCompatActivity implements
 	Spinner spnBaitCondition, spnTrapCondition;
 	EditText edtException;
 	boolean isRemoved;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -131,8 +130,6 @@ public class TrapDetailsActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		lstMaterial = (ListView) findViewById(R.id.lstMaterialUsages);
 		btnSaveTrapData = (Button) findViewById(R.id.btnSaveTrapData);
@@ -394,7 +391,7 @@ public class TrapDetailsActivity extends AppCompatActivity implements
 
 	public void AddTraps(ArrayList<InspectionPest> m_list,
 			InspectionInfo inspection) {
-		mBaseLoader.showProgress();
+		ProgressDialog.showProgress(this);
 		InspectionInfo.AddInspectionRecord(appointment_id, m_list, inspection,
 				new UpdateMUInfoDelegate() {
 					@Override
@@ -422,13 +419,13 @@ public class TrapDetailsActivity extends AppCompatActivity implements
 							}
 
 						} else {
-                            mBaseLoader.hideProgress();
+                            ProgressDialog.hideProgress();
 						}
 					}
 
 					@Override
 					public void UpdateFail(String ErrorMessage) {
-						mBaseLoader.hideProgress();
+						ProgressDialog.hideProgress();
 						Toast.makeText(getApplicationContext(), ErrorMessage,
 								Toast.LENGTH_LONG).show();
 					}
@@ -436,7 +433,7 @@ public class TrapDetailsActivity extends AppCompatActivity implements
 	}
 
 	public void gotoback() {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
 		TrapScanningInfo trap = TrapList.Instance()
 				.getTrapByBarcodeNdCustomerId(barcode, cust_id);
 		trap.isChecked = true;

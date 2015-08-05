@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     ArrayList<AppointmentInfo> m_appointments = null;
     private ListView lstAppointment;
     AppointmentAdapter m_adapter = null;
-    private BaseLoader mBaseLoader;
     private ArrayList<CustomerInfo> m_list;
     private OnHomeItemSelectedListener mOnHomeItemSelectedListener;
     // Container Activity must implement this interface
@@ -67,7 +66,6 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBaseLoader = new BaseLoader(getActivity());
         m_currentDate = new Date();
 
         m_appointments = new ArrayList<>();
@@ -83,11 +81,11 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_home);
         try {
-            mBaseLoader.showProgress("Please wait...");
+            ProgressDialog.showProgress(getActivity(), "Please wait...");
             AppointmentModelList.Instance().load(this);
 
         } catch (Exception e) {
-            mBaseLoader.hideProgress();
+            ProgressDialog.hideProgress();
             e.printStackTrace();
         }
     }
@@ -328,7 +326,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
     @Override
     public void ModelLoaded(ArrayList<AppointmentInfo> list) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         Utils.LogInfo("finish refresh...................");
         bindData();
 
@@ -337,7 +335,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
     @Override
     public void ModelLoadFailedWithError(String error) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
@@ -400,7 +398,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
             @Override
             public void ModelLoaded(ArrayList<CustomerInfo> list) {
-                mBaseLoader.hideProgress();
+                ProgressDialog.hideProgress();
                 if (list != null) {
                     m_list = list;
                     generateHashList();
@@ -415,7 +413,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
 
             @Override
             public void ModelLoadFailedWithError(String error) {
-                mBaseLoader.hideProgress();
+                ProgressDialog.hideProgress();
                 Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
             }
         });

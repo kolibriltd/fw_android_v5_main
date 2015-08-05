@@ -22,7 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.ModelDelegates;
@@ -40,7 +40,6 @@ public class CustomerListFragment extends Fragment implements
 
     private CustomerStickyHeadersListAdapter mCustomerStickyHeadersListAdapter;
     private ArrayList<CustomerViewDataItem> mFullItemsList = new ArrayList<>();
-    private BaseLoader mBaseLoader;
     boolean mFromAddAppointment = false;
     private OnCustomerItemSelectedListener mOnCustomerItemSelectedListener;
     // Container Activity must implement this interface
@@ -71,18 +70,18 @@ public class CustomerListFragment extends Fragment implements
             mOnCustomerItemSelectedListener.onCustomerItemSelected(item);
         } else {
             if (NetworkConnectivity.isConnected()) {
-                mBaseLoader.showProgress();
+                ProgressDialog.showProgress(getActivity());
                 item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
 
                     @Override
                     public void UpdateSuccessFully(CustomerInfo info) {
-                        mBaseLoader.hideProgress();
+                        ProgressDialog.hideProgress();
                         mOnCustomerItemSelectedListener.onCustomerItemSelected(info);
                     }
 
                     @Override
                     public void UpdateFail(String ErrorMessage) {
-                        mBaseLoader.hideProgress();
+                        ProgressDialog.hideProgress();
                         Toast.makeText(getActivity(),
                                 "Customer update fail.",
                                 Toast.LENGTH_LONG).show();
@@ -105,7 +104,6 @@ public class CustomerListFragment extends Fragment implements
             if (b.containsKey("FromAddAppointment"))
                 mFromAddAppointment = b.getBoolean("FromAddAppointment");
         }
-        mBaseLoader = new BaseLoader(getActivity());
         setHasOptionsMenu(true);
     }
 
@@ -115,7 +113,7 @@ public class CustomerListFragment extends Fragment implements
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_fragment_customer_list);
         try {
-            mBaseLoader.showProgress();
+            ProgressDialog.showProgress(getActivity());
             CustomerList.Instance().loadLocal(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +136,7 @@ public class CustomerListFragment extends Fragment implements
 
     @Override
     public void ModelLoaded(ArrayList<CustomerInfo> list) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         if (list != null) {
             loadList(list);
             showFilteredList("");
@@ -150,7 +148,7 @@ public class CustomerListFragment extends Fragment implements
 
     @Override
     public void ModelLoadFailedWithError(String error) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 

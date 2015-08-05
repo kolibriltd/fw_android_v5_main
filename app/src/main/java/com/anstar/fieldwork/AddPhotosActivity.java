@@ -31,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceHelper;
@@ -65,7 +65,6 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 	private String filepath = "";
 	private boolean isEdit = false;
 	private PhotoAttachmentsInfo photoinfo;
-    private BaseLoader mBaseLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,6 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
         ActionBar action = getSupportActionBar();
         action.setDisplayHomeAsUpEnabled(true);
         action.setDisplayShowHomeEnabled(true);
-        mBaseLoader = new BaseLoader(this);
 
 		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
 				appointment_id);
@@ -170,11 +168,11 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
-                                    mBaseLoader.showProgress();
+                                    ProgressDialog.showProgress(AddPhotosActivity.this);
 									photoinfo.deletePhoto(new CommonDelegate() {
 										@Override
 										public void UpdateSuccessFully(boolean b) {
-                                            mBaseLoader.hideProgress();
+                                            ProgressDialog.hideProgress();
 											Toast.makeText(
 													getApplicationContext(),
 													"Photo has been deleted successfully",
@@ -189,7 +187,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 													getApplicationContext(),
 													ErrorMessage,
 													Toast.LENGTH_LONG).show();
-                                            mBaseLoader.hideProgress();
+                                            ProgressDialog.hideProgress();
 										}
 									});
 								}
@@ -249,7 +247,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 //		Utils.LogInfo("Iamge size ::: "+data.length);
 		if (filepath.trim().length() > 0) {
 			if (appointmentInfo != null) {
-                mBaseLoader.showProgress();
+                ProgressDialog.showProgress(this);
 				
 				if (isEdit) {
 					photoinfo.attachment_file_name = filepath;
@@ -491,7 +489,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 
 	@Override
 	public void UploadSuccessFully(String message, boolean isedited, String name) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(),
 				"Photo has been added successfully.", Toast.LENGTH_LONG).show();
 		finish();
@@ -499,7 +497,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 
 	@Override
 	public void UploadFailed(String error) {
-        mBaseLoader.hideProgress();
+        ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(), "Please try again.",
 				Toast.LENGTH_LONG).show();
 	}

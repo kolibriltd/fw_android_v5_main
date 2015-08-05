@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.common.BaseLoader;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.NotificationCenter;
 import com.anstar.model.helper.ServiceResponse;
@@ -44,7 +44,6 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 	ArrayList<MaterialUsage> m_list = null;
 	TextView txtMessage;
 	final int MATERIAL_REQUEST_ID = 1;
-	private BaseLoader mBaseLoader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +64,6 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
-
-		mBaseLoader = new BaseLoader(this);
 
 		txtMessage = (TextView) findViewById(R.id.txtNodata);
 		lstMaterialUsage = (ListView) findViewById(R.id.lstAppointment_Related);
@@ -290,14 +287,14 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// call();
-								mBaseLoader.showProgress();
+								ProgressDialog.showProgress(MaterialUsageListActivity.this);
 								MaterialUsage.DeleteMaterialUsageRecord(record,
 										appointment_id, info,
 										new UpdateMUInfoDelegate() {
 											@Override
 											public void UpdateSuccessFully(
 													ServiceResponse res) {
-												mBaseLoader.hideProgress();
+												ProgressDialog.hideProgress();
 												m_list = MaterialUsagesList
 														.Instance().load(
 																appointment_id);
@@ -307,7 +304,7 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 											@Override
 											public void UpdateFail(
 													String ErrorMessage) {
-												mBaseLoader.hideProgress();
+												ProgressDialog.hideProgress();
 												Toast.makeText(
 														getApplicationContext(),
 														ErrorMessage, Toast.LENGTH_LONG).show();
