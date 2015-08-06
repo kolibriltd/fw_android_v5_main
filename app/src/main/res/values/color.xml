@@ -9,10 +9,14 @@
 
     <color name="background_color">#eeeeee</color>
     <color name="header_color">#D7DCD6</color>
-    <color name="login_back_color">#F0F0F0</color>
+    <color name="login_back_color">#fff</color>
+    <color name="intardact_back_color">#3c4248</color>
     <color name="marck_app_miss">#ff5e00</color>
     <color name="marck_app_comp">#14de32</color>
     <color name="marck_app_sched">#1cb0ff</color>
+    <color name="font_pdf_date">#999194</color>
+    <color name="app_red">#cc0044</color>
+    <color name="app_grey">#f2f2f2</color>
 
     <!-- <color name="login_back_color">#cdcdcd</color> -->
     <!-- <color name="header_text_color">#ffffff</color> -->

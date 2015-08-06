@@ -5,48 +5,29 @@
     android:layout_height="fill_parent"
     android:background="@color/login_back_color" >
 
-    <!-- <RelativeLayout -->
-    <!-- android:id="@+id/rlTopbar" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:background="@drawable/top_bar" > -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" android:id="@+id/linearLayout" android:gravity="center"
+        android:background="#e74c3a">
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo_fieldwork" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp" android:background="@drawable/logo_fieldwork"/>
+    </LinearLayout>
 
 
-    <!-- <TextView -->
-    <!-- android:id="@+id/textView1" -->
-    <!-- style="@style/topbar_text" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_centerInParent="true" -->
-    <!-- android:text="@string/title_login" /> -->
-    <!-- </RelativeLayout> -->
-
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/ic_applogo" />
 
     <RelativeLayout
         android:id="@+id/rlMain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imgLogo"
-        android:layout_margin="20dip"
-        android:paddingTop="50dip" >
-
-        <!-- android:layout_below="@+id/rlTopbar" -->
-
-
-        <!-- <TextView -->
-        <!-- android:id="@+id/txtLogin" -->
-        <!-- style="@style/dark_gray_text" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_marginTop="20dp" -->
-        <!-- android:text="@string/please_log_in" /> -->
+        android:paddingTop="40dp" android:layout_below="@+id/linearLayout" android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp" android:layout_marginRight="16dp">
 
         <EditText
             android:id="@+id/edtUsername"
@@ -69,15 +50,33 @@
             android:inputType="textPassword"
             android:textColor="#000000"
             android:textSize="18dip" />
-
-        <Button
-            android:id="@+id/btnLogin"
-            style="@style/login_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edtPassword"
-            android:layout_marginTop="30dp"
-            android:text="@string/title_login" />
+        
     </RelativeLayout>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log in" android:background="@drawable/custion_bag_login"
+        android:paddingTop="10dp" android:paddingBottom="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#3c4248" android:paddingLeft="40dp" android:paddingRight="40dp"
+        android:layout_alignParentBottom="true" android:layout_alignRight="@+id/rlMain"
+        android:layout_marginBottom="20dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:id="@+id/button3"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#3c4248" android:background="@drawable/custion_bag_login" android:paddingLeft="35dp"
+        android:paddingTop="10dp" android:paddingRight="35dp" android:paddingBottom="10dp"
+        android:layout_alignTop="@+id/btnLogin" android:layout_alignLeft="@+id/rlMain"
+        android:layout_marginBottom="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fogot password?"
+        android:id="@+id/textView7" android:layout_below="@+id/rlMain" android:layout_alignRight="@+id/rlMain"
+        android:layout_marginTop="20dp" android:textColor="#3c4248" android:textSize="18dp"/>
 
 </RelativeLayout>

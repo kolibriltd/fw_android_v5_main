@@ -258,4 +258,6 @@
     <string name="title_fragment_work_history_detail">Work History</string>
 
     <string name="title_activity_driving_directions">Driving Directions</string>
+    <string name="string_item_appointments">&#8226;&#8226;&#8226;</string>
+    <string name="title_activity_intardaktion">IntardaktionActivity</string>
 </resources>

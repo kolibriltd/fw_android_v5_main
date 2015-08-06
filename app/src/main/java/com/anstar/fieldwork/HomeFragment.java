@@ -442,19 +442,22 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
         layout_app.typeView = "appointmets";
         layout_app.type_item = "layout";
         m_list_home.add(layout_app);
-
+        int count_app = 0;
         if (m_appointments.size() > 0) {
             for (AppointmentInfo item : m_appointments) {
-                HomeInfo item_app = new HomeInfo();
-                item_app.typeView = "appointmets";
-                item_app.type_item = "item";
-                item_app.customer_id = item.customer_id;
-                item_app.id = item.id;
-                item_app.service_location_id = item.service_location_id;
-                item_app.duration = item.duration;
-                item_app.started_at_time = item.started_at_time;
-                item_app.status = item.status;
-                m_list_home.add(item_app);
+                if (count_app < 4) {
+                    HomeInfo item_app = new HomeInfo();
+                    item_app.typeView = "appointmets";
+                    item_app.type_item = "item";
+                    item_app.customer_id = item.customer_id;
+                    item_app.id = item.id;
+                    item_app.service_location_id = item.service_location_id;
+                    item_app.duration = item.duration;
+                    item_app.started_at_time = item.started_at_time;
+                    item_app.status = item.status;
+                    m_list_home.add(item_app);
+                    count_app++;
+                }
             }
         } else {
             HomeInfo layout_app_no = new HomeInfo();

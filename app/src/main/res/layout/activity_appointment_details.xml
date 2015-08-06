@@ -84,7 +84,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0:45"
                     android:id="@+id/textView16"
                     android:textColor="#000" android:textSize="16dp" android:layout_alignTop="@+id/textView15"
                     android:layout_alignLeft="@+id/textView24" android:layout_alignStart="@+id/textView24"
@@ -129,7 +128,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="string_item_appointments"
+                            android:text="@string/string_item_appointments"
                             android:id="@+id/textView78"
                             android:layout_weight="1"
                             android:paddingTop="10dp"
@@ -153,11 +152,20 @@
                     </TableRow>
 
                 </RelativeLayout>
+
+                <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView2"
+                    android:layout_alignStart="@id/relativeLayout"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_alignLeft="@+id/relativeLayout" />
+
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/relativeLayout" android:layout_alignLeft="@+id/relativeLayout"
-                    android:layout_alignStart="@+id/relativeLayout"
+                    android:layout_below="@+id/listView2" android:layout_alignLeft="@+id/listView2"
+                    android:layout_alignStart="@id/listView2"
                     android:background="@drawable/appointments_item_border"
                     android:id="@+id/relativeLayout2">
                     <RelativeLayout
@@ -572,7 +580,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="220"
+                            android:text="0"
                             android:id="@+id/total_devices"
                             android:textColor="#6b6b6b"
                             android:layout_below="@+id/textView51"
@@ -582,7 +590,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100"
+                            android:text="0"
                             android:id="@+id/scannet_devices" android:textColor="#6b6b6b"
                             android:textSize="18dp"
                             android:layout_alignTop="@+id/un_scannet_devices"
@@ -591,7 +599,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="120"
+                            android:text="0"
                             android:id="@+id/un_scannet_devices" android:textColor="#6b6b6b"
                             android:layout_below="@+id/textView52"
                             android:layout_alignLeft="@+id/textView52"
@@ -879,14 +887,19 @@
 
         </RelativeLayout>
 
-        <ImageView
+        <ImageView style="@style/AppTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/plus_right_bottom" android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="false" android:layout_alignParentEnd="false"
-            android:src="@drawable/plus"
+            android:id="@+id/plus_right_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/fab_shape"
+            android:src="@drawable/fab_ic_add"
+            android:tint="@android:color/white"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="7dp"/>
+            android:padding="20dp" />
 
     </RelativeLayout>
 

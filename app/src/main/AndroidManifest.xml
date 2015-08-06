@@ -76,6 +76,7 @@
             android:noHistory="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -396,6 +397,12 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".IntardaktionActivity"
+            android:label="@string/title_activity_intardaktion"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -33,7 +33,7 @@ public class StartActivity extends Activity {
                 public void run() {
                     // This method will be executed once the timer is over
                     // Start your app main activity
-                    Intent i = new Intent(StartActivity.this, LoginActivity.class);
+                    Intent i = new Intent(StartActivity.this, IntardaktionActivity.class);
                     //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     // close this activity

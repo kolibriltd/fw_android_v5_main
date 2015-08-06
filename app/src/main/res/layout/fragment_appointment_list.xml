@@ -63,7 +63,13 @@
             android:layout_centerHorizontal="true" android:textColor="#e8dfdf" android:layout_marginTop="10dp"
             android:textSize="18dp"/>
     </RelativeLayout>
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        >
     <ListView
         android:id="@+id/lstAppointment"
         android:layout_width="fill_parent"
@@ -72,5 +78,6 @@
         android:divider="#F7F7F7"
         android:dividerHeight="1dp"
         android:listSelector="#00000000" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

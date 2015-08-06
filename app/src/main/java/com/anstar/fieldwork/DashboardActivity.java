@@ -324,18 +324,18 @@ public class DashboardActivity extends AppCompatActivity implements
     }
 
     private void logOut() {
-            Account account = Account.getUser();
-            try {
-                account.isLogin = false;
-                account.save();
-            } catch (ActiveRecordException e) {
-                e.printStackTrace();
-            }
-            UserInfo.Instance().ClearDB();
-            Intent i = new Intent(DashboardActivity.this,
-                    LoginActivity.class);
-            startActivity(i);
-            finish();
+        Account account = Account.getUser();
+        try {
+            account.isLogin = false;
+            account.save();
+        } catch (ActiveRecordException e) {
+            e.printStackTrace();
+        }
+        UserInfo.Instance().ClearDB();
+        Intent i = new Intent(DashboardActivity.this,
+                LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:background="@drawable/introduction_payments"
+        android:layout_marginTop="39dp" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Payments"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/imageView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#fff" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your customers can log in to view service and invoice history and pay online."
+        android:id="@+id/textView6" android:layout_below="@+id/textView5"
+        android:layout_marginTop="15dp" android:textSize="15dp"
+        android:textColor="#FFF" android:gravity="center"
+        android:layout_alignLeft="@+id/imageView4" android:layout_alignRight="@+id/imageView4"/>
+</RelativeLayout>

@@ -5,9 +5,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AppointmentListFragment extends Fragment implements OnClickListener,
-        ModelDelegate<AppointmentInfo> {
+        ModelDelegate<AppointmentInfo>, SwipeRefreshLayout.OnRefreshListener{
 
     private static boolean isRefreshShow = true;
     private static int APPOINTMENT_DETAIL = 1;
@@ -57,6 +59,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     private ListView lstAppointment;
     // MyAppointmentAdapter m_adapter;
     private TextView txtStartedAtDate, divider1;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RelativeLayout RlInfo;
     int pos = 0;
     AppointmentAdapter m_adapter = null;
@@ -76,6 +79,12 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         lstAppointment = (ListView) v.findViewById(R.id.lstAppointment);
         txtStartedAtDate = (TextView) v.findViewById(R.id.txtDate);
         RlInfo = (RelativeLayout) v.findViewById(R.id.RlInfo);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.app_red, R.color.font_pdf_date,
+                R.color.app_grey, R.color.app_red);
 
         btnNext.setOnClickListener(this);
         btnPrev.setOnClickListener(this);
@@ -117,6 +126,31 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         } catch (Exception e) {
             ProgressDialog.hideProgress();
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        if (NetworkConnectivity.isConnected()) {
+            // loadCustomer();
+            AppointmentModelList.Instance().ClearDB();
+            LineItemsList.Instance().ClearDB();
+
+            try {
+             //   ProgressDialog.showProgress(getActivity());
+                AppointmentModelList.Instance().load(this);
+                mSwipeRefreshLayout.setRefreshing(false);
+            } catch (Exception e) {
+                mSwipeRefreshLayout.setRefreshing(false);
+               // ProgressDialog.hideProgress();
+                e.printStackTrace();
+            }
+        } else {
+            mSwipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(),
+                    "Please check your internet connection to refresh", Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -374,14 +408,14 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
         super.onCreateOptionsMenu(menu,inflater);
 
         inflater.inflate(R.menu.refresh_menu, menu);
-        MenuItem item = menu.findItem(R.id.btnRefresh);
-        item.setVisible(isRefreshShow);
+        /*MenuItem item = menu.findItem(R.id.btnRefresh);
+        item.setVisible(isRefreshShow);*/
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.btnRefresh:
+           /* case R.id.btnRefresh:
                 if (NetworkConnectivity.isConnected()) {
                     // loadCustomer();
                     AppointmentModelList.Instance().ClearDB();
@@ -399,8 +433,8 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
                             "Please check your internet connection to refresh", Toast.LENGTH_LONG)
                             .show();
                 }
-                return true;
-            case R.id.btnAddAppointment:
+                return true;*/
+            case R.id.new_appointment:
                 SharedPreferences setting = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
                 boolean auto = setting.getBoolean("ISAUTOMODE", true);

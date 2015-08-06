@@ -35,7 +35,7 @@
             android:layout_gravity="start"
             android:background="#292929"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/darker_gray"
+            android:divider="#525252"
             android:dividerHeight="1px"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">

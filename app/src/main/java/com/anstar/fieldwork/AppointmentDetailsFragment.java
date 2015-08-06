@@ -91,11 +91,14 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class AppointmentDetailsFragment extends Fragment implements
 		TimePickerDialog.OnTimeSetListener, OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -150,6 +153,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 	private UserInfo user;
 	private ArrayList<TrapScanningInfo> m_traps = null;
 	String url = "";
+
 
 	// DateTimePickerDialog dl = null;
 
@@ -286,6 +290,14 @@ public class AppointmentDetailsFragment extends Fragment implements
 			}
 		});
 
+		cont_add_notes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), AddNotesActivity.class);
+				i.putExtra(Const.Appointment_Id, appointmentInfo.id);
+				startActivity(i);
+			}
+		});
 		LoadValues();
 
         return rootView;
@@ -304,17 +316,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		if (print) {
 			btnSave.setText("Save & Print");
 		}
-/*
-		// imgMap = (ImageView) findViewById(R.id.imgMap);
-		action = getSupportActionBar();
-		// action.setTitle("Appointment Details");
-		action.setTitle(Html
-				.fromHtml("<font color='"
-						+ getString(R.string.header_text_color)
-						+ "'>Work Order</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
+
 
 		Bundle b = getArguments();
 		if (b != null) {
@@ -359,156 +361,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 		Const.customer_id = appointmentInfo.customer_id;
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(ServiceHelper.URL);
-		sb.append(ServiceHelper.WORK_ORDERS + "/" + appointment_id + "/"
-				+ ServiceHelper.PHOTO_ATTACHMENTS);
-		// sb.append("api_key=");
-		// sb.append(Account.getkey());
-		url = sb.toString();
-		/*btnTrapCount.setText(TrapList
-				.Instance()
-				.getAllTrapsByCustomerId(appointmentInfo.customer_id,
-						serviceLocationInfo.id).size()
-				+ "");
-		try {
-			UserInfo.Instance().load(new ModelDelegate<UserInfo>() {
-				@Override
-				public void ModelLoaded(ArrayList<UserInfo> list) {
-					if (list != null) {
-						user = list.get(0);
-						if (!user.show_environment_fields) {
-							rlEnvironment.setVisibility(View.GONE);
-							dividerEnvirnMent.setVisibility(View.GONE);
-						} else {
-							rlEnvironment.setVisibility(View.VISIBLE);
-							dividerEnvirnMent.setVisibility(View.VISIBLE);
-						}
-						if (user.show_photos) {
-							rlPictures.setVisibility(View.VISIBLE);
-							dividerPic.setVisibility(View.VISIBLE);
-							rlCamera.setVisibility(View.VISIBLE);
-						} else {
-							rlPictures.setVisibility(View.GONE);
-							dividerPic.setVisibility(View.GONE);
-							rlCamera.setVisibility(View.GONE);
-						}
-					}
-				}
-
-				@Override
-				public void ModelLoadFailedWithError(String error) {
-
-				}
-			});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		btnSave.setOnClickListener(this);
-		btnPrintPdf.setOnClickListener(this);
-		rlAppointmentInfo.setOnClickListener(this);
-		rlPdf.setOnClickListener(this);
-		rlTargetPests.setOnClickListener(this);
-		rlMaterialUse.setOnClickListener(this);
-		rlNotes.setOnClickListener(this);
-		rlInspections.setOnClickListener(this);
-		rlTrapScaning.setOnClickListener(this);
-		rlSignature.setOnClickListener(this);
-		rlEnvironment.setOnClickListener(this);
-		rlDirections.setOnClickListener(this);
-		rlWorkOrderDetails.setOnClickListener(this);
-		rlName.setOnClickListener(this);
-		rlPdfs.setOnClickListener(this);
-		rlPictures.setOnClickListener(this);
-		imgCamera.setOnClickListener(this);
-		rlServiceLocationNotes.setOnClickListener(this);
-		txtDrivingDirections.setOnClickListener(this);
-		rlAddress.setOnClickListener(this);
-		// imgMap.setOnClickListener(this);
-
-		btnSave.setVisibility(View.VISIBLE);
-		spnStatus.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-
-				// if
-				// (spnStatus.getSelectedItem().toString().contains("Complete"))
-				// {
-				// PaymentInfo info = PaymentInfo
-				// .getPaymentsInfoByAppId(appointment_id);
-				// if (info != null && appointmentInfo != null) {
-				// appointmentInfo.syncAppointmentNew(appointmentInfo);
-				// }
-				// }
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-
-			}
-		});
-		// final Calendar c = Calendar.getInstance();
-		// m_day = c.get(Calendar.DAY_OF_MONTH);
-		// m_month = c.get(Calendar.MONTH);
-		// m_year = c.get(Calendar.YEAR);
-		// m_startHour = c.get(Calendar.HOUR_OF_DAY);
-		// m_startMinute = c.get(Calendar.MINUTE);
-		// m_finishHour = c.get(Calendar.HOUR_OF_DAY);
-		// m_finishMinute = c.get(Calendar.MINUTE);
-		setCalender();
-		LoadValues();
-		edtStartedat.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-
-				if (event != null && event.getAction() == MotionEvent.ACTION_UP) {
-					// showDialog(TIME_DIALOG_ID_START);
-					new TimePickerDialog(getActivity(), time1,
-							m_startHour, m_startMinute, false).show();
-				}
-				return false;
-			}
-		});
-
-		edtFinisedat.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-
-				if (event != null && event.getAction() == MotionEvent.ACTION_UP) {
-					// showDialog(TIME_DIALOG_ID_FINISH);
-					new TimePickerDialog(getActivity(), time2,
-							m_finishHour, m_finishMinute, false).show();
-				}
-				return false;
-			}
-		});
-		// edtScheduledDate.setOnTouchListener(new OnTouchListener() {
-		// @Override
-		// public boolean onTouch(View v, MotionEvent event) {
-		// if (event != null && event.getAction() == MotionEvent.ACTION_UP) {
-		// new DatePickerDialog(AppointmentDetails.this, datelistener,
-		// m_year, m_month, m_day).show();
-		// // dl = new
-		// // DateTimePickerDialog(AppointmentInfoActivity.this);
-		// // dl.show();
-		// // dl.setDialogResult(new OnMyDialogResult() {
-		// //
-		// // @Override
-		// // public void finish(String result) {
-		// // if (result.length() > 0) {
-		// // edtScheduledDate.setText(result);
-		// // }
-		// // }
-		// // });
-		// }
-		// return false;
-		// }
-		// });
-		// edtScheduledDate.requestFocus();*/
 	};
 
 	@Override
@@ -528,7 +380,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 		if (customerinfo == null) {
 			Toast.makeText(getActivity(),
 					"Please refresh your data.", Toast.LENGTH_LONG).show();
-///////			finish();
 		}
 		customerinfo = CustomerList.Instance().getCustomerById(
 				appointmentInfo.customer_id);
@@ -561,27 +412,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 		super.onPause();
 	}
 
-	private void StartedAt() {
-		if (m_startHour >= 12) {
-			String time = m_startHour + ":" + m_startMinute;
-			ConvertDate24To12Hour(edtStartedat, time, "PM");
-		} else if (m_startHour < 12) {
-			String time = m_startHour + ":" + m_startMinute;
-			ConvertDate24To12Hour(edtStartedat, time, "AM");
-		}
-		setCalender();
-	}
-
-	private void FinishedAt() {
-		if (m_finishHour >= 12) {
-			String time = m_finishHour + ":" + m_finishMinute;
-			ConvertDate24To12Hour(edtFinisedat, time, "PM");
-		} else if (m_finishHour < 12) {
-			String time = m_finishHour + ":" + m_finishMinute;
-			ConvertDate24To12Hour(edtFinisedat, time, "AM");
-		}
-		setCalender();
-	}
 
 	public void ConvertDate24To12Hour(EditText edt, String time, String am) {
 		// hh = 1-12
@@ -606,38 +436,6 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 	}
 
-	public void setCalender() {
-		final Calendar c = Calendar.getInstance();
-		m_day = c.get(Calendar.DAY_OF_MONTH);
-		m_month = c.get(Calendar.MONTH);
-		m_year = c.get(Calendar.YEAR);
-		m_startHour = c.get(Calendar.HOUR_OF_DAY);
-		m_startMinute = c.get(Calendar.MINUTE);
-		m_finishHour = c.get(Calendar.HOUR_OF_DAY);
-		m_finishMinute = c.get(Calendar.MINUTE);
-	}
-
-	TimePickerDialog.OnTimeSetListener time1 = new TimePickerDialog.OnTimeSetListener() {
-
-		@Override
-		public void onTimeSet(TimePicker arg0, int arg1, int arg2) {
-			m_startHour = arg1;
-			m_startMinute = arg2;
-			StartedAt();
-
-		}
-	};
-	TimePickerDialog.OnTimeSetListener time2 = new TimePickerDialog.OnTimeSetListener() {
-
-		@Override
-		public void onTimeSet(TimePicker arg0, int arg1, int arg2) {
-
-			m_finishHour = arg1;
-			m_finishMinute = arg2;
-			FinishedAt();
-
-		}
-	};
 	DatePickerDialog.OnDateSetListener datelistener = new DatePickerDialog.OnDateSetListener() {
 
 		@Override
@@ -808,7 +606,6 @@ public class AppointmentDetailsFragment extends Fragment implements
                 ProgressDialog.showProgress(getActivity(), "Syncing with server");
 				String[] time = appointmentInfo.starts_at.split("T");
 				String date = appointmentInfo.starts_at;
-				// date = date + "T" + time[1];
 				String start_at_time = edtStartedat.getText().toString();
 				String finish_at_time = edtFinisedat.getText().toString();
 
@@ -844,31 +641,9 @@ public class AppointmentDetailsFragment extends Fragment implements
 
 			}
 
-		} /*else if (v == rlAppointmentInfo) {
-			Intent i = new Intent(getActivity(),
-					AppointmentInfoActivity.class);
-			i.putExtra(Const.Appointment_Id, appointment_id);
-			startActivity(i);
-		} else if (v == rlTargetPests) {
-			Intent i = new Intent(getActivity(),
-					TargetPestListActivity.class);
-			i.putExtra(Const.Appointment_Id, appointment_id);
-			startActivity(i);
-		} else if (v == rlInspections) {
-
-		} else if (v == rlMaterialUse) {
+		} /*else if (v == rlMaterialUse) {
 			Intent i = new Intent(getActivity(),
 					MaterialUsageListActivity.class);
-			i.putExtra(Const.Appointment_Id, appointment_id);
-			startActivity(i);
-		} else if (v == rlNotes) {
-			Intent i = new Intent(getActivity(),
-					AddNotesActivity.class);
-			i.putExtra(Const.Appointment_Id, appointment_id);
-			startActivity(i);
-		} else if (v == rlTrapScaning) {
-			Intent i = new Intent(getActivity(),
-					TrapScanningListActivity.class);
 			i.putExtra(Const.Appointment_Id, appointment_id);
 			startActivity(i);
 		} else if (v == rlSignature) {
@@ -876,37 +651,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 					SignatureActivity.class);
 			i.putExtra(Const.Appointment_Id, appointment_id);
 			startActivity(i);
-		} else if (v == rlDirections || v == txtDrivingDirections) {
-
-			// StringBuilder sb = new StringBuilder();
-			// sb.append(serviceLocationInfo.suite + " ")
-			// .append(serviceLocationInfo.street + " ")
-			// .append(serviceLocationInfo.street_two + " ")
-			// .append(serviceLocationInfo.city + " ")
-			// .append(serviceLocationInfo.state + " ")
-			// .append(serviceLocationInfo.zip + " ");
-			//
-			// // sb.append("5435 Touhy Ave, Skokie, IL 60077-3233");
-			// Address location = Utils
-			// .getLocationFromAddress(sb.toString(), this);
-
-			Location curruntLoc = Utils.getCurrentLocation(getActivity());
-			if (curruntLoc != null && serviceLocationInfo.hasValidLocation()) {
-				String uri = "http://maps.google.com/maps?f=d&hl=en&saddr="
-						+ curruntLoc.getLatitude() + ","
-						+ curruntLoc.getLongitude() + "&daddr="
-						+ serviceLocationInfo.lat + ","
-						+ serviceLocationInfo.lon;
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-				startActivity(intent);
-			} else {
-				Toast.makeText(
-                        getActivity(),
-						"Could not find location for this address, please check your GPS and internet connection.",
-						Toast.LENGTH_LONG).show();
-			}
-
-		}*/ /*else if (v == rlEnvironment) {
+		} else if (v == rlEnvironment) {
 			Intent i = new Intent(getActivity(),
 					EnvironMentActivity.class);
 			i.putExtra(Const.Appointment_Id, appointment_id);
@@ -992,6 +737,17 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 
 		start_time.setText(appointmentInfo.starts_at_time);
+		SimpleDateFormat datformat = new SimpleDateFormat("ss");
+		SimpleDateFormat datformatN = new SimpleDateFormat("mm:ss");
+
+		String newDate = null;
+		try {
+			Date dateNO = datformat.parse(appointmentInfo.duration + "");
+			newDate = datformatN.format(dateNO);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		duration.setText(newDate);
 
 		String name = "";
 		if (customerinfo != null) {
@@ -1010,11 +766,15 @@ public class AppointmentDetailsFragment extends Fragment implements
 					serviceLocationInfo.city + ", " + serviceLocationInfo.state + " " + serviceLocationInfo.zip);
 		}
 
-		notes_text.setText(appointmentInfo.notes);
-		private_notes_text.setText(appointmentInfo.private_notes);
-
-		istruction.setText(appointmentInfo.instructions);
-
+		if (appointmentInfo.notes != null) {
+			notes_text.setText(appointmentInfo.notes);
+		}
+		if (appointmentInfo.private_notes != null) {
+			private_notes_text.setText(appointmentInfo.private_notes);
+		}
+		if (!appointmentInfo.instructions.equals("")) {
+			istruction.setText(appointmentInfo.instructions);
+		}
 
 		if (m_traps != null) {
 			total_devices.setText(m_traps.size() + "");
@@ -1052,9 +812,13 @@ public class AppointmentDetailsFragment extends Fragment implements
 		m_adapter = new LineItemsListAdapter(m_lineitems_type);
 		listLineItem.setAdapter(m_adapter);
 
-		if (m_list_chemical != null) {
+		if (m_list_chemical.size() > 0) {
 			m_adapter_chemical = new MaterialUsageAdapter(m_list_chemical);
 			listChemicalUse.setAdapter(m_adapter_chemical);
+		}
+		else {
+			no_chemical.setVisibility(View.VISIBLE);
+			listChemicalUse.setVisibility(View.GONE);
 		}
 		if (m_pdfforms.size() > 0) {
 			m_adapter_pdf = new PdfFormsListAdapter(m_pdfforms);
@@ -1067,16 +831,20 @@ public class AppointmentDetailsFragment extends Fragment implements
 
 		photos = new ArrayList<PhotoAttachmentsInfo>();
 		photos = PhotoAttachmentsList.Instance().load(appointment_id);
-		if (photos != null) {
+		if (photos.size() > 0) {
 			m_adapter_photo = new PhotosGridAdapter(photos);
 			photoList.setAdapter(m_adapter_photo);
+		}
+		else {
+			no_photos.setVisibility(View.VISIBLE);
+			photoList.setVisibility(View.GONE);
 		}
 
 		lineItem.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (lineItemList.getVisibility() == View.GONE) {
-					Utility.setListViewChild(listLineItem);
+					setListViewChild(listLineItem);
 					ClouseLayout("lineItemList");
 				}
 				else {
@@ -1099,7 +867,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if (pdf_forms_list.getVisibility() == View.GONE) {
-					Utility.setListViewChild(listPdfForms);
+					setListViewChild(listPdfForms);
 					ClouseLayout("pdf_forms_list");
 				}
 				else {
@@ -1122,7 +890,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				if (chemical_count.getVisibility() == View.GONE) {
-					Utility.setListViewChild(listChemicalUse);
+					setListViewChild(listChemicalUse);
 					ClouseLayout("chemical_count");
 				}
 				else {
@@ -1403,7 +1171,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			collapse(devices_count);
 		}
 	}
-	public static void expand(final View v) {
+	private void expand(final View v) {
 		v.measure(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		final int targetHeight = v.getMeasuredHeight();
 
@@ -1430,7 +1198,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 		v.startAnimation(a);
 	}
 
-	public static void collapse(final View v) {
+	private void collapse(final View v) {
 		final int initialHeight = v.getMeasuredHeight();
 
 		Animation a = new Animation()
@@ -1456,7 +1224,59 @@ public class AppointmentDetailsFragment extends Fragment implements
 		v.startAnimation(a);
 	}
 
-	public class LineItemsListAdapter extends BaseAdapter {
+	public class ItemDetalPageAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+		private LayoutInflater inflater;
+
+		@Override
+		public View getHeaderView(int i, View convertView, ViewGroup parent) {
+			HeaderViewHolder holder;
+			if (convertView == null) {
+				holder = new HeaderViewHolder();
+				convertView = inflater.inflate(R.layout.detal_page_header, parent, false);
+				holder.imageView = (ImageView) convertView.findViewById(R.id.imageView8);
+				holder.text = (TextView) convertView.findViewById(R.id.textView30);
+				convertView.setTag(holder);
+			} else {
+				holder = (HeaderViewHolder) convertView.getTag();
+			}
+
+			///////////holder.imageView =
+
+			return convertView;
+		}
+
+		@Override
+		public long getHeaderId(int i) {
+			return 0;
+		}
+
+		@Override
+		public int getCount() {
+			return 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return null;
+		}
+
+		class HeaderViewHolder {
+			ImageView imageView;
+			TextView text;
+		}
+	}
+
+	public class LineItemsListAdapter extends BaseAdapter{
 		ArrayList<LineItemDetalInfo> m_list = new ArrayList<LineItemDetalInfo>();
 
 		public LineItemsListAdapter(ArrayList<LineItemDetalInfo> list) {
@@ -1716,7 +1536,7 @@ public class AppointmentDetailsFragment extends Fragment implements
 			String path = Const.FieldWorkImages + "_" + appointment_id + "_"
 					+ photo.id;
 			File mypath = new File(directory, path + ".jpg");
-			Bitmap myBitmap = BitmapFactory.decodeFile(mypath.getAbsolutePath());
+			Bitmap myBitmap = decodeFile(mypath);
 			if (myBitmap != null)
 				holder.imgPhoto.setImageBitmap(myBitmap);
 			return rowView;
@@ -1728,42 +1548,40 @@ public class AppointmentDetailsFragment extends Fragment implements
 		}
 	}
 
-	public static class Utility {
-		public static void setListViewChild(ListView list) {
-			ListAdapter listadapter = list.getAdapter();
-			if (listadapter == null) {
-				return;
-			}
-			int totalHight = 0;
-			for (int i = 0; i < listadapter.getCount(); i++) {
-				View listitem = listadapter.getView(i, null, list);
-				listitem.measure(0, 0);
-				totalHight += listitem.getMeasuredHeight();
-				Log.w("HEIGHT" + i, String.valueOf(listitem.getMeasuredHeight()));
-			}
-			ViewGroup.LayoutParams params = list.getLayoutParams();
-			params.height = totalHight;
-			list.setLayoutParams(params);
+	private void setListViewChild(ListView list) {
+		ListAdapter listadapter = list.getAdapter();
+		if (listadapter == null) {
+			return;
 		}
-
-		public static void setGridViewChild(GridView list) {
-			ListAdapter listadapter = list.getAdapter();
-			if (listadapter == null) {
-				return;
-			}
-			int totalHight = 0;
-			for (int i = 0; i < listadapter.getCount(); i++) {
-				View listitem = listadapter.getView(i, null, list);
-				listitem.measure(0, 0);
-				totalHight += listitem.getMeasuredHeight();
-			}
-			ViewGroup.LayoutParams params = list.getLayoutParams();
-			params.height = totalHight/3/*
-                    + (list.getHeight() * (listadapter.getCount() - 1))*/;
-			list.setLayoutParams(params);
+		int totalHight = 0;
+		for (int i = 0; i < listadapter.getCount(); i++) {
+			View listitem = listadapter.getView(i, null, list);
+			listitem.measure(0, 0);
+			totalHight += listitem.getMeasuredHeight();
+			Log.w("HEIGHT" + i, String.valueOf(listitem.getMeasuredHeight()));
 		}
-
+		ViewGroup.LayoutParams params = list.getLayoutParams();
+		params.height = totalHight;
+		list.setLayoutParams(params);
 	}
+
+	private void setGridViewChild(GridView list) {
+		ListAdapter listadapter = list.getAdapter();
+		if (listadapter == null) {
+			return;
+		}
+		int totalHight = 0;
+		for (int i = 0; i < listadapter.getCount(); i++) {
+			View listitem = listadapter.getView(i, null, list);
+			listitem.measure(0, 0);
+			totalHight += listitem.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = list.getLayoutParams();
+		params.height = totalHight/3/*
+				+ (list.getHeight() * (listadapter.getCount() - 1))*/;
+		list.setLayoutParams(params);
+	}
+
 	private Bitmap decodeFile(File f) {
 		try {
 			// Decode image size

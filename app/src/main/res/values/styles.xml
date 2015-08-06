@@ -1,7 +1,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application Theme -->
-    <style name="AppTheme" parent="AppBaseTheme"></style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!--<item name="colorPrimary">#ff1d79b1</item>-->
+        <!--<item name="colorPrimaryDark">#ff084d95</item>-->
+    </style>
     <!-- <style name="AppBaseTheme" parent="android:Theme.Light"></style> -->
     <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light"></style> -->
     <!-- <style name="AppBaseTheme" parent="@style/Holo.Theme.Light.DarkActionBar"></style> -->
@@ -22,6 +25,19 @@
         <item name="stickyListHeadersListViewStyle">@style/WidgetStickyListView</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
     </style>
+
+    <style name="StyledIndicators" parent="@android:style/Theme.Light">
+        <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
+    </style>
+
+    <style name="CustomCirclePageIndicator">
+        <item name="fillColor">#FF888888</item>
+        <item name="strokeColor">#FF000000</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="radius">10dp</item>
+        <item name="centered">true</item>
+    </style>
+
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <!-- Background for the search query section (e.g. EditText) -->
