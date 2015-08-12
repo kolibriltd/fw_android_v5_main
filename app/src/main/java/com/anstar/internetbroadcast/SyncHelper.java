@@ -1,8 +1,5 @@
 package com.anstar.internetbroadcast;
 
-import java.util.ArrayList;
-
-import com.anstar.activerecords.ActiveRecordException;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
 import com.anstar.models.AppointmentInfo;
@@ -16,7 +13,6 @@ import com.anstar.models.MaterialInfo;
 import com.anstar.models.MaterialUsage;
 import com.anstar.models.PestsTypeInfo;
 import com.anstar.models.PhotoAttachmentsInfo;
-import com.anstar.models.PhotoAttachmentsInfo.UploadDelegate;
 import com.anstar.models.TargetPestInfo;
 import com.anstar.models.TrapScanningInfo;
 import com.anstar.models.list.AppointmentModelList;
@@ -28,6 +24,8 @@ import com.anstar.models.list.MaterialUsagesList;
 import com.anstar.models.list.PestTypeList;
 import com.anstar.models.list.TargetPestList;
 import com.anstar.models.list.TrapList;
+
+import java.util.ArrayList;
 
 public class SyncHelper {
 
@@ -209,7 +207,7 @@ public class SyncHelper {
 					}
 					ArrayList<AttachmentsInfo> m_list = AttachmentsInfo
 							.getPdfFormsByWorkerId(appt.id);
-					if (m_list != null && m_list.size() > 0) {
+					if (m_list != null) {
 						for (AttachmentsInfo p : m_list) {
 							if (p.id < 0) {
 								DownloadPdf.syncUpload(

@@ -10,7 +10,7 @@
     <color name="background_color">#eeeeee</color>
     <color name="header_color">#D7DCD6</color>
     <color name="login_back_color">#fff</color>
-    <color name="intardact_back_color">#3c4248</color>
+    <color name="introduction_back_color">#3c4248</color>
     <color name="marck_app_miss">#ff5e00</color>
     <color name="marck_app_comp">#14de32</color>
     <color name="marck_app_sched">#1cb0ff</color>

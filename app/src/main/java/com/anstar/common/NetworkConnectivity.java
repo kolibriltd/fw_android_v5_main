@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
 
 import com.anstar.fieldwork.FieldworkApplication;
 
@@ -14,7 +13,7 @@ public class NetworkConnectivity {
 	/**
 	 * Get the network info
 	 * 
-	 * @param context
+	 * @param
 	 * @return
 	 */
 	// public static NetworkInfo getNetworkInfo(Context context){

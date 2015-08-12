@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,11 +25,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.models.AppointmentInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.LineItemsInfo;
@@ -68,6 +68,16 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     int j = 0;
     //ActionBar action = null;
     Date m_currentDate;
+
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+
+        void onAppointmentListItemClick(String appointment_id, int id);
+    }
+
+    private OnFragmentInteractionListener mListener;
 
     @Nullable
     @Override
@@ -167,6 +177,23 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
     }
 */
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
     public class AppointmentAdapter extends BaseAdapter {
         ArrayList<AppointmentInfo> m_list = new ArrayList<AppointmentInfo>();
 
@@ -196,7 +223,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
             holder = new ViewHolder();
             if (rowView == null) {
                 LayoutInflater li = getActivity().getLayoutInflater();
-                rowView = li.inflate(R.layout.appointment_item, null);
+                rowView = li.inflate(R.layout.fragment_appointment_list_item, null);
                 holder.name = (TextView) rowView.findViewById(R.id.textView22);
                 holder.localname = (TextView) rowView.findViewById(R.id.textView23);
                 holder.date = (TextView) rowView.findViewById(R.id.textView24);
@@ -253,14 +280,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
             holder.appointments_item_clik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppointmentDetailsFragment aif = new AppointmentDetailsFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Const.Appointment_Id, item.id);
-                    aif.setArguments(bundle);
-                    ((DashboardActivity) getActivity()).getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, aif)
-                            .commit();
+                    mListener.onAppointmentListItemClick(Const.Appointment_Id, item.id);
                 }
             });
             return rowView;

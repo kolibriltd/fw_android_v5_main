@@ -17,9 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.dialog.ProgressDialog;
+import com.anstar.common.Const;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.models.AppointmentInfo;
 import com.anstar.models.CustomerInfo;
 import com.anstar.models.HomeInfo;
@@ -49,7 +50,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
     public interface OnHomeItemSelectedListener {
         void onHomeAppointmentsSelected();
         void onHomeCustomersSelected();
-        void onHomeAppointmentsListItemSelected(int item);
+        void onHomeAppointmentsListItemSelected(String appointment_id, int id);
         void onHomeCustomersListItemSelected(int item);
     }
 
@@ -133,7 +134,7 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
             holder = new ViewHolder();
             if (rowView == null) {
                 LayoutInflater li = getActivity().getLayoutInflater();
-                rowView = li.inflate(R.layout.home_item, null);
+                rowView = li.inflate(R.layout.fragment_home_list_item, null);
                 holder.firsname = (TextView) rowView.findViewById(R.id.cus_firstname);
                 holder.lastname = (TextView) rowView.findViewById(R.id.cus_lastname);
                 holder.relativeLayout1 = (RelativeLayout) rowView.findViewById(R.id.relativeLayout1);
@@ -222,16 +223,8 @@ public class HomeFragment extends Fragment implements ModelDelegate<AppointmentI
                     holder.appointments_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-/*
 
-                            Intent i = new Intent(getActivity(),
-                                    AppointmentDetailsActivity.class);
-                            i.putExtra(Const.Appointment_Id, item.id);
-                            Const.app_id = item.id;
-                            startActivityForResult(i, APPOINTMENT_DETAIL);
-
-*/
-                            mOnHomeItemSelectedListener.onHomeAppointmentsListItemSelected(item.id);
+                            mOnHomeItemSelectedListener.onHomeAppointmentsListItemSelected(Const.Appointment_Id, item.id);
                         }
                     });
 

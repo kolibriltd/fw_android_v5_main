@@ -227,8 +227,11 @@ public class SettingFragment extends Fragment {
                                     CommonLoader cl = new CommonLoader();
                                     cl.setOnLoadListener(new CommonLoader.OnLoadListener() {
                                         @Override
-                                        public void onDataLoaded() {
+                                        public void onDataLoaded(CommonLoader cl) {
                                             ProgressDialog.hideProgress();
+                                            if(cl.isIsCustomerListDownloadError() || cl.isIsCustomerListItemDownloadError()) {
+                                                Toast.makeText(getActivity().getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     });
                                     ProgressDialog.showProgress(getActivity());

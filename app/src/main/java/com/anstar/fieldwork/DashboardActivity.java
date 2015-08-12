@@ -1,10 +1,14 @@
 package com.anstar.fieldwork;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,12 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
@@ -40,6 +44,8 @@ import com.anstar.print.BasePrint;
 import com.anstar.print.MsgDialog;
 import com.anstar.print.MsgHandle;
 import com.anstar.print.PdfPrint;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,9 +60,23 @@ public class DashboardActivity extends AppCompatActivity implements
         ServiceLocationDetailFragment.OnServiceLocationDetailItemSelectedListener,
         ServiceLocationContactsFragment.OnServiceLocationContactslItemSelectedListener,
         WorkHistoryListFragment.OnWorkHistoryListSelectedListener,
-        CaptureSignatureFragment.CaptureSignatureFragmentListener {
+        CaptureSignatureFragment.CaptureSignatureFragmentListener,
+        IntroductionFragment.OnIntroductionFragmentInteractionListener,
+        LoginFragment.OnLoginFragmentInteractionListener,
+        AppointmentDetails2Fragment.OnFragmentInteractionListener,
+        AppointmentListFragment.OnFragmentInteractionListener {
+
+    private static final String FRAGMENT_TAG_INTRODUCTION = "tag_introduction";
+    private static final String FRAGMENT_TAG_LOGIN = "tag_login";
+    private static final String FRAGMENT_TAG_SPLASH = "tag_splash";
+    private static final String FRAGMENT_TAG_HOME = "tag_home";
+    private static final String FRAGMENT_TAG_APPOINTMENT = "tag_appointment";
+    private static final String FRAGMENT_TAG_CUSTOMER_LIST = "tag_customer_list";
+    private static final String FRAGMENT_TAG_SETTINGS = "tag_settings";
+    private static final String FRAGMENT_TAG_APPOINTMENT_DETAIL = "tag_appointment_detail";
 
     private static int APPOINTMENT_DETAIL = 1;
+    private static int SPLASH_TIME_OUT = 3000;
 
     final private String ITEM_ICON = "item_icon";
     final private String ITEM_TEXT = "item_text";
@@ -72,6 +92,7 @@ public class DashboardActivity extends AppCompatActivity implements
     private int[] mDrawerValues;
 
     ActionBar action = null;
+    private FloatingActionsMenu mFloatingActionsMenu;
 
     private FragmentManager.OnBackStackChangedListener
             mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
@@ -80,6 +101,7 @@ public class DashboardActivity extends AppCompatActivity implements
             syncActionBarArrowState();
         }
     };
+    private FrameLayout mShadow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +131,7 @@ public class DashboardActivity extends AppCompatActivity implements
             }
 
             public void onDrawerOpened(View drawerView) {
+                mFloatingActionsMenu.collapse();
                 mDrawerToggle.setDrawerIndicatorEnabled(true);
             }
         };
@@ -157,17 +180,104 @@ public class DashboardActivity extends AppCompatActivity implements
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
-
-        // Select Home fragment
-        useItem(1);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.addOnBackStackChangedListener(mOnBackStackChangedListener);
 
         NotificationCenter.Instance().addObserver(DashboardActivity.this,
                 "hidedash", "hideprogressdialog", null);
+
+        if (isLogin()) {
+            replaceFadeAnimatedFragment(new HomeFragment(), FRAGMENT_TAG_HOME);
+        } else {
+            findViewById(R.id.toolbar).setVisibility(View.GONE);
+            mDrawerLayout.
+                    setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+            if (fm.findFragmentByTag(FRAGMENT_TAG_SPLASH) == null) {
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.container, new SplashFragment(), FRAGMENT_TAG_SPLASH);
+                transaction.commit();
+            }
+
+            if (fm.findFragmentByTag(FRAGMENT_TAG_INTRODUCTION) == null &&
+                    fm.findFragmentByTag(FRAGMENT_TAG_LOGIN) == null) {
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        replaceFadeAnimatedFragment(new IntroductionFragment(), FRAGMENT_TAG_INTRODUCTION);
+                    }
+                }, SPLASH_TIME_OUT);
+            }
+        }
+        mShadow = (FrameLayout) findViewById(R.id.shadow);
+        mShadow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFloatingActionsMenu.collapse();
+            }
+        });
+        mFloatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.fab_actions_menu);
+        mFloatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+
+                //mFloatingActionsMenu.setEnabled(false);
+                mShadow.clearAnimation();
+                mShadow.setAlpha(0.0f);
+                mShadow.setVisibility(View.VISIBLE);
+                mShadow.animate()
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                mShadow.setVisibility(View.VISIBLE);
+                                //mFloatingActionsMenu.setEnabled(true);
+                            }
+                        });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+
+                //mFloatingActionsMenu.setEnabled(false);
+                mShadow.clearAnimation();
+                mShadow.animate()
+                        .alpha(0.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                mShadow.setVisibility(View.GONE);
+                                //mFloatingActionsMenu.setEnabled(true);
+                            }
+                        });
+            }
+        });
+
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_action_add_notes);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DashboardActivity.this, "1", Toast.LENGTH_LONG).show();
+                mFloatingActionsMenu.collapse();
+            }
+        });
+        button = (FloatingActionButton) findViewById(R.id.fab_action_add_chemical);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DashboardActivity.this, "2", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
+
         getSupportFragmentManager().removeOnBackStackChangedListener(mOnBackStackChangedListener);
         super.onDestroy();
     }
@@ -194,8 +304,22 @@ public class DashboardActivity extends AppCompatActivity implements
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    public boolean isLogin() {
+        Account account = Account.getUser();
+        if (account != null) {
+            if (account.isLogin) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Sets fragment as main view
+     *
      * @param position navigation drawer's ListView's cursor position. Based on 1
      */
     private void useItem(int position) {
@@ -204,22 +328,22 @@ public class DashboardActivity extends AppCompatActivity implements
             case 0:
                 // Home
                 closeAllFragments();
-                replaceAnimatedFragment(new HomeFragment());
+                replaceAnimatedFragment(new HomeFragment(), FRAGMENT_TAG_HOME);
                 break;
             case 1:
                 // Calendar
                 closeAllFragments();
-                replaceAnimatedFragment(new AppointmentListFragment());
+                replaceAnimatedFragment(new AppointmentListFragment(), FRAGMENT_TAG_APPOINTMENT);
                 break;
             case 2:
                 // Customers
                 closeAllFragments();
-                replaceAnimatedFragment(new CustomerListFragment());
+                replaceAnimatedFragment(new CustomerListFragment(), FRAGMENT_TAG_CUSTOMER_LIST);
                 break;
             case 3:
                 // Settings
                 closeAllFragments();
-                replaceAnimatedFragment(new SettingFragment());
+                replaceAnimatedFragment(new SettingFragment(), FRAGMENT_TAG_SETTINGS);
                 break;
             case 4:
                 // Log out
@@ -237,7 +361,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_dashboard, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -260,6 +384,11 @@ public class DashboardActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
+        if (mFloatingActionsMenu.isExpanded()) {
+            mFloatingActionsMenu.collapse();
+            mShadow.setVisibility(View.GONE);
+            return;
+        }
         if (mDrawerLayout.isDrawerVisible(Gravity.LEFT)) {
             mDrawerLayout.closeDrawers();
         } else {
@@ -318,7 +447,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
     private void closeAllFragments() {
         FragmentManager fm = getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }
     }
@@ -367,17 +496,31 @@ public class DashboardActivity extends AppCompatActivity implements
         addAnimatedFragment(fragment, null);
     }
 
-    private void replaceAnimatedFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit,
-                R.anim.fragment_animation_enter, R.anim.fragment_animation_exit);
-        transaction.replace(R.id.container, fragment);
-        transaction.commit();
+    private void replaceAnimatedFragment(Fragment fragment, String tag) {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag(tag) == null) {
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.setCustomAnimations(R.anim.fragment_animation_pop_enter, R.anim.fragment_animation_pop_exit,
+                    R.anim.fragment_animation_enter, R.anim.fragment_animation_exit);
+            transaction.replace(R.id.container, fragment, tag);
+            transaction.commit();
+        }
+    }
+
+    private void replaceFadeAnimatedFragment(Fragment fragment, String tag) {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag(tag) == null) {
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in,
+                    R.anim.fade_out, R.anim.fade_in);
+            transaction.replace(R.id.container, fragment, tag);
+            transaction.commit();
+        }
     }
 
     @Override
     public void onCustomerItemSelected(CustomerInfo item) {
-        CustomerDetailsFragment fragment = new CustomerDetailsFragment();
+        Fragment fragment = new CustomerDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("customer_id", item.id);
         fragment.setArguments(bundle);
@@ -438,29 +581,13 @@ public class DashboardActivity extends AppCompatActivity implements
     @Override
     public void onHomeAppointmentsSelected() {
         closeAllFragments();
-        replaceAnimatedFragment(new AppointmentListFragment());
+        replaceAnimatedFragment(new AppointmentListFragment(), FRAGMENT_TAG_APPOINTMENT);
     }
 
     @Override
     public void onHomeCustomersSelected() {
         closeAllFragments();
-        replaceAnimatedFragment(new CustomerListFragment());
-    }
-
-    @Override
-    public void onHomeAppointmentsListItemSelected(int item) {
-/*
-        Intent i = new Intent(this, AppointmentDetailsActivity.class);
-        i.putExtra(Const.Appointment_Id, item);
-//        Const.app_id = item.id;
-        startActivityForResult(i, APPOINTMENT_DETAIL);
-*/
-
-        Fragment fragment = new AppointmentDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Const.Appointment_Id, item);
-        fragment.setArguments(bundle);
-        addAnimatedFragment(fragment);
+        replaceAnimatedFragment(new CustomerListFragment(), FRAGMENT_TAG_CUSTOMER_LIST);
     }
 
     @Override
@@ -569,5 +696,54 @@ public class DashboardActivity extends AppCompatActivity implements
         replaceAnimatedFragment(fragment);
 */
         onBackPressed();
+    }
+
+    @Override
+    public void onButtonLoginClick() {
+        replaceFadeAnimatedFragment(new LoginFragment(), FRAGMENT_TAG_LOGIN);
+    }
+
+    @Override
+    public void onLoginDidSuccess() {
+        findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+        ((DrawerLayout) findViewById(R.id.root_screen_drawer_layout)).
+                setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        replaceFadeAnimatedFragment(new HomeFragment(), FRAGMENT_TAG_HOME);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onHomeAppointmentsListItemSelected(String appointment_Id, int item) {
+
+        addAppointmentDetailsFragment(appointment_Id, item);
+    }
+
+    @Override
+    public void onAppointmentListItemClick(String appointment_id, int id) {
+
+        addAppointmentDetailsFragment(appointment_id, id);
+    }
+
+    private void addAppointmentDetailsFragment(String appointment_id, int id) {
+
+        AppointmentDetails2Fragment aif = new AppointmentDetails2Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(appointment_id, id);
+        aif.setArguments(bundle);
+        addAnimatedFragment(aif, FRAGMENT_TAG_APPOINTMENT_DETAIL);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentPaused() {
+        mFloatingActionsMenu.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentResumed() {
+        mFloatingActionsMenu.setVisibility(View.VISIBLE);
     }
 }

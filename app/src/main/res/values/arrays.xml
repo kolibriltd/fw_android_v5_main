@@ -21,4 +21,34 @@
         <item>3</item>
         <item>4</item>
     </array>
+    <array name="appointment_details_header_titles">
+        <item>Line Items</item>
+        <item>Setting Instructions</item>
+        <item>PDF Forms</item>
+        <item>Notes</item>
+        <item>Chemical Use</item>
+        <item>Photos</item>
+        <item>Devices</item>
+        <item>Units</item>
+    </array>
+    <array name="appointment_details_header_icons">
+        <item>ic_lineup</item>
+        <item>ic_settings</item>
+        <item>ic_pdf_forms</item>
+        <item>ic_note</item>
+        <item>ic_chemistry</item>
+        <item>ic_photos</item>
+        <item>ic_devices</item>
+        <item>ic_units</item>
+    </array>
+    <array name="appointment_details_header_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </array>
 </resources>

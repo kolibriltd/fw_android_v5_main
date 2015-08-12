@@ -260,4 +260,16 @@
     <string name="title_activity_driving_directions">Driving Directions</string>
     <string name="string_item_appointments">&#8226;&#8226;&#8226;</string>
     <string name="title_activity_intardaktion">IntardaktionActivity</string>
+
+    <string name="line_items">Line Items</string>
+    <string name="setting_instructions">Setting Instructions</string>
+    <string name="pdf_forms">PDF Forms</string>
+    <string name="notes">Notes</string>
+    <string name="chemical_use">Chemical Use</string>
+    <string name="photos">Photos</string>
+    <string name="devices">Devices</string>
+    <string name="units">Units</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

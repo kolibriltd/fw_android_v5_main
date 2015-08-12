@@ -42,6 +42,7 @@ public class CustomerListFragment extends Fragment implements
     private ArrayList<CustomerViewDataItem> mFullItemsList = new ArrayList<>();
     boolean mFromAddAppointment = false;
     private OnCustomerItemSelectedListener mOnCustomerItemSelectedListener;
+
     // Container Activity must implement this interface
     public interface OnCustomerItemSelectedListener {
         void onCustomerItemSelected(CustomerInfo item);
@@ -69,29 +70,23 @@ public class CustomerListFragment extends Fragment implements
         if (item.isAllreadyLoded) {
             mOnCustomerItemSelectedListener.onCustomerItemSelected(item);
         } else {
-            if (NetworkConnectivity.isConnected()) {
-                ProgressDialog.showProgress(getActivity());
-                item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
+            ProgressDialog.showProgress(getActivity());
+            item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
 
-                    @Override
-                    public void UpdateSuccessFully(CustomerInfo info) {
-                        ProgressDialog.hideProgress();
-                        mOnCustomerItemSelectedListener.onCustomerItemSelected(info);
-                    }
+                @Override
+                public void UpdateSuccessFully(CustomerInfo info) {
+                    ProgressDialog.hideProgress();
+                    mOnCustomerItemSelectedListener.onCustomerItemSelected(info);
+                }
 
-                    @Override
-                    public void UpdateFail(String ErrorMessage) {
-                        ProgressDialog.hideProgress();
-                        Toast.makeText(getActivity(),
-                                "Customer update fail.",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                Toast.makeText(getActivity(),
-                        "Please check your internet connection.",
-                        Toast.LENGTH_LONG).show();
-            }
+                @Override
+                public void UpdateFail(String ErrorMessage) {
+                    ProgressDialog.hideProgress();
+                    Toast.makeText(getActivity(),
+                            ErrorMessage,
+                            Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 
@@ -328,6 +323,7 @@ public class CustomerListFragment extends Fragment implements
             customerInfo = info;
         }
     }
+
     public class CustomerViewDataIgnoreCaseComparator implements Comparator<CustomerViewDataItem> {
         public int compare(CustomerViewDataItem strA, CustomerViewDataItem strB) {
             return strA.customerName.compareToIgnoreCase(strB.customerName);

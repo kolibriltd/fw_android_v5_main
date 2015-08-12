@@ -90,6 +90,17 @@
         <!-- <item name="android:background">@color/color_primary</item> -->
     </style>
 
+    <style name="ButtonAccentTintedStyle" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/app_accent_color</item>
+        <item name="colorControlHighlight">@color/fab_menu_item_pressed_color</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="fab_menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/fab_menu_item_text_color</item>
+    </style>
+
     <style name="PatinaDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/drawer_arrow_toggle_color</item>

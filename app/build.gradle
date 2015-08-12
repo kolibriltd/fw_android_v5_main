@@ -8,6 +8,7 @@ android {
         applicationId "com.anstar.fieldwork"
         minSdkVersion 19
         targetSdkVersion 22
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -18,7 +19,16 @@ android {
     }
 }
 
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':zBarScannerLibrary')
     compile files('libs/BrotherPrintLibrary.jar')
     compile files('libs/MobilePrintLib.jar')
@@ -26,9 +36,12 @@ dependencies {
     compile files('libs/httpmime-4.1.jar')
     compile files('libs/json-simple-1.1.1.jar')
     compile files('libs/kitlocate.jar')
-    compile 'com.android.support:appcompat-v7:22.+'
+    compile (name:'library-2.4.1', ext:'aar')
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.google.android.gms:play-services:7.5.0'
-    compile 'com.android.support:support-v4:22.2.0'
-    compile project(':viewpagerindicator')
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.getbase:floatingactionbutton:1.10.0'
 }
+
+

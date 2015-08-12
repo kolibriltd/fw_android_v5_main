@@ -80,7 +80,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dip"
                     android:padding="5dip"
-                    android:src="@drawable/ic_action_new" />
+                    android:src="@drawable/ic_action_add" />
             </RelativeLayout>
 
             <ListView
@@ -118,7 +118,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dip"
                     android:padding="5dip"
-                    android:src="@drawable/ic_action_new" />
+                    android:src="@drawable/ic_action_add" />
             </RelativeLayout>
 
             <ListView

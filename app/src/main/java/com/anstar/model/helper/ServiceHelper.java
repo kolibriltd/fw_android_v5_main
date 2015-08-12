@@ -1,12 +1,15 @@
 package com.anstar.model.helper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.security.KeyStore;
-import java.util.ArrayList;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
+import android.widget.Toast;
+
+import com.anstar.common.NetworkConnectivity;
+import com.anstar.common.Utils;
+import com.anstar.fieldwork.FieldworkApplication;
+import com.anstar.models.Account;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -34,16 +37,13 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Handler.Callback;
-import android.os.Message;
-import android.widget.Toast;
-
-import com.anstar.common.NetworkConnectivity;
-import com.anstar.common.Utils;
-import com.anstar.fieldwork.FieldworkApplication;
-import com.anstar.models.Account;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
+import java.util.ArrayList;
 
 public class ServiceHelper {
 
@@ -173,7 +173,7 @@ public class ServiceHelper {
 		} else {
 			if (RequestMethodType == RequestMethod.POST) {
 				Toast.makeText(FieldworkApplication.getContext(),
-						"Please check your internet connection", 2).show();
+						"Please check your internet connection", Toast.LENGTH_LONG).show();
 				String params = Utils.Instance().join(m_params, "##");
 				// SyncData.SaveSyncInfo(RequestMethodType.toString(), params,
 				// m_methodName);

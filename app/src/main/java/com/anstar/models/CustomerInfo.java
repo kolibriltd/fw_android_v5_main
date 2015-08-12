@@ -92,6 +92,17 @@ public class CustomerInfo extends ActiveRecordBase {
 	public String site = "";
 	@ModelMapper(JsonKey = "updated_at")
 	public String updated_at = "";
+
+/*
+	public boolean isAllreadyLoded() {
+		return isAllreadyLoded;
+	}
+*/
+
+	public synchronized void setIsAllreadyLoded(boolean isAllreadyLoded) {
+		this.isAllreadyLoded = isAllreadyLoded;
+	}
+
 	public boolean isAllreadyLoded = false;
 
 	// String arrays in service
@@ -126,7 +137,7 @@ public class CustomerInfo extends ActiveRecordBase {
 	}
 
 	public void RetriveData(final UpdateCustomerDelegate delegate) {
-		if (this.isAllreadyLoded) {
+		if (isAllreadyLoded) {
 			if (delegate != null) {
 				delegate.UpdateSuccessFully(this);
 			}
@@ -366,7 +377,7 @@ public class CustomerInfo extends ActiveRecordBase {
 				cust.billing_phones = billingphones;
 				cust.billing_phones_kinds = billing_phones_kinds;
 				cust.billing_phones_exts = billing_phones_exts;
-				cust.isAllreadyLoded = true;
+				cust.setIsAllreadyLoded(true);
 				cust.save();
 
 				JSONArray serviceLocArray = customer

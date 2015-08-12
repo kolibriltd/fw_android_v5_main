@@ -41,6 +41,14 @@
 
     <color name="app_primary_color">#fff4f4f4</color>
     <color name="app_primary_dark_color">#000000</color>
-    <color name="app_accent_color">#fff10f00</color>
-    <color name="drawer_arrow_toggle_color">#fff10f00</color>
+    <color name="app_accent_color">#e74c3a</color>
+    <color name="drawer_arrow_toggle_color">#e74c3a</color>
+    <color name="fab_normal_color">#e74c3a</color>
+    <color name="fab_pressed_color">#720600</color>
+    <color name="fab_menu_item_text_color">#000000</color>
+    <color name="fab_menu_item_text_background_color">#e2ffffff</color>
+    <color name="fab_menu_item_normal_color">#e74c3a</color>
+    <color name="fab_menu_item_pressed_color">#720600</color>
+
+    <color name="view_shadow_color">#c0000000</color>
 </resources>

@@ -53,7 +53,7 @@ import java.util.ArrayList;
 public class CommonLoader {
 
     public interface OnLoadListener {
-        void onDataLoaded();
+        void onDataLoaded(CommonLoader cl);
     }
 
     public void setOnLoadListener(OnLoadListener loadListener) {
@@ -64,13 +64,32 @@ public class CommonLoader {
 
     private int mLoaded = 0;
 
+    public synchronized boolean isIsCustomerListDownloadError() {
+        return mIsCustomerListDownloadError;
+    }
+
+    public synchronized void setIsCustomerListDownloadError(boolean isCustomerListDownloadError) {
+        mIsCustomerListDownloadError = isCustomerListDownloadError;
+    }
+
+    public boolean isIsCustomerListItemDownloadError() {
+        return mIsCustomerListItemDownloadError;
+    }
+
+    public void setIsCustomerListItemDownloadError(boolean isCustomerListItemDownloadError) {
+        mIsCustomerListItemDownloadError = isCustomerListItemDownloadError;
+    }
+
+    private boolean mIsCustomerListItemDownloadError = false;
+    private boolean mIsCustomerListDownloadError = false;
+
     private synchronized void checkLoaded() {
         mLoaded--;
         if (mLoaded == 0 && mOnLoadListener != null) {
-            mOnLoadListener.onDataLoaded();
+            mOnLoadListener.onDataLoaded(this);
         }
     }
-    
+
     private synchronized void addLoadingItem() {
         mLoaded++;
     }
@@ -116,7 +135,25 @@ public class CommonLoader {
                 @Override
                 public void ModelLoaded(ArrayList<UserInfo> list) {
 
-                    loadDict();
+                    loadDilutionRatesList();
+                    loadApplicationDeviceTypeList();
+                    loadPestTypeList();
+                    loadLocationInfoList();
+                    loadStatusList();
+                    loadTaxRateList();
+                    loadServicesList();
+                    loadDeviceTypesList();
+                    loadBaitConditionsList();
+                    loadTrapConditionsList();
+                    loadTrapTypesList();
+                    loadServiceRoutesList();
+                    loadMaterialList();
+                    loadMeasurementInfo();
+                    loadBillingTermsList();
+                    loadRecomendationsList();
+                    loadAppointmentConditionsList();
+                    loadApplicationMethodInfo();
+
                     checkLoaded();
                 }
 
@@ -131,7 +168,6 @@ public class CommonLoader {
             checkLoaded();
         }
     }
-
 
     public void loadMax() {
 
@@ -148,8 +184,26 @@ public class CommonLoader {
 
                     loadAppointmentModelList();
                     loadCustomerList();
-                    loadDict();
-                    
+
+                    loadDilutionRatesList();
+                    loadApplicationDeviceTypeList();
+                    loadPestTypeList();
+                    loadLocationInfoList();
+                    loadStatusList();
+                    loadTaxRateList();
+                    loadServicesList();
+                    loadDeviceTypesList();
+                    loadBaitConditionsList();
+                    loadTrapConditionsList();
+                    loadTrapTypesList();
+                    loadServiceRoutesList();
+                    loadMaterialList();
+                    loadMeasurementInfo();
+                    loadBillingTermsList();
+                    loadRecomendationsList();
+                    loadAppointmentConditionsList();
+                    loadApplicationMethodInfo();
+
                     checkLoaded();
                 }
 
@@ -179,7 +233,26 @@ public class CommonLoader {
                 public void ModelLoaded(ArrayList<UserInfo> list) {
 
                     loadCustomerList();
-                    loadDict();
+
+                    loadDilutionRatesList();
+                    loadApplicationDeviceTypeList();
+                    loadPestTypeList();
+                    loadLocationInfoList();
+                    loadStatusList();
+                    loadTaxRateList();
+                    loadServicesList();
+                    loadDeviceTypesList();
+                    loadBaitConditionsList();
+                    loadTrapConditionsList();
+                    loadTrapTypesList();
+                    loadServiceRoutesList();
+                    loadMaterialList();
+                    loadMeasurementInfo();
+                    loadBillingTermsList();
+                    loadRecomendationsList();
+                    loadAppointmentConditionsList();
+                    loadApplicationMethodInfo();
+
                     checkLoaded();
                 }
 
@@ -212,7 +285,11 @@ public class CommonLoader {
                                     info.isCustomerLoded = true;
                                     info.save();
                                 }
+                                for (CustomerInfo item : list) {
+                                    loadCustomer(item);
+                                }
                             } catch (Exception e) {
+                                setIsCustomerListDownloadError(true);
                                 e.printStackTrace();
                             }
                             checkLoaded();
@@ -224,10 +301,35 @@ public class CommonLoader {
                         }
                     });
         } catch (Exception e) {
-            e.printStackTrace();
+            setIsCustomerListDownloadError(true);
             checkLoaded();
+            e.printStackTrace();
         }
     }
+
+    private void loadCustomer(CustomerInfo item) {
+        try {
+            addLoadingItem();
+            item.RetriveData(new ModelDelegates.UpdateCustomerDelegate() {
+
+                @Override
+                public void UpdateSuccessFully(CustomerInfo info) {
+                    checkLoaded();
+                }
+
+                @Override
+                public void UpdateFail(String ErrorMessage) {
+                    setIsCustomerListItemDownloadError(true);
+                    checkLoaded();
+                }
+            });
+        } catch (Exception e) {
+            setIsCustomerListItemDownloadError(true);
+            checkLoaded();
+            e.printStackTrace();
+        }
+    }
+
 
     public void loadAppointmentModelList() {
         try {
@@ -251,7 +353,7 @@ public class CommonLoader {
         }
     }
 
-    public void loadDict() {
+    private void loadDilutionRatesList() {
 
         try {
             addLoadingItem();
@@ -273,6 +375,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadApplicationDeviceTypeList() {
 
         try {
             addLoadingItem();
@@ -295,6 +400,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadPestTypeList() {
 
         try {
             addLoadingItem();
@@ -316,6 +424,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadLocationInfoList() {
 
         try {
             addLoadingItem();
@@ -337,6 +448,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadStatusList() {
 
         try {
             addLoadingItem();
@@ -359,6 +473,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadTaxRateList() {
 
         try {
             addLoadingItem();
@@ -379,6 +496,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadServicesList() {
 
         try {
             addLoadingItem();
@@ -399,6 +519,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadDeviceTypesList() {
 
         try {
             addLoadingItem();
@@ -422,6 +545,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadBaitConditionsList() {
 
         try {
             addLoadingItem();
@@ -446,6 +572,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadTrapConditionsList() {
 
         try {
             addLoadingItem();
@@ -470,6 +599,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadTrapTypesList() {
 
         try {
             addLoadingItem();
@@ -492,6 +624,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadServiceRoutesList() {
 
         try {
             addLoadingItem();
@@ -516,6 +651,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadMaterialList() {
 
         try {
             addLoadingItem();
@@ -538,6 +676,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadMeasurementInfo() {
 
         try {
             addLoadingItem();
@@ -560,6 +701,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadBillingTermsList() {
 
         try {
             addLoadingItem();
@@ -582,6 +726,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadRecomendationsList() {
 
         try {
             addLoadingItem();
@@ -605,6 +752,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadAppointmentConditionsList() {
 
         try {
             addLoadingItem();
@@ -628,6 +778,9 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
+    }
+
+    private void loadApplicationMethodInfo() {
 
         try {
             addLoadingItem();
@@ -651,6 +804,5 @@ public class CommonLoader {
             e.printStackTrace();
             checkLoaded();
         }
-
     }
 }

@@ -2,83 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/background_style"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/rlSearchBar"
-        android:layout_width="wrap_content"
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/lstCustomer"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true">
-
-        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-            android:id="@+id/lstCustomer"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="#F7F7F7"
-            android:dividerHeight="1dp"
-            android:listSelector="#00000000"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true" />
-    </RelativeLayout>
-    <!-- <RelativeLayout -->
-    <!-- android:id="@+id/RlHeader" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentTop="true" -->
-    <!-- android:background="@drawable/top_bar" > -->
-
-
-    <!-- <Button -->
-    <!-- android:id="@+id/btnBack" -->
-    <!-- style="@style/button_refresh" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_centerVertical="true" -->
-    <!-- android:layout_marginLeft="10dip" -->
-    <!-- android:layout_marginTop="5dip" -->
-    <!-- android:text="Back" /> -->
-
-
-    <!-- <TextView -->
-    <!-- android:id="@+id/txtSchedule" -->
-    <!-- style="@style/topbar_text" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_centerInParent="true" -->
-    <!-- android:text="Customers" /> -->
-    <!-- </RelativeLayout> -->
-
-
-    <!-- <RelativeLayout -->
-    <!-- android:id="@+id/RlSubHeader" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:background="@drawable/top_bar" > -->
-
-
-    <!-- <LinearLayout -->
-    <!-- android:id="@+id/ll01" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" > -->
-
-
-    <!-- <Button -->
-    <!-- android:id="@+id/btnAll" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_weight="1" -->
-    <!-- android:text="All" /> -->
-
-
-    <!-- <Button -->
-    <!-- android:id="@+id/btnNearby" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_weight="1" -->
-    <!-- android:text="Nearby" /> -->
-    <!-- </LinearLayout> -->
-    <!-- </RelativeLayout> -->
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#F7F7F7"
+        android:dividerHeight="1dp"
+        android:listSelector="#00000000" />
 
 </RelativeLayout>

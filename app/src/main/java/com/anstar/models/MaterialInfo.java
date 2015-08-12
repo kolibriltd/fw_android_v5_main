@@ -1,10 +1,5 @@
 package com.anstar.models;
 
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordBase;
@@ -19,6 +14,11 @@ import com.anstar.model.helper.ServiceHelper.ServiceHelperDelegate;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.model.mapper.ModelMapper;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class MaterialInfo extends ActiveRecordBase {
 
@@ -81,13 +81,13 @@ public class MaterialInfo extends ActiveRecordBase {
 				}
 
 				Toast.makeText(FieldworkApplication.getContext(),
-						"Material add successfully", 1).show();
+						"Material add successfully", Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void CallFailure(String ErrorMessage) {
 				Toast.makeText(FieldworkApplication.getContext(), ErrorMessage,
-						1).show();
+						Toast.LENGTH_LONG).show();
 
 			}
 		});

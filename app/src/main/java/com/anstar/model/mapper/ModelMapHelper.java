@@ -1,17 +1,17 @@
 package com.anstar.model.mapper;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import com.anstar.activerecords.ActiveRecordBase;
+import com.anstar.activerecords.ActiveRecordException;
+import com.anstar.common.Utils;
+import com.anstar.fieldwork.FieldworkApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.anstar.activerecords.ActiveRecordBase;
-import com.anstar.activerecords.ActiveRecordException;
-import com.anstar.common.Utils;
-import com.anstar.fieldwork.FieldworkApplication;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelMapHelper<T extends ActiveRecordBase> {
 
@@ -65,11 +65,6 @@ public class ModelMapHelper<T extends ActiveRecordBase> {
 		ArrayList<String> arr = new ArrayList<String>();
 		
 		try {
-			if(jobj.getJSONArray(key) == null || jobj.getJSONArray(key).toString().length() <= 0){
-				Utils.LogInfo("array blank ::: "+jobj.getJSONArray(key).toString()+" KEY :: "+key);
-				return arr;
-			}
-			
 			JSONArray jarr = jobj.getJSONArray(key);
 			for (int i = 0; i < jarr.length(); i++) {
 				String val = jarr.getString(i);
