@@ -23,12 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.anstar.activerecords.ActiveRecordException;
+import com.anstar.common.Const;
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
 import com.anstar.common.Utils;
@@ -75,7 +76,15 @@ public class DashboardActivity extends AppCompatActivity implements
     private static final String FRAGMENT_TAG_SETTINGS = "tag_settings";
     private static final String FRAGMENT_TAG_APPOINTMENT_DETAIL = "tag_appointment_detail";
 
-    private static int APPOINTMENT_DETAIL = 1;
+    private static final int ACTIVITY_APPOINTMENT_DETAIL = 1;
+    private static final int ACTIVITY_CAPTURE_SIGNATURE = 2;
+    private static final int ACTIVITY_ADD_LINE_ITEM = 3;
+    private static final int ACTIVITY_LINE_ITEMS = 4;
+    private static final int ACTIVITY_ADD_NOTES = 5;
+    private static final int ACTIVITY_MATERIAL_USAGE_LIST = 6;
+    private static final int ACTIVITY_ADD_PHOTOS = 7;
+    private static final int ACTIVITY_PDF_FORMS = 8;
+
     private static int SPLASH_TIME_OUT = 3000;
 
     final private String ITEM_ICON = "item_icon";
@@ -101,7 +110,7 @@ public class DashboardActivity extends AppCompatActivity implements
             syncActionBarArrowState();
         }
     };
-    private FrameLayout mShadow;
+    private RelativeLayout mShadow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -187,7 +196,7 @@ public class DashboardActivity extends AppCompatActivity implements
                 "hidedash", "hideprogressdialog", null);
 
         if (isLogin()) {
-            replaceFadeAnimatedFragment(new HomeFragment(), FRAGMENT_TAG_HOME);
+            replaceFadeAnimatedFragment(new AppointmentListFragment(), FRAGMENT_TAG_APPOINTMENT);
         } else {
             findViewById(R.id.toolbar).setVisibility(View.GONE);
             mDrawerLayout.
@@ -210,7 +219,7 @@ public class DashboardActivity extends AppCompatActivity implements
                 }, SPLASH_TIME_OUT);
             }
         }
-        mShadow = (FrameLayout) findViewById(R.id.shadow);
+        mShadow = (RelativeLayout) findViewById(R.id.shadow);
         mShadow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -413,11 +422,67 @@ public class DashboardActivity extends AppCompatActivity implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APPOINTMENT_DETAIL) {
+        if (requestCode == ACTIVITY_APPOINTMENT_DETAIL) {
             if (resultCode == Activity.RESULT_OK) {
                 String path = data.getStringExtra("printpath");
                 if (path.length() > 0)
                     print(path);
+            }
+        } else if (requestCode == ACTIVITY_CAPTURE_SIGNATURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_ADD_LINE_ITEM) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_LINE_ITEMS) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_ADD_NOTES) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_MATERIAL_USAGE_LIST) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_ADD_PHOTOS) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
+            }
+        } else if (requestCode == ACTIVITY_PDF_FORMS) {
+            if (resultCode == Activity.RESULT_OK) {
+                AppointmentDetails2Fragment fragment = (AppointmentDetails2Fragment)
+                        getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_APPOINTMENT_DETAIL);
+                if (fragment != null) {
+                    fragment.refresh();
+                }
             }
         }
     }
@@ -708,7 +773,7 @@ public class DashboardActivity extends AppCompatActivity implements
         findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
         ((DrawerLayout) findViewById(R.id.root_screen_drawer_layout)).
                 setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        replaceFadeAnimatedFragment(new HomeFragment(), FRAGMENT_TAG_HOME);
+        replaceFadeAnimatedFragment(new AppointmentListFragment(), FRAGMENT_TAG_APPOINTMENT);
     }
 
     @Override
@@ -745,5 +810,108 @@ public class DashboardActivity extends AppCompatActivity implements
     @Override
     public void onAppointmentDetailsFragmentResumed() {
         mFloatingActionsMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentSignatureTechnicianClick(int appointmentId) {
+        // mViewTechSign.clearTech();
+        Intent i = new Intent(DashboardActivity.this,
+                CaptureSignatureActivity.class);
+        i.putExtra("tech", Const.Technitian);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_CAPTURE_SIGNATURE);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentSignatureCustomerClick(int appointmentId) {
+        // mViewCustSign.clearCustomer();
+        Intent i = new Intent(DashboardActivity.this,
+                CaptureSignatureActivity.class);
+        i.putExtra("cutomer", Const.Customer);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_CAPTURE_SIGNATURE);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentListItemsButtonEditClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                LineItemsActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_LINE_ITEMS);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentListItemsLineItemClick(int appointmentId, int position) {
+        Intent i = new Intent(DashboardActivity.this,
+                LineItemsActivity.class);
+        i.putExtra("isedit", true);
+        i.putExtra("position", position);
+        i.putExtra("isFromDetails", true);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_ADD_LINE_ITEM);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentListItemsButtonPayNowClick(int appointmentId) {
+
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentNotesListItemPrivateNotesClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                AddNotesActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        i.putExtra("note", "private");
+        startActivityForResult(i, ACTIVITY_ADD_NOTES);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentNotesListItemPublicNotesClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                AddNotesActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        i.putExtra("note", "public");
+        startActivityForResult(i, ACTIVITY_ADD_NOTES);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentChemicalUseListItemButtonAddClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                MaterialUsageListActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_MATERIAL_USAGE_LIST);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentPhotosListItemAddPhoto(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                AddPhotosActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_ADD_PHOTOS);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentPhotosListItemEditPhoto(int appointmentId, int id) {
+        Intent i = new Intent(DashboardActivity.this,
+                AddPhotosActivity.class);
+        i.putExtra("photoid", id);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_ADD_PHOTOS);
+    }
+
+    @Override
+    public void onAppointmentDetailsFragmentPDFFormsListItemButtonAddClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                PdfFormsActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_PDF_FORMS);
+    }
+
+    @Override
+    public void AppointmentDetailsFragmentDevicesListItemButtonAddClick(int appointmentId) {
+        Intent i = new Intent(DashboardActivity.this,
+                TrapScanningListActivity.class);
+        i.putExtra(Const.Appointment_Id, appointmentId);
+        startActivityForResult(i, ACTIVITY_PDF_FORMS);
     }
 }

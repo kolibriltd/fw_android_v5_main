@@ -24,9 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.common.Utils;
+import com.anstar.dialog.ProgressDialog;
 import com.anstar.model.helper.ServiceResponse;
 import com.anstar.models.AppointmentConditionsInfo;
 import com.anstar.models.AppointmentInfo;
@@ -52,8 +52,8 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 	private final int ADD_CON = 2;
 	private RecListAdapter m_adapter = null;
 	private ConListAdapter m_cadapter = null;
-	static ArrayList<String> recids = new ArrayList<String>();
-	static ArrayList<String> conids = new ArrayList<String>();
+	private ArrayList<String> recids = new ArrayList<String>();
+	private ArrayList<String> conids = new ArrayList<String>();
 	private ArrayList<RecomendationInfo> mReclist = new ArrayList<RecomendationInfo>();
 	private ArrayList<AppointmentConditionsInfo> mConlist = new ArrayList<AppointmentConditionsInfo>();
 
@@ -61,22 +61,6 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_notes);
-		Bundle b = getIntent().getExtras();
-		if (b != null) {
-			if (b.containsKey(Const.Appointment_Id)) {
-				appointment_id = b.getInt(Const.Appointment_Id);
-			}
-		}
-		if (appointment_id == 0) {
-			appointment_id = Const.app_id;
-		}
-/*
-		ActionBar action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color) + "'>Notes</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -85,8 +69,6 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
 
-		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
-				appointment_id);
 		edtNotes = (EditText) findViewById(R.id.edtNotes);
 		edtPrivateNotes = (EditText) findViewById(R.id.edtPrivateNotes);
 		txtCount = (TextView) findViewById(R.id.txtCount);
@@ -95,6 +77,25 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 		lstConditions = (ListView) findViewById(R.id.lstConditions);
 		imgAddConditions = (ImageView) findViewById(R.id.imgAddConditions);
 		btnSave = (Button) findViewById(R.id.btnSaveNotes);
+
+		Bundle b = getIntent().getExtras();
+		if (b != null) {
+			if (b.containsKey(Const.Appointment_Id)) {
+				appointment_id = b.getInt(Const.Appointment_Id);
+			}
+			if (b.containsKey("note") && b.getString("note").equals("public")) {
+				edtPrivateNotes.setVisibility(View.GONE);
+			}
+			if (b.containsKey("note") && b.getString("note").equals("private")) {
+				edtNotes.setVisibility(View.GONE);
+				txtCount.setVisibility(View.GONE);
+			}
+		}
+		if (appointment_id == 0) {
+			appointment_id = Const.app_id;
+		}
+		appointmentInfo = AppointmentModelList.Instance().getAppointmentById(
+				appointment_id);
 		if (appointmentInfo != null) {
 			if (appointmentInfo.notes != null
 					&& appointmentInfo.notes.length() > 0
@@ -231,13 +232,16 @@ public class AddNotesActivity extends AppCompatActivity implements OnClickListen
 	public void onClick(View v) {
 		if (v.equals(btnSave)) {
 			saveNotes();
+			setResult(RESULT_OK);
 		} else if (v == imgAddRec) {
 			Intent i = new Intent(AddNotesActivity.this,
 					RecomendationsListActivity.class);
+			i.putExtra(Const.Appointment_Id, appointment_id);
 			startActivityForResult(i, ADD_REC);
 		} else if (v == imgAddConditions) {
 			Intent i = new Intent(AddNotesActivity.this,
 					ConditionsListActivity.class);
+			i.putExtra(Const.Appointment_Id, appointment_id);
 			startActivityForResult(i, ADD_CON);
 		}
 	}

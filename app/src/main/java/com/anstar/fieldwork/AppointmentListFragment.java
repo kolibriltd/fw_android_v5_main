@@ -330,7 +330,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
             btnPrev.setVisibility(View.VISIBLE);
         } else if (v == btnPrev) {
             Date yesterday = new Date(new Date().getTime()
-                    - (24 * 60 * 60 * 1000));
+                    - (48 * 60 * 60 * 1000));
             if (Utils.isSameDate(m_currentDate, yesterday)) {
                 btnPrev.setVisibility(View.GONE);
                 return;
@@ -407,7 +407,7 @@ public class AppointmentListFragment extends Fragment implements OnClickListener
 
         txtStartedAtDate.setText(yourDate);
 
-        Date yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+        Date yesterday = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
         if (Utils.isSameDate(m_currentDate, yesterday)) {
             btnPrev.setVisibility(View.GONE);
         } else {

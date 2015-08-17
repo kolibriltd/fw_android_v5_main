@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,100 +16,107 @@
             android:orientation="vertical">
 
             <!-- The ActionBar -->
-            <RelativeLayout
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content" />
 
-                <include
-                    layout="@layout/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/toolbar" />
-
-                <FrameLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_below="@+id/toolbar" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/view_shadow_color"
-                    android:id="@+id/shadow"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    android:layout_alignParentTop="true"></FrameLayout>
-
-                <com.getbase.floatingactionbutton.FloatingActionsMenu
-                    android:id="@+id/fab_actions_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right|bottom"
-                    fab:fab_addButtonColorNormal="@color/fab_normal_color"
-                    fab:fab_addButtonColorPressed="@color/fab_pressed_color"
-                    fab:fab_addButtonPlusIconColor="@android:color/white"
-                    fab:fab_labelStyle="@style/fab_menu_labels_style"
-                    fab:fab_labelsPosition="right"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentRight="false"
-                    android:visibility="gone">
-
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_add_notes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fab:fab_colorNormal="@color/fab_menu_item_normal_color"
-                        fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
-                        fab:fab_size="mini"
-                        fab:fab_title="Notes" />
-
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_add_chemical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fab:fab_colorNormal="@color/fab_menu_item_normal_color"
-                        fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
-                        fab:fab_size="mini"
-                        fab:fab_title="Chemical Use" />
-
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_add_photo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fab:fab_colorNormal="@color/fab_menu_item_normal_color"
-                        fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
-                        fab:fab_size="mini"
-                        fab:fab_title="Photo" />
-
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_add_device"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fab:fab_colorNormal="@color/fab_menu_item_normal_color"
-                        fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
-                        fab:fab_size="mini"
-                        fab:fab_title="Devices" />
-
-                    <com.getbase.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_add_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fab:fab_colorNormal="@color/fab_menu_item_normal_color"
-                        fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
-                        fab:fab_size="mini"
-                        fab:fab_title="Unit" />
-
-                </com.getbase.floatingactionbutton.FloatingActionsMenu>
-            </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/toolbar" />
 
             <!-- The main content view -->
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/shadow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/view_shadow_color"
+            android:visibility="gone">
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/fab_actions_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentStart="false"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:visibility="gone"
+                fab:fab_addButtonColorNormal="@color/fab_normal_color"
+                fab:fab_addButtonColorPressed="@color/fab_pressed_color"
+                fab:fab_addButtonPlusIconColor="@android:color/white"
+                fab:fab_labelStyle="@style/fab_menu_labels_style"
+                fab:fab_labelsPosition="right">
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_add_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/fab_menu_item_normal_color"
+                    fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
+                    fab:fab_size="mini"
+                    fab:fab_title="Notes"
+                    android:src="@drawable/notes" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_add_chemical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/fab_menu_item_normal_color"
+                    fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
+                    fab:fab_size="mini"
+                    fab:fab_title="Chemical Use"
+                    android:src="@drawable/chemicaluse" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_add_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/fab_menu_item_normal_color"
+                    fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
+                    fab:fab_size="mini"
+                    fab:fab_title="Photo"
+                    android:src="@drawable/photo" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_add_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/fab_menu_item_normal_color"
+                    fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
+                    fab:fab_size="mini"
+                    fab:fab_title="Devices"
+                    android:src="@drawable/devices" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_add_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/fab_menu_item_normal_color"
+                    fab:fab_colorPressed="@color/fab_menu_item_pressed_color"
+                    fab:fab_size="mini"
+                    fab:fab_title="Unit"
+                    android:src="@drawable/settingsinstructions" />
+
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/root_screen_list"
@@ -126,11 +128,8 @@
             android:divider="#525252"
             android:dividerHeight="1px"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-        </ListView>
+            android:paddingRight="10dp"></ListView>
 
     </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>
-
-</RelativeLayout>

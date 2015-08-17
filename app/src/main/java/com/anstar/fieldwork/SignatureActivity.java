@@ -9,9 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,12 +66,14 @@ public class SignatureActivity extends AppCompatActivity implements OnClickListe
 		action.setHomeButtonEnabled(true);
 		action.setDisplayHomeAsUpEnabled(true);
 */
+/*
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
+*/
 
 		// btnDone = (Button) findViewById(R.id.btnDone);
 		llCustomerSignCanvas = (LinearLayout) findViewById(R.id.llCustomerSignCanvas);

@@ -39,7 +39,7 @@ public class LineItemsActivity extends AppCompatActivity {
 	private ListView lstMain;
 	int appointment_id;
 	private LineItemsListAdapter m_adapter = null;
-	public static ArrayList<LineItemsInfo> m_lineitems = null;
+	private static ArrayList<LineItemsInfo> m_lineitems = null;
 	//private ActionBar action = null;
 	private int EDIT_LINE_ITEM = 1;
 	private int ADD_LINE_ITEM = 2;
@@ -49,17 +49,6 @@ public class LineItemsActivity extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_line_items);
-
-/*
-		action = getSupportActionBar();
-		// action.setTitle("Material List");
-		action.setTitle(Html
-				.fromHtml("<font color='"
-						+ getString(R.string.header_text_color)
-						+ "'>Line Items</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -91,6 +80,7 @@ public class LineItemsActivity extends AppCompatActivity {
 				txtInstruction.setText("No Instructions");
 			}
 		}
+		setResult(RESULT_OK);
 	}
 
 	@Override
@@ -164,6 +154,7 @@ public class LineItemsActivity extends AppCompatActivity {
 					i.putExtra("isedit", true);
 					i.putExtra("position", pos);
 					i.putExtra("isFromDetails", true);
+					i.putExtra(Const.Appointment_Id, appointment_id);
 					startActivityForResult(i, EDIT_LINE_ITEM);
 				}
 			});
@@ -329,6 +320,7 @@ public class LineItemsActivity extends AppCompatActivity {
 			i.putExtra("isFromDetails", true);
 			i.putExtra("position", appointment_id);// send workorder id in add
 													// and in edit line item
+			i.putExtra(Const.Appointment_Id, appointment_id);
 			startActivityForResult(i, ADD_LINE_ITEM);
 			return true;
 		}

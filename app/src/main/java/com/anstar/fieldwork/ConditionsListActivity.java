@@ -25,8 +25,10 @@ import android.widget.Toast;
 import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
 import com.anstar.models.AppointmentConditionsInfo;
+import com.anstar.models.AppointmentInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.list.AppointmentConditionsList;
+import com.anstar.models.list.AppointmentModelList;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,8 @@ public class ConditionsListActivity extends AppCompatActivity implements
 	private ArrayList<AppointmentConditionsInfo> m_conditions = null;
 	//ActionBar action = null;
 	private RelativeLayout RlSubHeader;
+	private ArrayList<String> conids = new ArrayList<String>();
+	private AppointmentInfo mAppointmentInfo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,12 +78,20 @@ public class ConditionsListActivity extends AppCompatActivity implements
 		imgCancel.setOnClickListener(this);
 
 		m_conditions = new ArrayList<AppointmentConditionsInfo>();
+/*
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
-			appointment_id = b.getInt(Const.Appointment_Id);
+			appointment_id = getIntent().getIntExtra(Const.Appointment_Id, Const.app_id);
 		} else {
 			appointment_id = Const.app_id;
 		}
+*/
+		appointment_id = getIntent().getIntExtra(Const.Appointment_Id, Const.app_id);
+		mAppointmentInfo = AppointmentModelList.Instance().getAppointmentById(appointment_id);
+		if (mAppointmentInfo.appointment_condition_ids != null) {
+			conids.addAll(mAppointmentInfo.appointment_condition_ids);
+		}
+
 		edtSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -169,7 +181,7 @@ public class ConditionsListActivity extends AppCompatActivity implements
 			final AppointmentConditionsInfo con = adapterlist.get(position);
 			holder.main_item_text.setText(con.name);
 			final ViewHolder vh = holder;
-			if (AddNotesActivity.conids.contains(con.id+"")) {
+			if (conids.contains(con.id+"")) {
 				vh.imgTik.setVisibility(View.VISIBLE);
 			} else {
 				vh.imgTik.setVisibility(View.GONE);
@@ -177,11 +189,11 @@ public class ConditionsListActivity extends AppCompatActivity implements
 			holder.rl_main_list_item.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (AddNotesActivity.conids.contains(con.id+"")) {
-						AddNotesActivity.conids.remove(con.id+"");
+					if (conids.contains(con.id+"")) {
+						conids.remove(con.id+"");
 						vh.imgTik.setVisibility(View.GONE);
 					} else {
-						AddNotesActivity.conids.add(con.id+"");
+						conids.add(con.id+"");
 						vh.imgTik.setVisibility(View.VISIBLE);
 					}
 				}

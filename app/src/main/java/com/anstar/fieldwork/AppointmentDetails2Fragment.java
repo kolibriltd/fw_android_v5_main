@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,16 @@ import com.anstar.models.UserInfo;
 import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.CustomerList;
 import com.anstar.models.list.ServiceLocationsList;
+import com.anstar.widget.AppointmentDetailsFragmentChemicalUseListItem;
+import com.anstar.widget.AppointmentDetailsFragmentDevicesListItem;
+import com.anstar.widget.AppointmentDetailsFragmentLineItemsListItem;
+import com.anstar.widget.AppointmentDetailsFragmentListHeader;
+import com.anstar.widget.AppointmentDetailsFragmentNotesListItem;
+import com.anstar.widget.AppointmentDetailsFragmentPDFFormsListItem;
+import com.anstar.widget.AppointmentDetailsFragmentPhotosListItem;
+import com.anstar.widget.AppointmentDetailsFragmentServiceInstructionsListItem;
+import com.anstar.widget.AppointmentDetailsFragmentSignaturesListItem;
+import com.anstar.widget.AppointmentDetailsFragmentUnitsListItem;
 
 import java.util.ArrayList;
 import java.util.WeakHashMap;
@@ -35,15 +46,35 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class AppointmentDetails2Fragment extends Fragment {
 
-    private ExpandableStickyListHeadersListView stickyList;
+    private static final int VIEW_TYPE_LINE_ITEMS = 0;
+    private static final int VIEW_TYPE_SERVICE_INSTRUCTIONS = 1;
+    private static final int VIEW_TYPE_PDF_FORMS = 2;
+    private static final int VIEW_TYPE_NOTES = 3;
+    private static final int VIEW_TYPE_CHEMICAL_USE = 4;
+    private static final int VIEW_TYPE_PHOTOS = 5;
+    private static final int VIEW_TYPE_DEVICES = 6;
+    private static final int VIEW_TYPE_UNITS = 7;
+    private static final int VIEW_TYPE_SIGNATURES = 8;
 
-    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
+    private ExpandableStickyListHeadersListView mStickyList;
+
+    WeakHashMap<View, Integer> mOriginalViewHeightPool;
     private int mAppointmentId;
     private AppointmentInfo mAppointmentInfo;
     private CustomerInfo mCustomerInfo;
     private ServiceLocationsInfo mServiceLocationInfo;
     private UserInfo user;
-    private View mHeader;
+    private AppointmentDetailsFragmentListHeader mHeader;
+    private AppointmentDetailsFragmentLineItemsListItem mLineItems;
+    private AppointmentDetailsFragmentServiceInstructionsListItem mServiceInstructions;
+    private AppointmentDetailsFragmentPDFFormsListItem mPdfForms;
+    private AppointmentDetailsFragmentNotesListItem mNotes;
+    private AppointmentDetailsFragmentChemicalUseListItem mChemicalUse;
+    private AppointmentDetailsFragmentPhotosListItem mPhotos;
+    private AppointmentDetailsFragmentDevicesListItem mDevices;
+    private AppointmentDetailsFragmentUnitsListItem mUnits;
+    private AppointmentDetailsFragmentSignaturesListItem mSignatures;
+    private AppointmentListAdapter mListAdapter;
 
     private int getHeadersCount() {
         return mDetailsHeadersValues.length;
@@ -141,44 +172,129 @@ public class AppointmentDetails2Fragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_appointment_details, container, false);
 
-        stickyList = (ExpandableStickyListHeadersListView) v.findViewById(R.id.lstAppointments);
-        mHeader = (View) inflater.inflate(R.layout.fragment_appointment_details_list_header, null);
-        stickyList.addHeaderView(mHeader);
-        AppointmentListAdapter adapter = new AppointmentListAdapter(getActivity());
-        stickyList.setAdapter(adapter);
+        mStickyList = (ExpandableStickyListHeadersListView) v.findViewById(R.id.lstAppointments);
+
+        //mHeader = (View) inflater.inflate(R.layout.fragment_appointment_details_list_header, null);
+        mHeader = new AppointmentDetailsFragmentListHeader(getActivity());
+        mStickyList.addHeaderView(mHeader);
+        mListAdapter = new AppointmentListAdapter(getActivity());
+        mStickyList.setAdapter(mListAdapter);
         //getViewHeight(adapter);
-        stickyList.setAnimExecutor(new AnimationExecutor());
-        stickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
+        mStickyList.setAnimExecutor(new AnimationExecutor());
+        mStickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
             @Override
             public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition,
                                       long headerId, boolean currentlySticky) {
                 for (int i = 0; i < getHeadersCount(); i++) {
-                    if (headerId == i && stickyList.isHeaderCollapsed(i)) {
-                        stickyList.expand(i);
+                    if (headerId == i && mStickyList.isHeaderCollapsed(i)) {
+                        mStickyList.expand(i);
                     } else {
-                        stickyList.collapse(i);
+                        mStickyList.collapse(i);
                     }
                 }
             }
         });
-        stickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
+/*
+        mStickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
             @Override
             public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-                if (stickyList.isHeaderCollapsed(headerId)) {
-                    stickyList.expand(headerId);
+                if (mStickyList.isHeaderCollapsed(headerId)) {
+                    mStickyList.expand(headerId);
                 } else {
-                    stickyList.collapse(headerId);
+                    mStickyList.collapse(headerId);
                 }
             }
         });
+*/
 
-        TextView textView = (TextView) mHeader.findViewById(R.id.textViewName);
-        textView.setText(mCustomerInfo.name);
-        textView = (TextView) mHeader.findViewById(R.id.textViewAddress);
-        textView.setText(mServiceLocationInfo.street + ", " +
-                mServiceLocationInfo.city + ", " +
-                mServiceLocationInfo.state + ", " +
-                mServiceLocationInfo.zip);
+        mLineItems = new AppointmentDetailsFragmentLineItemsListItem(getActivity());
+        mLineItems.setOnListItemInteractionListener(new AppointmentDetailsFragmentLineItemsListItem.OnListItemInteractionListener() {
+            @Override
+            public void onButtonEditClick() {
+                mListener.onAppointmentDetailsFragmentListItemsButtonEditClick(mAppointmentId);
+            }
+
+            @Override
+            public void onButtonPayNowClick() {
+                mListener.onAppointmentDetailsFragmentListItemsButtonPayNowClick(mAppointmentId);
+            }
+
+            @Override
+            public void onLineItemClick(int position) {
+                mListener.onAppointmentDetailsFragmentListItemsLineItemClick(mAppointmentId, position);
+            }
+
+            @Override
+            public void onLineItemDelete() {
+                refresh();
+            }
+        });
+        mServiceInstructions = new AppointmentDetailsFragmentServiceInstructionsListItem(getActivity());
+        mPdfForms = new AppointmentDetailsFragmentPDFFormsListItem(getActivity());
+        mPdfForms.setOnListItemInteractionListener(new AppointmentDetailsFragmentPDFFormsListItem.OnListItemInteractionListener() {
+            @Override
+            public void onButtonAddClick(int appointmentId) {
+                mListener.onAppointmentDetailsFragmentPDFFormsListItemButtonAddClick(appointmentId);
+            }
+        });
+        mNotes = new AppointmentDetailsFragmentNotesListItem(getActivity());
+        mNotes.setOnListItemInteractionListener(new AppointmentDetailsFragmentNotesListItem.OnListItemInteractionListener() {
+            @Override
+            public void onPublicNotesClick(int appointmentId) {
+                mListener.onAppointmentDetailsFragmentNotesListItemPublicNotesClick(appointmentId);
+            }
+
+            @Override
+            public void onPrivateNotesClick(int appointmentId) {
+                mListener.onAppointmentDetailsFragmentNotesListItemPrivateNotesClick(appointmentId);
+            }
+        });
+        mChemicalUse = new AppointmentDetailsFragmentChemicalUseListItem(getActivity());
+        mChemicalUse.setOnListItemInteractionListener(new AppointmentDetailsFragmentChemicalUseListItem.OnListItemInteractionListener() {
+            @Override
+            public void onButtonAddClick(int appointmentId) {
+                mListener.onAppointmentDetailsFragmentChemicalUseListItemButtonAddClick(appointmentId);
+            }
+        });
+        mPhotos = new AppointmentDetailsFragmentPhotosListItem(getActivity());
+        mPhotos.setOnListItemInteractionListener(new AppointmentDetailsFragmentPhotosListItem.OnListItemInteractionListener() {
+            @Override
+            public void onEditPhoto(int appointmentId, int id) {
+                mListener.onAppointmentDetailsFragmentPhotosListItemEditPhoto(appointmentId, id);
+            }
+
+            @Override
+            public void onAddPhoto(int appointmentId) {
+                mListener.onAppointmentDetailsFragmentPhotosListItemAddPhoto(appointmentId);
+            }
+
+            @Override
+            public void onRefresh() {
+                mPhotos.init(mAppointmentId);
+            }
+        });
+        mDevices = new AppointmentDetailsFragmentDevicesListItem(getActivity());
+        mDevices.setOnListItemInteractionListener(new AppointmentDetailsFragmentDevicesListItem.OnListItemInteractionListener() {
+            @Override
+            public void onButtonAddClick(int mAppointmentId) {
+                mListener.AppointmentDetailsFragmentDevicesListItemButtonAddClick(mAppointmentId);
+            }
+        });
+        mUnits = new AppointmentDetailsFragmentUnitsListItem(getActivity());
+        mSignatures = new AppointmentDetailsFragmentSignaturesListItem(getActivity());
+        mSignatures.setOnListItemInteractionListener(new AppointmentDetailsFragmentSignaturesListItem.OnListItemInteractionListener() {
+            @Override
+            public void onSignatureCustomerClick() {
+                mListener.onAppointmentDetailsFragmentSignatureCustomerClick(mAppointmentId);
+            }
+
+            @Override
+            public void onSignatureTechnicianClick() {
+                mListener.onAppointmentDetailsFragmentSignatureTechnicianClick(mAppointmentId);
+            }
+        });
+
+        init();
 
         return v;
     }
@@ -221,13 +337,14 @@ public class AppointmentDetails2Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("#" + mAppointmentId);
         mListener.onAppointmentDetailsFragmentResumed();
     }
 
     private void getViewHeight(AppointmentListAdapter mAdapter) {
 
         for (int i = 0; i <  getHeadersCount(); i++) {
-            View mView = mAdapter.getView(i, null, stickyList);
+            View mView = mAdapter.getView(i, null, mStickyList);
 
             mView.measure(
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -246,12 +363,61 @@ public class AppointmentDetails2Fragment extends Fragment {
 
             @Override
             public void run() {
-                stickyList.collapse(item);
-                if (item < getHeadersCount() - 1) {
+                mStickyList.collapse(item);
+                if (item < getHeadersCount() - 2) {
                     collapseItem(item + 1);
                 }
             }
         }, 200);
+    }
+
+    private void init() {
+        mOriginalViewHeightPool = new WeakHashMap<>();
+
+        mHeader.init(mAppointmentId);
+
+        mLineItems.init(mAppointmentId);
+        measure(mLineItems);
+
+        mServiceInstructions.init(mAppointmentId);
+        measure(mServiceInstructions);
+
+        mPdfForms.init(mAppointmentId);
+        measure(mPdfForms);
+
+        mNotes.init(mAppointmentId);
+        measure(mNotes);
+
+        mChemicalUse.init(mAppointmentId);
+        measure(mChemicalUse);
+
+        mPhotos.init(mAppointmentId);
+        measure(mPhotos);
+
+        mDevices.init(mAppointmentId);
+        measure(mDevices);
+
+        mUnits.init(mAppointmentInfo, mCustomerInfo, mServiceLocationInfo);
+        measure(mUnits);
+
+        mSignatures.init(mAppointmentId);
+        measure(mSignatures);
+    }
+
+    private void measure(View view) {
+
+        view.measure(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        int h = view.getMeasuredHeight();
+        mOriginalViewHeightPool.put(view, h);
+    }
+
+    public void refresh() {
+        init();
+        mListAdapter.notifyDataSetChanged();
+        //mListAdapter = new AppointmentListAdapter(getActivity());
+        //mStickyList.setAdapter(mListAdapter);
     }
 
     public class AppointmentListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
@@ -289,21 +455,56 @@ public class AppointmentDetails2Fragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            int viewType = this.getItemViewType(position);
             ViewHolder holder;
 
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_appointment_details_list_item, parent, false);
-                holder.image = (ImageView) convertView.findViewById(R.id.image);
-                holder.text = (TextView) convertView.findViewById(R.id.text);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
+            switch (viewType) {
+                case VIEW_TYPE_LINE_ITEMS:
+                    //if (convertView == null) {
+                        convertView = mLineItems;
+                    //}
+                    break;
+                case VIEW_TYPE_SERVICE_INSTRUCTIONS:
+                    //if (convertView == null) {
+                        convertView = mServiceInstructions;
+                    //}
+                    break;
+                case VIEW_TYPE_PDF_FORMS:
+                    //if (convertView == null) {
+                        convertView = mPdfForms;
+                    //}
+                    break;
+                case VIEW_TYPE_NOTES:
+                    //if (convertView == null) {
+                        convertView = mNotes;
+                    //}
+                    break;
+                case VIEW_TYPE_CHEMICAL_USE:
+                    //if (convertView == null) {
+                        convertView = mChemicalUse;
+                    //}
+                    break;
+                case VIEW_TYPE_PHOTOS:
+                    //if (convertView == null) {
+                        convertView = mPhotos;
+                    //}
+                    break;
+                case VIEW_TYPE_DEVICES:
+                    //if (convertView == null) {
+                        convertView = mDevices;
+                    //}
+                    break;
+                case VIEW_TYPE_UNITS:
+                    //if (convertView == null) {
+                        convertView = mUnits;
+                   // }
+                    break;
+                case VIEW_TYPE_SIGNATURES:
+                    //if (convertView == null) {
+                        convertView = mSignatures;
+                    //}
+                    break;
             }
-
-            holder.image.setImageResource(getResources().getIdentifier(mDetailsHeadersIcons[position],
-                    "drawable", getActivity().getPackageName()));
-            holder.text.setText(mDetailsHeadersTitles[position]);
 
             return convertView;
         }
@@ -349,6 +550,25 @@ public class AppointmentDetails2Fragment extends Fragment {
 
         void onAppointmentDetailsFragmentPaused();
         void onAppointmentDetailsFragmentResumed();
+
+        void onAppointmentDetailsFragmentSignatureTechnicianClick(int mAppointmentId);
+        void onAppointmentDetailsFragmentSignatureCustomerClick(int mAppointmentId);
+
+        void onAppointmentDetailsFragmentListItemsButtonEditClick(int appointmentId);
+        void onAppointmentDetailsFragmentListItemsLineItemClick(int appointmentId, int position);
+        void onAppointmentDetailsFragmentListItemsButtonPayNowClick(int appointmentId);
+
+        void onAppointmentDetailsFragmentNotesListItemPrivateNotesClick(int appointmentId);
+        void onAppointmentDetailsFragmentNotesListItemPublicNotesClick(int appointmentId);
+
+        void onAppointmentDetailsFragmentChemicalUseListItemButtonAddClick(int appointmentId);
+
+        void onAppointmentDetailsFragmentPhotosListItemAddPhoto(int appointmentId);
+        void onAppointmentDetailsFragmentPhotosListItemEditPhoto(int appointmentId, int id);
+
+        void onAppointmentDetailsFragmentPDFFormsListItemButtonAddClick(int appointmentId);
+
+        void AppointmentDetailsFragmentDevicesListItemButtonAddClick(int appointmentId);
     }
 
     //animation executor

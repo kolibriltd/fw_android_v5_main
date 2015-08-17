@@ -205,7 +205,7 @@ public class LoginFragment extends Fragment {
             });
             ProgressDialog.showProgress(getActivity());
             cl.clear();
-            cl.loadMax();
+            cl.loadMin();
 
         } catch (Exception e) {
             e.printStackTrace();

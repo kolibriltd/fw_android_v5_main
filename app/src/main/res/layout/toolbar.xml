@@ -9,6 +9,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
-    android:background="#fff"
     app:contentInsetEnd="0dp"
-    app:contentInsetStart="0dp"/>
+    app:contentInsetStart="0dp"
+    android:elevation="6dp"
+    android:background="@android:color/white">
+
+</android.support.v7.widget.Toolbar>

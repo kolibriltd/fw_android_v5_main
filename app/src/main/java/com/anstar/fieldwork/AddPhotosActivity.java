@@ -81,14 +81,6 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 				isEdit = true;
 			}
 		}
-/*
-		ActionBar action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Add Picture</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -177,6 +169,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
 													getApplicationContext(),
 													"Photo has been deleted successfully",
 													Toast.LENGTH_LONG).show();
+											setResult(RESULT_OK);
 											finish();
 										}
 
@@ -492,6 +485,7 @@ public class AddPhotosActivity extends AppCompatActivity implements OnClickListe
         ProgressDialog.hideProgress();
 		Toast.makeText(getApplicationContext(),
 				"Photo has been added successfully.", Toast.LENGTH_LONG).show();
+		setResult(RESULT_OK);
 		finish();
 	}
 

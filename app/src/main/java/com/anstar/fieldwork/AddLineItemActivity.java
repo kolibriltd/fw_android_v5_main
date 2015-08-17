@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.anstar.common.Const;
 import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Utils;
 import com.anstar.model.helper.ServiceResponse;
@@ -27,6 +28,7 @@ import com.anstar.models.MaterialInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.ModelDelegates.UpdateInfoDelegate;
 import com.anstar.models.ServicesInfo;
+import com.anstar.models.list.LineItemsList;
 import com.anstar.models.list.MaterialList;
 import com.anstar.models.list.ServicesList;
 
@@ -43,6 +45,8 @@ public class AddLineItemActivity extends AppCompatActivity {
 	private boolean isedit = false, isFromDetails = false, service_taxable = false;
 	int id = 0, payable_id = 0;
 	private String desc = "";
+	private ArrayList<LineItemsInfo> m_lineitems;
+	private int appointment_id;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,9 @@ public class AddLineItemActivity extends AppCompatActivity {
 				isFromDetails = b.getBoolean("isFromDetails");
 			if (b.containsKey("service_taxable"))
 				service_taxable = b.getBoolean("service_taxable");
+			if (b.containsKey(Const.Appointment_Id)) {
+				appointment_id = b.getInt(Const.Appointment_Id);
+			}
 
 		}
 
@@ -72,9 +79,10 @@ public class AddLineItemActivity extends AppCompatActivity {
 
 		chkTaxable.setChecked(service_taxable);
 
+		m_lineitems = LineItemsList.Instance().load(appointment_id);
 		if (isedit) {
 			if (isFromDetails)
-				lineinfo = LineItemsActivity.m_lineitems.get(id);
+				lineinfo = m_lineitems.get(id);
 			else
 				lineinfo = AddAppointmentActivity.lineitems.get(id);
 
@@ -231,19 +239,19 @@ public class AddLineItemActivity extends AppCompatActivity {
 			int lineid = 0;
 			if (isedit) {
 				if (isFromDetails) {
-					LineItemsActivity.m_lineitems.get(id).name = name;
-					LineItemsActivity.m_lineitems.get(id).quantity = qty;
-					LineItemsActivity.m_lineitems.get(id).price = price;
-					LineItemsActivity.m_lineitems.get(id).type = type;
-					LineItemsActivity.m_lineitems.get(id).payable_id = payable_id;
-					LineItemsActivity.m_lineitems.get(id).total = Utils
+					m_lineitems.get(id).name = name;
+					m_lineitems.get(id).quantity = qty;
+					m_lineitems.get(id).price = price;
+					m_lineitems.get(id).type = type;
+					m_lineitems.get(id).payable_id = payable_id;
+					m_lineitems.get(id).total = Utils
 							.ConvertToFloat(qty) * Utils.ConvertToFloat(price);
 					if (chkTaxable.isChecked()) {
-						LineItemsActivity.m_lineitems.get(id).taxable = true;
+						m_lineitems.get(id).taxable = true;
 					} else {
-						LineItemsActivity.m_lineitems.get(id).taxable = false;
+						m_lineitems.get(id).taxable = false;
 					}
-					lineid = LineItemsActivity.m_lineitems.get(id).id;
+					lineid = m_lineitems.get(id).id;
 				} else {
 
 					AddAppointmentActivity.lineitems.get(id).name = name;

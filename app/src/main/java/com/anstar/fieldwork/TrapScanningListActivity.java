@@ -67,14 +67,6 @@ public class TrapScanningListActivity extends AppCompatActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trap_scanning_list);
-/*
-		action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color) + "'>Devices</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
-
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 

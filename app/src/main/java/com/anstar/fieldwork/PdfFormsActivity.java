@@ -49,13 +49,7 @@ public class PdfFormsActivity extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pdf_forms_list);
-/*
-		action = getSupportActionBar();
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color) + "'>Pdf Forms</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 

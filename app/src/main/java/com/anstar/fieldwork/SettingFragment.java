@@ -23,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.anstar.common.NetworkConnectivity;
 import com.anstar.common.NotificationCenter;
+import com.anstar.dialog.ConfirmDialog;
 import com.anstar.dialog.ProgressDialog;
 import com.anstar.internetbroadcast.SyncHelper;
 import com.anstar.model.CommonLoader;
@@ -37,12 +38,13 @@ public class SettingFragment extends Fragment {
     String model = "PJ662";
     boolean isPrint = false, isOffline = false;
     String ip = "";
+    private Button btnLogOut;
     //	static volatile ProgressDialog m_temppd = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.setting_screen, container, false);
+        View v = inflater.inflate(R.layout.fragment_setting, container, false);
 
         edtIP = (EditText) v.findViewById(R.id.edtPrinterIp);
         tbPrint = (ToggleButton) v.findViewById(R.id.toggelPrint);
@@ -51,6 +53,7 @@ public class SettingFragment extends Fragment {
         spnModel = (Spinner) v.findViewById(R.id.spnModel);
         txtModeNote = (TextView) v.findViewById(R.id.txtModeNote);
         btnReload = (Button) v.findViewById(R.id.btnReload);
+        btnLogOut = (Button) v.findViewById(R.id.buttonLogOut);
         txtModeNote.setVisibility(View.GONE);
 
         tbPrint.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -94,6 +97,19 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertToReload();
+            }
+        });
+        btnLogOut.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Log out
+                if (NetworkConnectivity.isConnected()) {
+                    ConfirmDialog.newInstance("Confirm exit from account?").show(getActivity().getSupportFragmentManager(), "log_out_dialog");
+                } else {
+                    Toast.makeText(getActivity(),
+                            "Signout needs internet connection", Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
 

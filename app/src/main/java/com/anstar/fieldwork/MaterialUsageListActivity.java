@@ -49,15 +49,7 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_material_usage_list);
-/*
-		action = getSupportActionBar();
-		// action.setTitle("Material Usage");
-		action.setTitle(Html.fromHtml("<font color='"
-				+ getString(R.string.header_text_color)
-				+ "'>Material Usage</font>"));
-		action.setHomeButtonEnabled(true);
-		action.setDisplayHomeAsUpEnabled(true);
-*/
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
@@ -75,6 +67,7 @@ public class MaterialUsageListActivity extends AppCompatActivity implements
 		NotificationCenter.Instance().addObserver(this,
 				MaterialUsagesList.MATERIAL_USAGE_LIST_NOTIFICATION,
 				"loadList", null);
+		setResult(RESULT_OK);
 	}
 
 	@Override

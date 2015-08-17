@@ -37,20 +37,13 @@
                 android:padding="10dip"
                 android:text="0" />
 
-            <TextView
-                android:id="@+id/txt02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip"
-                android:text="Private Notes" />
-
             <EditText
                 android:id="@+id/edtPrivateNotes"
                 android:layout_width="fill_parent"
                 android:layout_height="140dip"
                 android:layout_marginBottom="10dip"
                 android:gravity="top"
-                android:hint="Private Notes..."
+                android:hint="Private Notes"
                 android:maxLength="2000"
                 android:maxLines="5"
                 android:scrollbars="vertical" />

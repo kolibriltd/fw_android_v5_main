@@ -8,7 +8,8 @@
     android:layout_alignParentBottom="true"
     android:divider="?android:attr/dividerHorizontal"
     android:showDividers="middle"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,76 +18,123 @@
         <TextView
             android:layout_width="10dp"
             android:layout_height="70dp"
-            android:id="@+id/textViewMarker"
-            android:background="#0afb01"
+            android:id="@+id/textViewStatus"
+            android:background="#7b000000"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Arrival Window"
-            android:id="@+id/textView14"
-            android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/textViewMarker"
-            android:layout_marginTop="20dp" />
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textViewStatus">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Duration"
-            android:id="@+id/textView20"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Start time"
-            android:id="@+id/textView19"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Arrival Window"
+                    android:id="@+id/textView64"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="5dp"
+                    android:minLines="2"
+                    android:gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Undefined"
-            android:id="@+id/textView12"
-            android:layout_below="@+id/textView14"
-            android:layout_alignStart="@+id/textView14"
-            android:layout_marginTop="10dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewFinishedAtTime"
+                    android:layout_below="@+id/textView19"
+                    android:layout_alignStart="@+id/textView19"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/black"
+                    android:hint="Undefined"
+                    android:gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="12:45 AM"
-            android:id="@+id/textView21"
-            android:layout_below="@+id/textView19"
-            android:layout_alignStart="@+id/textView19"
-            android:layout_marginTop="10dp" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="01:00"
-            android:id="@+id/textView27"
-            android:layout_below="@+id/textView20"
-            android:layout_alignStart="@+id/textView20"
-            android:layout_marginTop="10dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Start time"
+                    android:id="@+id/textView66"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:minLines="2"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewStartsAtTime"
+                    android:layout_below="@+id/textView14"
+                    android:layout_alignStart="@+id/textView14"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/black"
+                    android:hint="Undefined"
+                    android:gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Duration"
+                    android:id="@+id/textView72"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:minLines="2"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewDuration"
+                    android:layout_below="@+id/textView20"
+                    android:layout_alignStart="@+id/textView20"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:singleLine="false"
+                    android:hint="Undefined"
+                    android:gravity="center_horizontal" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -98,13 +146,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Testing"
             android:id="@+id/textViewName"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:singleLine="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:hint="Unknown" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,12 +169,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Address1"
             android:id="@+id/textViewAddress"
             android:layout_alignTop="@+id/textView54"
             android:layout_toEndOf="@+id/textView54"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:hint="Undefined" />
 
     </RelativeLayout>
 
@@ -141,9 +191,10 @@
             android:layout_height="wrap_content"
             android:text="..."
             android:id="@+id/button2"
-            android:theme="@style/ButtonAccentTintedStyle"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_weight="1"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:textColor="@color/app_accent_color" />
         <!-- style="?android:attr/borderlessButtonStyle" -->
 
         <Button
@@ -151,9 +202,10 @@
             android:layout_height="wrap_content"
             android:text="Driving direction"
             android:id="@+id/button5"
-            android:theme="@style/ButtonAccentTintedStyle"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_weight="5"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:textColor="@color/app_accent_color" />
 
     </LinearLayout>
 

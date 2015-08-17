@@ -1,8 +1,6 @@
 package com.anstar.fieldwork;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,9 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,7 +50,7 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_capture_siganture);
+		setContentView(R.layout.activity_capture_siganture);
 
 /*
 		ActionBar action = getSupportActionBar();
@@ -67,12 +63,14 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 		action.setDisplayHomeAsUpEnabled(true);
 */
 
+/*
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		ActionBar action = getSupportActionBar();
 		action.setDisplayHomeAsUpEnabled(true);
 		action.setDisplayShowHomeEnabled(true);
+*/
 
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
@@ -128,6 +126,7 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 			paint.setStyle(Paint.Style.STROKE);
 			paint.setStrokeJoin(Paint.Join.ROUND);
 			paint.setStrokeWidth(STROKE_WIDTH);
+			setWillNotDraw(false);
 		}
 
 		/**
@@ -139,7 +138,7 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 			mCanvas = new Canvas();
 			mCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
 			draw(mCanvas);
-			this.invalidate();
+			invalidate();
 		}
 
 		@Override
@@ -151,6 +150,8 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 			// }
 			// }
 			canvas.drawPath(path, paint);
+			//canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+			//draw(canvas);
 		}
 
 		@Override
@@ -250,13 +251,17 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 
 	public class SaveSignatureData extends AsyncTask<Void, Void, Void> {
 
-		ProgressDialog pd = null;
+		//ProgressDialog pd = null;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			com.anstar.dialog.ProgressDialog.showProgress(CaptureSignatureActivity.this);
+
+/*
 			pd = ProgressDialog.show(CaptureSignatureActivity.this, "",
 					"Please wait...", true, true, null);
+*/
 		}
 
 		@Override
@@ -290,15 +295,22 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+/*
 			if (pd.isShowing()) {
 				pd.dismiss();
 			}
+*/
+			com.anstar.dialog.ProgressDialog.hideProgress();
+
 			Toast.makeText(CaptureSignatureActivity.this,
 					"Your signature is successfully saved...",
 					Toast.LENGTH_LONG).show();
+/*
 			Intent i = new Intent(CaptureSignatureActivity.this,
 					SignatureActivity.class);
 			startActivity(i);
+*/
+			setResult(RESULT_OK);
 			finish();
 		}
 	}
@@ -366,9 +378,12 @@ public class CaptureSignatureActivity extends AppCompatActivity implements
 	@Override
 	public void onClick(View v) {
 		if (v == btnCancel) {
+/*
 			Intent i = new Intent(CaptureSignatureActivity.this,
 					SignatureActivity.class);
 			startActivity(i);
+*/
+			setResult(RESULT_CANCELED);
 			finish();
 		} else if (v == btnClear) {
 			signatureview.clear();

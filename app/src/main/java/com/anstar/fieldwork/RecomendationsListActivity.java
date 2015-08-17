@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.anstar.dialog.ProgressDialog;
 import com.anstar.common.Const;
+import com.anstar.models.AppointmentInfo;
 import com.anstar.models.ModelDelegates.ModelDelegate;
 import com.anstar.models.RecomendationInfo;
+import com.anstar.models.list.AppointmentModelList;
 import com.anstar.models.list.RecomendationsList;
 
 import java.util.ArrayList;
@@ -44,6 +46,8 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 	boolean isFromTrapMaterial = false;
 	final int ADD_MATERIAL = 2;
 	private RelativeLayout RlSubHeader;
+	private AppointmentInfo mAppointmentInfo;
+	private ArrayList<String> recids = new ArrayList<String>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,11 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 		} else {
 			appointment_id = Const.app_id;
 		}
+		mAppointmentInfo = AppointmentModelList.Instance().getAppointmentById(appointment_id);
+		if (mAppointmentInfo.recommendation_ids != null) {
+			recids.addAll(mAppointmentInfo.recommendation_ids);
+		}
+
 		edtSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -171,7 +180,7 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 			final RecomendationInfo rec = adapterlist.get(position);
 			holder.main_item_text.setText(rec.name);
 			final ViewHolder vh = holder;
-			if (AddNotesActivity.recids.contains(rec.id+"")) {
+			if (recids.contains(rec.id+"")) {
 				vh.imgTik.setVisibility(View.VISIBLE);
 			} else {
 				vh.imgTik.setVisibility(View.GONE);
@@ -179,11 +188,11 @@ public class RecomendationsListActivity extends AppCompatActivity implements
 			holder.rl_main_list_item.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (AddNotesActivity.recids.contains(rec.id+"")) {
-						AddNotesActivity.recids.remove(rec.id+"");
+					if (recids.contains(rec.id+"")) {
+						recids.remove(rec.id+"");
 						vh.imgTik.setVisibility(View.GONE);
 					} else {
-						AddNotesActivity.recids.add(rec.id+"");
+						recids.add(rec.id+"");
 						vh.imgTik.setVisibility(View.VISIBLE);
 					}
 				}
